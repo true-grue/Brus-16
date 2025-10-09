@@ -3,15 +3,13 @@
 Brus-16 is an educational 16-bit game console with an original, minimalistic architecture.
 Unlike fantasy consoles, Brus-16 was designed for FPGA implementation.
 
-![](racing.png)
-
-See in [action](https://true-grue.github.io/Brus-16-Demo/brus16.html).
+[![](racing.png](https://true-grue.github.io/Brus-16-Demo/brus16.html)
 
 ## Architecture
 
 Brus-16 consists of:
 
-* **16-bit stack-based CPU**: Harvard architecture (8K words for code, 8K for data), two hardware stacks (arguments and return addresses), fixed instruction length. Designed to simplify compiler development.
+* **16-bit stack-based CPU**: Harvard architecture (8K words for code, 8K for data), two hardware stacks (arguments and return addresses), fixed instruction size. Designed to simplify compiler development.
 * **Graphics processor**: Renders 64 hardware rectangles per frame without a framebuffer. 640x480x16bpp, 60 fps.
 * **Input controller**: Supports 16 buttons.
 
