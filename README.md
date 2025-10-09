@@ -15,6 +15,8 @@ Brus-16 consists of:
 
 ## Software Tools
 
+There is a basic set of tool templates:
+
 * Compiler (`brus16_dsl.py`): translates from a Python-like DSL to Brus-16 assembly.
 * Assembler (`brus16_asm.py`): translates assembly into a binary image.
 * Emulator (`brus16_cpu.c`, `brus16_sdl.c`): software model of the console using the SDL3 library.
