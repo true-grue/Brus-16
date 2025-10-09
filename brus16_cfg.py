@@ -3,7 +3,7 @@ from brus16_isa import DATA_SIZE
 SCREEN_W = 640
 SCREEN_H = 480
 
-KEY_NUM = 12
+KEY_NUM = 16
 RECT_NUM = 64
 RECT_SIZE = 6
 

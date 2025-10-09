@@ -11,7 +11,7 @@
 
 #define SCREEN_W 640
 #define SCREEN_H 480
-#define KEY_NUM 12
+#define KEY_NUM 16
 #define RECT_NUM 64
 #define RECT_SIZE 6
 #define KEY_MEM (DATA_SIZE - (KEY_NUM + RECT_NUM * RECT_SIZE))
@@ -47,8 +47,11 @@ SDL_Scancode scancodes[] = {
     SDL_SCANCODE_A,
     SDL_SCANCODE_D,
     SDL_SCANCODE_G,
-    SDL_SCANCODE_H
-
+    SDL_SCANCODE_H,
+    SDL_SCANCODE_1,
+    SDL_SCANCODE_2,
+    SDL_SCANCODE_3,
+    SDL_SCANCODE_4
 };
 
 void from_rgb565(uint16_t color, uint8_t *r, uint8_t *g, uint8_t *b) {
