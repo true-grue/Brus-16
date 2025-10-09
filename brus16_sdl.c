@@ -81,6 +81,8 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv) {
     assert(SDL_CreateWindowAndRenderer("Brus-16", SCREEN_W * ZOOM, SCREEN_H * ZOOM, 0, &window, &renderer));
     SDL_SetRenderVSync(renderer, 1);
 #ifdef __EMSCRIPTEN__
+    (void) argc;
+    (void) argv;
     load("game.bin", &cpu);
 #else
     assert(argc == 2);

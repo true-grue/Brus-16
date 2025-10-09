@@ -47,6 +47,5 @@ def rnd():
 rnd_seed = 1
 '''
 
-asm = comp(game)
-_, code, data = assemble(asm)
+_, code, data = assemble(comp(game))
 save('test.bin', code, data)

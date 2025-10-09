@@ -1,13 +1,13 @@
 CC = clang
 EMCC = emcc
-
-SDL3INC = "SDL3MINGW/x86_64-w64-mingw32/include"
-SDL3LIB = "SDL3MINGW/x86_64-w64-mingw32/lib"
+CFLAGS = -O2 -Wall -Wextra -Wpedantic
+SRC = brus16_sdl.c brus16_cpu.c
+SDL = SDL_MINGW/x86_64-w64-mingw32
 
 sdl:
-	$(CC) -O2 -Wall -Wextra -Wpedantic -I$(SDL3INC) -L$(SDL3LIB) brus16_sdl.c brus16_cpu.c -lSDL3 -o brus16_sdl.exe
+	$(CC) $(CFLAGS) -I"$(SDL)/include" -L"$(SDL)/lib" $(SRC) -lSDL3 -o brus16_sdl.exe
 
 web:
-	$(EMCC) -O2 -I$(SDL3INC) brus16_sdl.c brus16_cpu.c --preload-file game.bin -s USE_SDL=3 -o brus16.html --shell-file template.html
+	$(EMCC) $(CFLAGS) -I"$(SDL)/include" $(SRC) --preload-file game.bin -s USE_SDL=3 -o brus16.html --shell-file template.html
 
 .PHONY: sdl web

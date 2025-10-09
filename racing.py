@@ -82,7 +82,7 @@ BIG_CAR_RECT = SMALL_CAR_RECT + SMALL_CAR_PARTS
 BIG_CAR_X = 260
 BIG_CAR_BBOX = [0, 0, 40, 172]
 BIG_CAR_DATA = [
-    1, BIG_CAR_X, -200, 40, 128, to_rgb565(0x006680),
+    1, BIG_CAR_X, 200, 40, 128, to_rgb565(0x006680),
     0, 10, 128, 20, 4, to_rgb565(0),
     0, 0, 155, 40, 9, to_rgb565(0),
     0, 2, 132, 36, 40, to_rgb565(0x0088aa),
@@ -192,16 +192,16 @@ def detect_collisions():
     small_car_y1 = small_car[2] + {SMALL_CAR_BBOX[1]}
     small_car_x2 = small_car_x1 + {SMALL_CAR_BBOX[2]}
     small_car_y2 = small_car_y1 + {SMALL_CAR_BBOX[3]}
-    if collide(car_x1, car_y1, car_x2, car_y2,
-               small_car_x1, small_car_y1, small_car_x2, small_car_y2):
+    if hit(car_x1, car_y1, car_x2, car_y2,
+           small_car_x1, small_car_y1, small_car_x2, small_car_y2):
         game_over()
     big_car = {get_rect_addr(BIG_CAR_RECT)}
     big_car_x1 = big_car[1] + {BIG_CAR_BBOX[0]}
     big_car_y1 = big_car[2] + {BIG_CAR_BBOX[1]}
     big_car_x2 = big_car_x1 + {BIG_CAR_BBOX[2]}
     big_car_y2 = big_car_y1 + {BIG_CAR_BBOX[3]}
-    if collide(car_x1, car_y1, car_x2, car_y2,
-               big_car_x1, big_car_y1, big_car_x2, big_car_y2):
+    if hit(car_x1, car_y1, car_x2, car_y2,
+           big_car_x1, big_car_y1, big_car_x2, big_car_y2):
         game_over()
 
 
@@ -274,7 +274,7 @@ def move_line(rect_y):
     line_y += {LINE_H + LINE_GAP}
 
 
-def collide(x1, y1, x2, y2, other_x1, other_y1, other_x2, other_y2):
+def hit(x1, y1, x2, y2, other_x1, other_y1, other_x2, other_y2):
     if x2 < other_x1:
         return 0
     if x1 > other_x2:
