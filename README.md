@@ -12,7 +12,7 @@ See in [action](https://true-grue.github.io/Brus-16-Demo/brus16.html).
 Brus-16 consists of:
 
 * **16-bit stack-based CPU**: Harvard architecture (8K words for code, 8K for data), two hardware stacks (arguments and return addresses), fixed instruction size. Designed to simplify compiler development.
-* **Graphics processor**: Renders 64 hardware rectangles per frame without a framebuffer. 640x480x16bpp, 60 fps.
+* **Graphics processor**: Renders 64 filled rectangles per frame without a framebuffer. 640x480x16bpp, 60 fps.
 * **Input controller**: Supports 16 buttons.
 
 ## Software Tools
@@ -22,7 +22,6 @@ There is a basic set of tool templates:
 * Compiler (`brus16_dsl.py`): translates from a Python-like DSL to Brus-16 assembly.
 * Assembler (`brus16_asm.py`): translates assembly into a binary image.
 * Emulator (`brus16_cpu.c`, `brus16_sdl.c`): software model of the console using the SDL3 library.
-* Demo game (`racing.py`): a racing example showcasing the console.
 
 ## Educational Projects
 
@@ -53,7 +52,7 @@ A Verilog hardware implementation by Kirill Pavlov is available [here](https://g
 В состав Брус-16 входят:
 
 * **16-битный стековый процессор**: гарвардская архитектура (8К слов для кода, 8К слов для данных), два аппаратных стека (для аргументов и адресов возврата), фиксированная длина команд. Архитектура процессора спроектирована для удобства написания простых компиляторов. 
-* **Графический процессор**: обрабатывает 64 аппаратных прямоугольника на кадр без использования видеобуфера. Характеристики графики: 640x480x16bpp, 60 fps.
+* **Графический процессор**: обрабатывает 64 закрашенных прямоугольника на кадр без использования видеобуфера. Характеристики графики: 640x480x16bpp, 60 fps.
 * **Контроллер ввода**: поддерживает 16 кнопок.
 
 ## Программные инструменты
@@ -63,11 +62,10 @@ A Verilog hardware implementation by Kirill Pavlov is available [here](https://g
 * Компилятор (`brus16_dsl.py`): Транслирует код с Python-подобного DSL в язык ассемблера Брус-16.
 * Ассемблер (`brus16_asm.py`): Транслирует ассемблерный код в бинарную прошивку.
 * Эмулятор (`brus16_cpu.c`, `brus16_sdl.c`): Программная модель приставки с использованием библиотеки SDL3.
-* Демо-игра (`racing.py`): Пример гоночной игры, демонстрирующей возможности приставки.
 
 ## DSL для разработки игр
 
-Краткое описание DSL находится [здесь](dsl_ru.md).
+Краткое описание DSL находится [здесь](docs/dsl_ru.md).
 
 ## Учебные проекты
 
