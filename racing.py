@@ -246,17 +246,16 @@ def set_house_size(house, size):
     i = 0
     while i < {HOUSE_PARTS}:
         house[4] = size
-        house += 6
+        house += {RECT_SIZE}
         i += 1
 
 
 def move_house(house, speed):
+    house[2] += speed
     if house[2] >= {SCREEN_H}:
         if ltu(rnd(), 1000):
             set_house_size(house, house_sizes[rnd() & 3])
             house[2] = -house[4] - 10
-    else:
-        house[2] += speed
 
 
 def move_lines(speed):
@@ -308,7 +307,7 @@ def copy(src, dst, size):
 
 def rnd():
     rnd_seed ^= rnd_seed << 7
-    rnd_seed ^= rnd_seed >> 9
+    rnd_seed ^= shra(rnd_seed, 9)
     rnd_seed ^= rnd_seed << 8
     return rnd_seed
 

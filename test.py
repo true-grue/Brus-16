@@ -39,7 +39,7 @@ def delay(n):
 
 def rnd():
     rnd_seed ^= rnd_seed << 7
-    rnd_seed ^= rnd_seed >> 9
+    rnd_seed ^= shra(rnd_seed, 9)
     rnd_seed ^= rnd_seed << 8
     return rnd_seed
 
