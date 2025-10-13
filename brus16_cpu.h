@@ -58,6 +58,6 @@ struct CPU {
 };
 
 int16_t sext(uint16_t val, int bits);
-void step(struct CPU * cpu);
+void step(struct CPU *cpu);
 
 #endif

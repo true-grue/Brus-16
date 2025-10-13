@@ -3,11 +3,13 @@ EMCC = emcc
 CFLAGS = -O2 -Wall -Wextra -Wpedantic
 SRC = brus16_sdl.c brus16_cpu.c
 SDL = "SDL/include/SDL3"
+GAMES = --preload-file racing.bin \
+        --preload-file random.bin
 
 sdl:
 	$(CC) $(CFLAGS) -Wextra -Wpedantic -I$(SDL) $(SRC) -lSDL3 -o brus16_sdl
 
 web:
-	$(EMCC) $(CFLAGS) -I$(SDL)  $(SRC) --preload-file game.bin -s USE_SDL=3 -o brus16.html --shell-file template.html
+	$(EMCC) $(CFLAGS) -I$(SDL) $(SRC) $(GAMES) -s USE_SDL=3 -s MODULARIZE=1 -o brus16.html --shell-file template.html
 
 .PHONY: sdl web

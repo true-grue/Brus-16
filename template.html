@@ -1,12 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8"/>
 <title>Brus-16</title>
+<style>
+body { text-align: center; }
+canvas { display: block; margin: 0 auto; }
+.ui { margin-top: 1em; }
+</style>
 </head>
 <body>
-<canvas id="canvas"></canvas>
+<canvas id='canvas'></canvas>
+<div class="ui">
+<select id='game'>
+<option value='racing.bin'>Racing</option>
+<option value='random.bin'>Random</option>
+</select>
+<button id="reset">Reset</button>
+</div>
 <script type='text/javascript'>
-var Module = {canvas: document.getElementById('canvas')};
+window.onload = async function() {
+  const canvas = document.getElementById('canvas');
+  const select = document.getElementById('game');
+  const reset = document.getElementById('reset');
+  let instance = null;
+  function run() {
+    if (instance) {
+        instance._quit();
+    }
+    Module({
+      canvas: canvas,
+      arguments: [select.value]
+    }).then(inst => { instance = inst; });
+  }
+  select.addEventListener('change', run);
+  reset.addEventListener('click', run);
+  run();
+};
 </script>
 {{{ SCRIPT }}}
 </body>

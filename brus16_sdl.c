@@ -83,14 +83,8 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv) {
     assert(SDL_Init(SDL_INIT_VIDEO));
     assert(SDL_CreateWindowAndRenderer("Brus-16", SCREEN_W * ZOOM, SCREEN_H * ZOOM, 0, &window, &renderer));
     SDL_SetRenderVSync(renderer, 1);
-#ifdef __EMSCRIPTEN__
-    (void) argc;
-    (void) argv;
-    load("game.bin", &cpu);
-#else
     assert(argc == 2);
     load(argv[1], &cpu);
-#endif
     return SDL_APP_CONTINUE;
 }
 
@@ -148,3 +142,13 @@ void SDL_AppQuit(void *appstate, SDL_AppResult result) {
     (void) appstate;
     (void) result;
 }
+
+#ifdef EMSCRIPTEN
+#include <emscripten.h>
+void EMSCRIPTEN_KEEPALIVE quit(void) {
+    SDL_Event event;
+    SDL_zero(event);
+    event.type = SDL_EVENT_QUIT;
+    SDL_PushEvent(&event);
+}
+#endif
