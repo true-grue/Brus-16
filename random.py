@@ -19,22 +19,17 @@ def update():
     while j < 8:
         i = 0
         while i < 8:
-            addr[{RECT_X}] = i * 80
-            addr[{RECT_Y}] = j * 60
-            addr[{RECT_W}] = 80
-            addr[{RECT_H}] = 60
-            addr[{RECT_COLOR}] = rnd()           
+            addr[{RECT_X}] = w * (i - 4) + 320
+            addr[{RECT_Y}] = h * (j - 4) + 240
+            addr[{RECT_W}] = w
+            addr[{RECT_H}] = h
+            if w & 15 == 0:
+                addr[{RECT_COLOR}] = rnd()           
             addr += {RECT_SIZE}
             i += 1
         j += 1
-    delay(10)
-
-
-def delay(n):
-    i = 0
-    while i < n:
-        wait()
-        i += 1
+    w = (w + 1) & 255
+    h = (h + 1) & 255
 
 
 def rnd():
@@ -45,6 +40,8 @@ def rnd():
 
 
 rnd_seed = 1
+w = 20
+h = 15
 '''
 
 _, code, data = assemble(comp(game))
