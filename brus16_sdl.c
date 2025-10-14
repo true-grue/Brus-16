@@ -8,6 +8,7 @@
 #define ZOOM 1
 #define FPS 60
 #define FRAME_DELAY (SDL_NS_PER_SECOND / FPS)
+#define CYCLES_PER_FRAME 400000
 
 #define SCREEN_W 640
 #define SCREEN_H 480
@@ -100,7 +101,8 @@ SDL_AppResult SDL_AppIterate(void *appstate) {
     for (int i = 0; i < KEY_NUM; i++) {
         cpu.data[KEY_MEM + i] = keystate[scancodes[i]];
     }
-    while (!cpu.wait) {
+    for(int cycles = 0; !cpu.wait; cycles++) {
+        assert(cycles < CYCLES_PER_FRAME);
         step(&cpu);
     }
     cpu.wait = 0;
