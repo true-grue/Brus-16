@@ -28,8 +28,8 @@ def update():
             addr += {RECT_SIZE}
             i += 1
         j += 1
-    w = (w + 1) & 255
-    h = (h + 1) & 255
+    w = (w & 255) + 1
+    h = (h & 255) + 1
 
 
 def rnd():
@@ -40,8 +40,8 @@ def rnd():
 
 
 rnd_seed = 1
-w = 20
-h = 15
+w = 2
+h = 1
 '''
 
 _, code, data = assemble(comp(game))
