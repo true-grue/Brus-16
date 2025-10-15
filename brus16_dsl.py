@@ -199,6 +199,7 @@ def comp_func(env, name, args, body):
 
 def optimize(asm):
     stack = []
+    binops = set(BINOPS.values()) | {'SHRA', 'LTU'}
     for cmd in asm:
         stack.append(cmd)
         match stack:
@@ -206,7 +207,7 @@ def optimize(asm):
                 stack[-1:] = []
             case [*_, ('RET', _) as ret, ('JMP', _)]:
                 stack[-2:] = [ret]
-            case [*_, ('PUSH_INT', x), (op,)] if op in BINOPS.values():
+            case [*_, ('PUSH_INT', x), (op,)] if op in binops:
                 stack[-2:] = [(op, x)]
     return stack
 
