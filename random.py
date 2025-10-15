@@ -1,4 +1,3 @@
-import ast
 from brus16_dsl import comp
 from brus16_asm import assemble, save
 from brus16_cfg import *

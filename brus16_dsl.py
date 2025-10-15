@@ -217,12 +217,12 @@ def comp(src):
     funcs = []
     for node in ast.parse(src).body:
         match node:
-            case ast.Assign([ast.Name(name)], ast.Constant() as val):
-                env[name] = 'var'
-                asm.append(('DATA', name, ast.literal_eval(val)))
             case ast.Assign([ast.Name(name)], ast.List(arr)):
                 env[name] = 'arr'
                 asm.append(('DATA', name, *(ast.literal_eval(x) for x in arr)))
+            case ast.Assign([ast.Name(name)], val):
+                env[name] = 'var'
+                asm.append(('DATA', name, ast.literal_eval(val)))
             case ast.FunctionDef(name, args, body):
                 env[name] = ('func', len(args.args))
                 funcs.append((name, args.args, body))
