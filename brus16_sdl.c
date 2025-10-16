@@ -10,33 +10,7 @@
 #define FRAME_DELAY (SDL_NS_PER_SECOND / FPS)
 #define CYCLES_PER_FRAME 400000
 
-#define SCREEN_W 640
-#define SCREEN_H 480
-#define KEY_NUM 16
-#define RECT_NUM 64
-#define RECT_SIZE 6
-#define KEY_MEM (DATA_SIZE - (KEY_NUM + RECT_NUM * RECT_SIZE))
-#define RECT_MEM (KEY_MEM + KEY_NUM)
-#define KEY_UP 0
-#define KEY_DOWN 1
-#define KEY_LEFT 2
-#define KEY_RIGHT 3
-#define KEY_A 4
-#define KEY_B 5
-#define KEY_UP2 6
-#define KEY_DOWN2 7
-#define KEY_LEFT2 8
-#define KEY_RIGHT2 9
-#define KEY_A2 10
-#define KEY_B2 11
-#define RECT_ABS 0
-#define RECT_X 1
-#define RECT_Y 2
-#define RECT_W 3
-#define RECT_H 4
-#define RECT_COLOR 5
-
-SDL_Scancode scancodes[] = {
+SDL_Scancode scancodes[KEY_NUM] = {
     SDL_SCANCODE_UP,
     SDL_SCANCODE_DOWN,
     SDL_SCANCODE_LEFT,

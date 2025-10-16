@@ -206,16 +206,16 @@ def detect_collisions():
 
 def game_over():
     car = {get_rect_addr(CAR_RECT)}
-    x = car[2]
+    x = car[{RECT_Y}]
     j = 0
     while j < 5:
         i = 0
-        car[2] = x
+        car[{RECT_Y}] = x
         while i < 15:
             wait()
             i += 1
         i = 0
-        car[2] = -1000
+        car[{RECT_Y}] = -1000
         while i < 30:
             wait()
             i += 1
@@ -235,26 +235,26 @@ def move_background():
 def move_crossing(speed):
     crossing = {get_rect_addr(CROSSING_RECT)}
     line = {get_rect_addr(LINE_RECT)}
-    if (crossing[2] >= {SCREEN_H}) & ltu(rnd(), 1000):
-        if line[2] < 0:
-            crossing[2] = line[2] - {CROSSING_H + 31}
+    if (crossing[{RECT_Y}] >= {SCREEN_H}) & ltu(rnd(), 1000):
+        if line[{RECT_Y}] < 0:
+            crossing[{RECT_Y}] = line[{RECT_Y}] - {CROSSING_H + 31}
     crossing[2] += speed
 
 
 def set_house_size(house, size):
     i = 0
     while i < {HOUSE_PARTS}:
-        house[4] = size
+        house[{RECT_H}] = size
         house += {RECT_SIZE}
         i += 1
 
 
 def move_house(house, speed):
-    house[2] += speed
-    if house[2] >= {SCREEN_H}:
+    house[{RECT_Y}] += speed
+    if house[{RECT_Y}] >= {SCREEN_H}:
         if ltu(rnd(), 1000):
             set_house_size(house, house_sizes[rnd() & 3])
-            house[2] = -house[4] - 10
+            house[{RECT_Y}] = -house[{RECT_H}] - 10
 
 
 def move_lines(speed):

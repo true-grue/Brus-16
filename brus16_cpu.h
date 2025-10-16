@@ -2,47 +2,7 @@
 #define BRUS16_CPU_H
 
 #include <stdint.h>
-
-#define CODE_SIZE 8192
-#define DATA_SIZE 8192
-#define STACK_SIZE 32
-#define RSTACK_SIZE 16
-
-enum {
-    OP_JMP,
-    OP_JZ,
-    OP_CALL,
-    OP_PUSH_ADDR
-};
-
-enum {
-    OP_ADD,
-    OP_SUB,
-    OP_MUL,
-    OP_AND,
-    OP_OR,
-    OP_XOR,
-    OP_SHL,
-    OP_SHR,
-    OP_SHRA,
-    OP_EQ,
-    OP_NEQ,
-    OP_LT,
-    OP_LE,
-    OP_GT,
-    OP_GE,
-    OP_LTU,
-    OP_LOAD,
-    OP_STORE,
-    OP_LOCALS,
-    OP_SET_FP,
-    OP_ICALL,
-    OP_RET,
-    OP_PUSH_INT,
-    OP_PUSH_MR,
-    OP_POP,
-    OP_WAIT
-};
+#include "brus16_cfg.h"
 
 struct CPU {
     uint16_t code[CODE_SIZE];

@@ -23,7 +23,7 @@ def update():
             addr[{RECT_W}] = w
             addr[{RECT_H}] = h
             if w & 15 == 0:
-                addr[{RECT_COLOR}] = rnd()           
+                addr[{RECT_COLOR}] = rnd()
             addr += {RECT_SIZE}
             i += 1
         j += 1
