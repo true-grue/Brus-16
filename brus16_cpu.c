@@ -70,8 +70,8 @@ uint16_t exec_alu(struct CPU *cpu, uint8_t op, int has_imm, int16_t simm9) {
 }
 
 uint16_t exec_f1(struct CPU *cpu, uint16_t val, uint16_t new_pc) {
-    uint8_t op = get_field(val, F1_OP_POS, F1_OP_SIZE);
-    uint16_t imm13 = get_field(val, F1_IMM_POS, F1_IMM_SIZE);
+    uint8_t op = get_field(val, OP1_POS, OP1_SIZE);
+    uint16_t imm13 = get_field(val, IMM_POS, IMM_SIZE);
     switch (op) {
     case OP_JMP:
         return imm13;
@@ -87,9 +87,9 @@ uint16_t exec_f1(struct CPU *cpu, uint16_t val, uint16_t new_pc) {
 }
 
 uint16_t exec_f2(struct CPU *cpu, uint16_t val, uint16_t new_pc) {
-    uint8_t op = get_field(val, F2_OP_POS, F2_OP_SIZE);
-    int has_imm = get_field(val, F2_I_POS, F2_I_SIZE);
-    uint16_t simm9 = sext(get_field(val, F2_SIMM_POS, F2_SIMM_SIZE), F2_SIMM_SIZE);
+    uint8_t op = get_field(val, OP2_POS, OP2_SIZE);
+    int has_imm = get_field(val, I_POS, I_SIZE);
+    uint16_t simm9 = sext(get_field(val, SIMM_POS, SIMM_SIZE), SIMM_SIZE);
     if (op <= OP_LTU) {
         push(cpu, exec_alu(cpu, op, has_imm, simm9));
         return new_pc;
@@ -133,7 +133,7 @@ void step(struct CPU *cpu) {
     }
     uint16_t val = cpu->code[cpu->pc];
     uint16_t new_pc = (cpu->pc + 1) & (CODE_SIZE - 1);
-    if (get_field(val, F1_F_POS, F1_F_SIZE)) {
+    if (get_field(val, F_POS, F_SIZE)) {
         new_pc = exec_f1(cpu, val, new_pc);
     } else {
         new_pc = exec_f2(cpu, val, new_pc);

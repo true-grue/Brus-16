@@ -5,8 +5,8 @@ def IMM13(arg): return arg
 def SIMM9(arg): return arg
 
 
-F1 = ISA.FORMAT[0]
-F2 = ISA.FORMAT[1]
+F1 = ISA.FORMATS[0]
+F2 = ISA.FORMATS[1]
 COMMANDS = {
     ('JMP', 1): (F1, 1, ISA.OP_JMP, IMM13),
     ('JZ', 1): (F1, 1, ISA.OP_JZ, IMM13),

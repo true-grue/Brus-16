@@ -2,21 +2,21 @@ import brus16_cfg
 
 
 def make_fmt(fmt):
-    lines = []
-    for i, fields in enumerate(fmt):
+    lines = set()
+    for fields in fmt:
         pos = 0
         for name, size in reversed(fields):
-            lines.append(f'#define F{i + 1}_{name}_POS {pos}')
-            lines.append(f'#define F{i + 1}_{name}_SIZE {size}')
+            lines.add(f'#define {name}_POS {pos}')
+            lines.add(f'#define {name}_SIZE {size}')
             pos += size
-    return lines
+    return list(sorted(lines))
 
 
 def make_h(mod):
     lines = []
     for name in vars(mod):
         val = getattr(mod, name)
-        if name == 'FORMAT':
+        if isinstance(val, list):
             lines += make_fmt(val)
         elif not name.startswith('__'):
             lines.append(f'#define {name} {val}')

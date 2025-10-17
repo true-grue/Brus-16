@@ -32,9 +32,9 @@ RECT_W = 3
 RECT_H = 4
 RECT_COLOR = 5
 
-FORMAT = [
-    [('F', 1), ('OP', 2), ('IMM', 13)],
-    [('F', 1), ('OP', 5), ('I', 1), ('SIMM', 9)]
+FORMATS = [
+    [('F', 1), ('OP1', 2), ('IMM', 13)],
+    [('F', 1), ('OP2', 5), ('I', 1), ('SIMM', 9)]
 ]
 
 OP_JMP = 0
