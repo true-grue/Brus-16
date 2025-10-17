@@ -104,19 +104,19 @@ BRAKE = 20
 SLIDE = 30
 
 game = f'''
-def setup():
+def main():
     set_fp({KEY_MEM})
-    background()
+    setup()
     while 1:
-        update()
+        draw()
         wait()
 
 
-def background():
+def setup():
     copy(bg_data, {RECT_MEM}, {len(BG_DATA)})
 
 
-def update():
+def draw():
     detect_collisions()
     control_my_car()
     slide_my_car()

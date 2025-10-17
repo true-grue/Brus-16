@@ -5,10 +5,10 @@ from tools import *
 
 
 game = f'''
-def setup():
+def main():
     set_fp({KEY_MEM})
     while 1:
-        update()
+        draw()
         wait()
 
 
