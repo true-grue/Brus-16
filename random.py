@@ -12,7 +12,7 @@ def main():
         wait()
 
 
-def update():
+def draw():
     addr = {RECT_MEM}
     j = 0
     while j < 8:
