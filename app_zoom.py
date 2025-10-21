@@ -47,4 +47,4 @@ d = 1
 '''
 
 _, code, data = assemble(comp(game))
-save('random.bin', code, data)
+save('zoom.bin', code, data)

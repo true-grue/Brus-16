@@ -145,8 +145,8 @@ def slide_my_car():
         speed_x = max(0, speed_x - dx)
     elif speed_x < 0:
         speed_x = min(0, speed_x + dx)
-    car_x = peek({get_rect_addr(CAR_RECT, 1)})
-    poke({get_rect_addr(CAR_RECT, 1)}, car_x + shra(speed_x + 4, 3))
+    car_x = peek({get_rect_addr(CAR_RECT, RECT_X)})
+    poke({get_rect_addr(CAR_RECT, RECT_X)}, car_x + shra(speed_x + 4, 3))
 
 
 def move_npc_cars():

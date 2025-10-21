@@ -61,8 +61,7 @@ def encode(fmt, fields):
     cmd = 0
     shift = 0
     for i in reversed(range(len(fmt))):
-        name, bits = fmt[i]
-        val = fields[i]
+        (name, bits), val = fmt[i], fields[i]
         mask = (1 << bits) - 1
         cmd |= (val & mask) << shift
         shift += bits
