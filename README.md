@@ -3,15 +3,15 @@
 Brus-16 is an educational 16-bit game console with an original, minimalistic architecture.
 Unlike fantasy consoles, Brus-16 was designed for FPGA implementation.
 
-![](docs/racing.png)
+![](docs/games.png)
 
-See in [action](https://true-grue.github.io/Brus-16-Apps/brus16.html) (use cursor keys).
+See in [action](https://github.com/true-grue/Brus-16-Apps) (use cursor keys).
 
 ## Architecture
 
 Brus-16 consists of:
 
-* **16-bit stack-based CPU**: Harvard architecture (8K words for code, 8K for data), two hardware stacks (arguments and return addresses), fixed instruction size. Designed to simplify compiler development.
+* **16-bit stack-based CPU**: Harvard architecture (8K words for code, 8K for data), two hardware stacks (values and return addresses), fixed instruction size. Designed to simplify compiler development.
 * **Graphics processor**: Renders 64 filled rectangles per frame without a framebuffer. 640x480x16bpp, 60 fps.
 * **Input controller**: Supports 16 buttons.
 
@@ -27,7 +27,7 @@ There is a basic set of tool templates:
 
 Brus-16 can be used for various educational projects. Examples:
 
-- Develop a software emulator in another language (e.g., Rust, C#).
+- Develop a software emulator in another language (e.g., Rust, Go).
 - Create an interactive debugger with stack and memory visualization.
 - Write a full-featured assembler with macros and directives.
 - Extend the existing compiler (for-loops, structs).
@@ -51,7 +51,7 @@ A Verilog hardware implementation by Kirill Pavlov is available [here](https://g
 
 В состав Брус-16 входят:
 
-* **16-битный стековый процессор**: гарвардская архитектура (8К слов для кода, 8К слов для данных), два аппаратных стека (для аргументов и адресов возврата), фиксированная длина команд. Архитектура процессора спроектирована для удобства написания простых компиляторов. 
+* **16-битный стековый процессор**: гарвардская архитектура (8К слов для кода, 8К слов для данных), два аппаратных стека (для значений и адресов возврата), фиксированная длина команд. Архитектура процессора спроектирована для удобства написания простых компиляторов. 
 * **Графический процессор**: обрабатывает 64 закрашенных прямоугольника на кадр без использования видеобуфера. Характеристики графики: 640x480x16bpp, 60 fps.
 * **Контроллер ввода**: поддерживает 16 кнопок.
 
@@ -71,7 +71,7 @@ A Verilog hardware implementation by Kirill Pavlov is available [here](https://g
 
 Брус-16 может быть основой учебных проектов различной сложности. Вот несколько примеров задач для студентов:
 
-* Разработать программный эмулятор на другом языке (например, Rust или C#).
+* Разработать программный эмулятор на другом языке (например, Rust или Go).
 * Создать интерактивный отладчик с визуализацией стеков и памяти.
 * Написать полноценный ассемблер с поддержкой макросов и директив.
 * Доработать существующий компилятор (добавить цикл for, структуры).

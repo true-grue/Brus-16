@@ -5,6 +5,7 @@ LDFLAGS = -lSDL3
 SRC = brus16_sdl.c brus16_cpu.c
 
 GAMES = --preload-file racing.bin \
+        --preload-file flippy.bin \
         --preload-file zoom.bin \
         --preload-file logo.bin
 
