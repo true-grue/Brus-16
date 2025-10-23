@@ -5,7 +5,7 @@ Unlike fantasy consoles, Brus-16 was designed for FPGA implementation.
 
 ![](docs/games.png)
 
-See in [action](https://github.com/true-grue/Brus-16-Apps) (use cursor keys).
+See in [action](https://github.com/true-grue/Brus-16-Apps).
 
 ## Architecture
 
@@ -30,7 +30,7 @@ Brus-16 can be used for various educational projects. Examples:
 - Develop a software emulator in another language (e.g., Rust, Go).
 - Create an interactive debugger with stack and memory visualization.
 - Write a full-featured assembler with macros and directives.
-- Extend the existing compiler (for-loops, structs).
+- Extend the existing compiler (for-loops, multiple return values).
 - Implement new compiler optimizations (e.g., value numbering).
 - Develop a compiler for another language (e.g., a subset of C or Forth).
 - Create a graphics editor for drawing game assets with rectangles.
@@ -74,7 +74,7 @@ A Verilog hardware implementation by Kirill Pavlov is available [here](https://g
 * Разработать программный эмулятор на другом языке (например, Rust или Go).
 * Создать интерактивный отладчик с визуализацией стеков и памяти.
 * Написать полноценный ассемблер с поддержкой макросов и директив.
-* Доработать существующий компилятор (добавить цикл for, структуры).
+* Доработать существующий компилятор (цикл for, несколько возвращаемых значений).
 * Добавить новые оптимизации в компилятор (например, value numbering).
 * Разработать компилятор для другого языка (например, подмножества C или Forth).
 * Создать графический редактор для рисования игровых объектов прямоугольниками.
