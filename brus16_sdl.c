@@ -1,3 +1,4 @@
+// Author: Peter Sovietov
 #define SDL_MAIN_USE_CALLBACKS 1
 #include <stdio.h>
 #include <assert.h>

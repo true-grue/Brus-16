@@ -1,3 +1,4 @@
+// Author: Peter Sovietov
 #include "brus16_cpu.h"
 
 int16_t sext(uint16_t val, int bits) {

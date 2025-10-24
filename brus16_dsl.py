@@ -1,5 +1,5 @@
+# Author: Peter Sovietov
 import ast
-
 
 UNOPS = {
     ast.Invert: ('XOR', -1),

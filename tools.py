@@ -9,7 +9,7 @@ def get_rect_addr(rect, offs=0):
     return RECT_MEM + rect * RECT_SIZE + offs
 
 
-def get_asm_text(asm):
+def asm_to_text(asm):
     lines = []
     for cmd in asm:
         lines.append(' '.join(str(x) for x in cmd))

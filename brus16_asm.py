@@ -1,3 +1,4 @@
+# Author: Peter Sovietov
 import brus16_cfg as ISA
 
 
