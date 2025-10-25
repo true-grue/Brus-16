@@ -1,9 +1,6 @@
-from brus16_dsl import comp
-from brus16_asm import assemble, save
-from brus16_cfg import *
 from tools import *
 
-game = f'''
+save_game('zoom.bin', f'''
 def main():
     set_fp({KEY_MEM})
     while 1:
@@ -40,7 +37,4 @@ rnd_seed = 1
 w = 0
 h = 0
 d = 1
-'''
-
-_, code, data = assemble(comp(game))
-save('zoom.bin', code, data)
+''')

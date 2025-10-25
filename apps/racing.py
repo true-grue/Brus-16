@@ -1,17 +1,14 @@
-from brus16_dsl import comp
-from brus16_asm import assemble, save
-from brus16_cfg import *
 from tools import *
 
-GRASS_DATA = [1, 0, 0, SCREEN_W, SCREEN_H, to_rgb565(0x3a661c)]
+GRASS_DATA = [1, 0, 0, SCREEN_W, SCREEN_H, rgb(0x3a661c)]
 
 ROAD0_W = 225
 ROAD1_W = 180
 ROAD2_W = 150
 
-ROAD0_DATA = [1, (SCREEN_W - ROAD0_W) // 2, 0, ROAD0_W, SCREEN_H, to_rgb565(0x338000)]
-ROAD1_DATA = [1, (SCREEN_W - ROAD1_W) // 2, 0, ROAD1_W, SCREEN_H, to_rgb565(0x808080)]
-ROAD2_DATA = [1, (SCREEN_W - ROAD2_W) // 2, 0, ROAD2_W, SCREEN_H, to_rgb565(0x999999)]
+ROAD0_DATA = [1, (SCREEN_W - ROAD0_W) // 2, 0, ROAD0_W, SCREEN_H, rgb(0x338000)]
+ROAD1_DATA = [1, (SCREEN_W - ROAD1_W) // 2, 0, ROAD1_W, SCREEN_H, rgb(0x808080)]
+ROAD2_DATA = [1, (SCREEN_W - ROAD2_W) // 2, 0, ROAD2_W, SCREEN_H, rgb(0x999999)]
 
 LINE_RECT = 4
 LINE_PARTS = 4
@@ -21,7 +18,7 @@ LINE_GAP = (SCREEN_H - LINE_PARTS * LINE_H) // (LINE_PARTS - 1)
 LINE_DATA = []
 for i in range(LINE_PARTS):
     LINE_DATA += [1, (SCREEN_W - LINE_W) // 2, i * (LINE_H + LINE_GAP),
-                  LINE_W, LINE_H, to_rgb565(0xe6e6e6)]
+                  LINE_W, LINE_H, rgb(0xe6e6e6)]
 
 CROSSING_RECT = LINE_RECT + LINE_PARTS
 CROSSING_PARTS = 5
@@ -29,20 +26,20 @@ CROSSING_W = LINE_W * 2
 CROSSING_H = LINE_H
 CROSSING_GAP = CROSSING_W * 3
 CROSSING = [
-    1, 252, 218, CROSSING_W, CROSSING_H, to_rgb565(0xffcc00),
-    0, CROSSING_W + CROSSING_GAP, 0, CROSSING_W, CROSSING_H, to_rgb565(0xe6e6e6),
-    0, (CROSSING_W + CROSSING_GAP) * 2, 0, CROSSING_W, CROSSING_H, to_rgb565(0xffcc00),
-    0, (CROSSING_W + CROSSING_GAP) * 3, 0, CROSSING_W, CROSSING_H, to_rgb565(0xe6e6e6),
-    0, (CROSSING_W + CROSSING_GAP) * 4, 0, CROSSING_W, CROSSING_H, to_rgb565(0xffcc00),
+    1, 252, 218, CROSSING_W, CROSSING_H, rgb(0xffcc00),
+    0, CROSSING_W + CROSSING_GAP, 0, CROSSING_W, CROSSING_H, rgb(0xe6e6e6),
+    0, (CROSSING_W + CROSSING_GAP) * 2, 0, CROSSING_W, CROSSING_H, rgb(0xffcc00),
+    0, (CROSSING_W + CROSSING_GAP) * 3, 0, CROSSING_W, CROSSING_H, rgb(0xe6e6e6),
+    0, (CROSSING_W + CROSSING_GAP) * 4, 0, CROSSING_W, CROSSING_H, rgb(0xffcc00),
 ]
 
 HOUSE0_RECT = CROSSING_RECT + CROSSING_PARTS
 HOUSE_H = 100
 HOUSE0_DATA = [
-    1, 60, 140, 80, HOUSE_H * 2, to_rgb565(0x552200),
-    0, -3, -3, 80, HOUSE_H * 2, to_rgb565(0xaa4400),
-    0, 35, -3, 4, HOUSE_H * 2, to_rgb565(0xd45500),
-    0, 39, -3, 38, HOUSE_H * 2, to_rgb565(0x803300)
+    1, 60, 140, 80, HOUSE_H * 2, rgb(0x552200),
+    0, -3, -3, 80, HOUSE_H * 2, rgb(0xaa4400),
+    0, 35, -3, 4, HOUSE_H * 2, rgb(0xd45500),
+    0, 39, -3, 38, HOUSE_H * 2, rgb(0x803300)
 ]
 HOUSE_PARTS = len(HOUSE0_DATA) // 6
 HOUSE1_RECT = HOUSE0_RECT + HOUSE_PARTS
@@ -53,12 +50,12 @@ HOUSE_SIZES = [HOUSE_H, HOUSE_H * 2, HOUSE_H * 3, HOUSE_H * 4]
 CAR_RECT = HOUSE1_RECT + HOUSE_PARTS
 CAR_BBOX = [2, -8, 20, 56]
 CAR_DATA = [
-    1, (SCREEN_W - 24) // 2 + 40, 350, 24, 9, to_rgb565(0),
-    0, 0, 32, 24, 9, to_rgb565(0),
-    0, 2, -8, 20, 56, to_rgb565(0xff2a2a),
-    0, 2, -8, 20, 20, to_rgb565(0xff5555),
-    0, 2, 7, 20, 6, to_rgb565(0xffaaaa),
-    0, 2, 32, 20, 6, to_rgb565(0xffaaaa)
+    1, (SCREEN_W - 24) // 2 + 40, 350, 24, 9, rgb(0),
+    0, 0, 32, 24, 9, rgb(0),
+    0, 2, -8, 20, 56, rgb(0xff2a2a),
+    0, 2, -8, 20, 20, rgb(0xff5555),
+    0, 2, 7, 20, 6, rgb(0xffaaaa),
+    0, 2, 32, 20, 6, rgb(0xffaaaa)
 ]
 CAR_PARTS = len(CAR_DATA) // 6
 
@@ -66,12 +63,12 @@ SMALL_CAR_RECT = CAR_RECT + CAR_PARTS
 SMALL_CAR_X = (SCREEN_W - 24) // 2 + 40
 SMALL_CAR_BBOX = [0, -8, 24, 54]
 SMALL_CAR_DATA = [
-    1, SMALL_CAR_X, 100, 24, 9, to_rgb565(0),
-    0, 0, 32, 24, 9, to_rgb565(0),
-    0, 2, -8, 20, 54, to_rgb565(0x0088aa),
-    0, 2, 32, 20, 14, to_rgb565(0x006680),
-    0, 2, 7, 20, 30, to_rgb565(0x00aad4),
-    0, 4, 14, 16, 18, to_rgb565(0x006680)
+    1, SMALL_CAR_X, 100, 24, 9, rgb(0),
+    0, 0, 32, 24, 9, rgb(0),
+    0, 2, -8, 20, 54, rgb(0x0088aa),
+    0, 2, 32, 20, 14, rgb(0x006680),
+    0, 2, 7, 20, 30, rgb(0x00aad4),
+    0, 4, 14, 16, 18, rgb(0x006680)
 ]
 SMALL_CAR_PARTS = len(SMALL_CAR_DATA) // 6
 SMALL_CAR_X_POS = [SMALL_CAR_X, SMALL_CAR_X + 20, SMALL_CAR_X - 10, SMALL_CAR_X - 20]
@@ -81,14 +78,14 @@ BIG_CAR_RECT = SMALL_CAR_RECT + SMALL_CAR_PARTS
 BIG_CAR_X = 260
 BIG_CAR_BBOX = [0, 0, 40, 172]
 BIG_CAR_DATA = [
-    1, BIG_CAR_X, 200, 40, 128, to_rgb565(0x006680),
-    0, 10, 128, 20, 4, to_rgb565(0),
-    0, 0, 155, 40, 9, to_rgb565(0),
-    0, 2, 132, 36, 40, to_rgb565(0x0088aa),
-    0, 2, 144, 36, 20, to_rgb565(0x006680),
-    0, 2, 157, 36, 10, to_rgb565(0x00aad4),
-    0, 5, 157, 30, 4, to_rgb565(0x006680),
-    0, 2, 166, 36, 6, to_rgb565(0x0088aa),
+    1, BIG_CAR_X, 200, 40, 128, rgb(0x006680),
+    0, 10, 128, 20, 4, rgb(0),
+    0, 0, 155, 40, 9, rgb(0),
+    0, 2, 132, 36, 40, rgb(0x0088aa),
+    0, 2, 144, 36, 20, rgb(0x006680),
+    0, 2, 157, 36, 10, rgb(0x00aad4),
+    0, 5, 157, 30, 4, rgb(0x006680),
+    0, 2, 166, 36, 6, rgb(0x0088aa),
 ]
 BIG_CAR_PARTS = len(BIG_CAR_DATA) // 6
 BIG_CAR_X_POS = [BIG_CAR_X, BIG_CAR_X - 15, BIG_CAR_X + 10, BIG_CAR_X + 20]
@@ -103,7 +100,7 @@ ACCEL = 10
 BRAKE = 20
 SLIDE = 30
 
-game = f'''
+save_game('racing.bin', f'''
 def main():
     set_fp({KEY_MEM})
     setup()
@@ -301,7 +298,4 @@ small_car_x_pos = {SMALL_CAR_X_POS}
 small_car_speed = {SMALL_CAR_SPEED}
 big_car_x_pos = {BIG_CAR_X_POS}
 big_car_speed = {BIG_CAR_SPEED}
-'''
-
-_, code, data = assemble(comp(game))
-save('racing.bin', code, data)
+''')
