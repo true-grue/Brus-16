@@ -18,12 +18,12 @@ CFLAGS += -I"$(SDL)/include"
 sdl:
 	$(CC) $(CFLAGS) $(SRC) -o $(TARGET) $(LDFLAGS)
 
-GAMES = --preload-file apps/racing.bin \
-        --preload-file apps/flippy.bin \
-        --preload-file apps/zoom.bin \
-        --preload-file apps/logo.bin
+APPS = --preload-file apps/racing.bin \
+       --preload-file apps/flippy.bin \
+       --preload-file apps/zoom.bin \
+       --preload-file apps/logo.bin
 
 web:
-	$(EMCC) $(CFLAGS) $(SRC) $(GAMES) -s USE_SDL=3 -s MODULARIZE=1 -o brus16.html --shell-file template.html
+	$(EMCC) $(CFLAGS) $(SRC) $(APPS) -s USE_SDL=3 -s MODULARIZE=1 -o brus16.html --shell-file template.html
 
 .PHONY: sdl web

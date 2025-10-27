@@ -97,12 +97,12 @@ uint16_t exec_f2(struct CPU *cpu, uint16_t val, uint16_t new_pc) {
     }
     switch (op) {
     case OP_LOAD: {
-        uint16_t addr = has_imm ? (cpu->fp + simm9) : pop(cpu);
+        uint16_t addr = (has_imm ? cpu->fp : pop(cpu)) + simm9;
         cpu->mr = cpu->data[addr & (DATA_SIZE - 1)];
         break;
     }
     case OP_STORE: {
-        uint16_t addr = has_imm ? (cpu->fp + simm9) : pop(cpu);
+        uint16_t addr = (has_imm ? cpu->fp : pop(cpu)) + simm9;
         cpu->data[addr & (DATA_SIZE - 1)] = pop(cpu);
         break;
     }

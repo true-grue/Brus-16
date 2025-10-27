@@ -25,12 +25,12 @@ BINOPS = {
 }
 
 
-LOAD = [('LOAD',), ('PUSH_MR',)]
+LOAD = [('LOAD', 0), ('PUSH_MR',)]
 def GET_LOCAL(name): return [('GET_LOCAL', name), ('PUSH_MR',)]
 
 
 MACROS = {
-    'poke': lambda addr, val: [*val, *addr, ('STORE',)],
+    'poke': lambda addr, val: [*val, *addr, ('STORE', 0)],
     'peek': lambda addr: [*addr, *LOAD],
     'shra': lambda x, y: [*x, *y, ('SHRA',)],
     'ltu': lambda x, y: [*x, *y, ('LTU',)],
@@ -59,7 +59,7 @@ def push(x):
                 ('OR', x & 255)]
 
 
-def comp_load(env, name):
+def trans_load(env, name):
     match env.get(name):
         case 'var':
             return [('PUSH_ADDR', name), *LOAD]
@@ -71,13 +71,13 @@ def comp_load(env, name):
             raise RuntimeError(name)
 
 
-def comp_store(env, name, expr):
-    expr = comp_expr(env, expr)
+def trans_store(env, name, expr):
+    expr = trans_expr(env, expr)
     if name not in env:
         env[name] = 'loc'
     match env[name]:
         case 'var':
-            return [*expr, ('PUSH_ADDR', name), ('STORE',)]
+            return [*expr, ('PUSH_ADDR', name), ('STORE', 0)]
         case 'loc':
             return [*expr, ('SET_LOCAL', name)]
         case _:
@@ -88,26 +88,26 @@ def is_func(env, name, arity):
     return env.get(name) == ('func', arity) or name in MACROS
 
 
-def comp_expr(env, node):
+def trans_expr(env, node):
     match node:
         case ast.Constant(int(val)):
             return push(val)
         case ast.Name(name):
-            return comp_load(env, name)
+            return trans_load(env, name)
         case ast.Subscript(x, y):
-            x = comp_expr(env, x)
-            y = comp_expr(env, y)
+            x = trans_expr(env, x)
+            y = trans_expr(env, y)
             return [*x, *y, ('ADD',), *LOAD]
         case ast.UnaryOp(ast.USub(), ast.Constant(int(val))):
             return push(-val)
         case ast.UnaryOp(op, x):
-            return [*comp_expr(env, x), UNOPS[type(op)]]
+            return [*trans_expr(env, x), UNOPS[type(op)]]
         case ast.BinOp(x, op, y) | ast.Compare(x, [op], [y]):
-            x = comp_expr(env, x)
-            y = comp_expr(env, y)
+            x = trans_expr(env, x)
+            y = trans_expr(env, y)
             return [*x, *y, (BINOPS[type(op)],)]
         case ast.Call(ast.Name(name), args) if is_func(env, name, len(args)):
-            args = [comp_expr(env, x) for x in args]
+            args = [trans_expr(env, x) for x in args]
             if name in MACROS:
                 return MACROS[name](*args)
             return [*sum(reversed(args), []), ('CALL', name)]
@@ -115,10 +115,10 @@ def comp_expr(env, node):
             raise RuntimeError(ast.unparse(node))
 
 
-def comp_if(env, test, true, false):
-    test = comp_expr(env, test)
-    true = comp_block(env, true)
-    false = comp_block(env, false)
+def trans_if(env, test, true, false):
+    test = trans_expr(env, test)
+    true = trans_block(env, true)
+    false = trans_block(env, false)
     L1, L2 = next(new_label), next(new_label)
     return [*test,
             ('JZ', L1),
@@ -129,9 +129,9 @@ def comp_if(env, test, true, false):
             ('LABEL', L2)]
 
 
-def comp_while(env, test, body):
-    test = comp_expr(env, test)
-    body = comp_block(env, body)
+def trans_while(env, test, body):
+    test = trans_expr(env, test)
+    body = trans_block(env, body)
     L1, L2 = next(new_label), next(new_label)
     return [('LABEL', L1),
             *test,
@@ -141,36 +141,36 @@ def comp_while(env, test, body):
             ('LABEL', L2)]
 
 
-def comp_stmt(env, node):
+def trans_stmt(env, node):
     match node:
         case ast.Assign([ast.Name(name)], expr):
-            return comp_store(env, name, expr)
+            return trans_store(env, name, expr)
         case ast.Assign([ast.Subscript(addr, idx)], expr):
-            addr = comp_expr(env, addr)
-            idx = comp_expr(env, idx)
-            expr = comp_expr(env, expr)
-            return [*expr, *addr, *idx, ('ADD',), ('STORE',)]
+            addr = trans_expr(env, addr)
+            idx = trans_expr(env, idx)
+            expr = trans_expr(env, expr)
+            return [*expr, *addr, *idx, ('ADD',), ('STORE', 0)]
         case ast.AugAssign(target, op, val):
-            return comp_stmt(env, ast.Assign([target],
+            return trans_stmt(env, ast.Assign([target],
                                              ast.BinOp(target, op, val)))
         case ast.If(test, true, false):
-            return comp_if(env, test, true, false)
+            return trans_if(env, test, true, false)
         case ast.While(test, body, []):
-            return comp_while(env, test, body)
+            return trans_while(env, test, body)
         case ast.Return(None):
             return [('RET', None)]
         case ast.Return(val):
-            return [*comp_expr(env, val), ('RET', None)]
+            return [*trans_expr(env, val), ('RET', None)]
         case ast.Expr(ast.Call() as call):
-            return comp_expr(env, call)
+            return trans_expr(env, call)
         case ast.Pass():
             return []
         case _:
             raise RuntimeError(ast.unparse(node))
 
 
-def comp_block(env, block):
-    return sum([comp_stmt(env, stmt) for stmt in block], [])
+def trans_block(env, block):
+    return sum([trans_stmt(env, stmt) for stmt in block], [])
 
 
 def replace_locs(locs, asm):
@@ -185,12 +185,12 @@ def replace_locs(locs, asm):
     return asm
 
 
-def comp_func(env, name, args, body):
+def trans_func(env, name, args, body):
     asm = [('LABEL', name), ('LOCALS', None)]
     for arg in args:
         env[arg.arg] = 'loc'
         asm.append(('SET_LOCAL', arg.arg))
-    asm += comp_block(env, body)
+    asm += trans_block(env, body)
     if ('RET', None) not in asm:
         asm.append(('RET', None))
     locs = (k for k in env if env[k] == 'loc')
@@ -205,6 +205,8 @@ def optimize(asm):
         match stack:
             case [*_, ('ADD' | 'OR' | 'LOCALS', 0)]:
                 stack[-1:] = []
+            case [*_, ('ADD', offs), (('LOAD' | 'STORE') as mop, 0)]:
+                stack[-2:] = [(mop, offs)]
             case [*_, ('RET', _) as ret, ('JMP', _)]:
                 stack[-2:] = [ret]
             case [*_, ('PUSH_INT', x), (op,)] if op in binops:
@@ -212,7 +214,7 @@ def optimize(asm):
     return stack
 
 
-def comp(src):
+def translate(src):
     env = {}
     asm = []
     funcs = []
@@ -230,7 +232,7 @@ def comp(src):
             case _:
                 raise RuntimeError(ast.unparse(node))
     for name, args, body in funcs:
-        asm += comp_func(env.copy(), name, args, body)
+        asm += trans_func(env.copy(), name, args, body)
     while (opt_asm := optimize(asm)) != asm:
         asm = opt_asm
     return asm

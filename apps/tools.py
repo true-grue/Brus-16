@@ -1,13 +1,13 @@
 import sys
 from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parent.parent))
-from brus16_dsl import comp
+from brus16_dsl import translate
 from brus16_asm import assemble, save
 from brus16_cfg import *
 
 
 def save_game(filename, source):
-    _, code, data = assemble(comp(source))
+    _, code, data = assemble(translate(source))
     print(f'code: {len(code)}\ndata: {len(data)}')
     save(filename, code, data)
 
