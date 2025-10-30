@@ -12,7 +12,7 @@ COMMANDS = {
     ('JMP', 1): (F1, 1, ISA.OP_JMP, IMM13),
     ('JZ', 1): (F1, 1, ISA.OP_JZ, IMM13),
     ('CALL', 1): (F1, 1, ISA.OP_CALL, IMM13),
-    ('PUSH_ADDR', 1): (F1, 1, ISA.OP_PUSH_ADDR, IMM13),
+    ('PUSHU', 1): (F1, 1, ISA.OP_PUSHU, IMM13),
     ('ADD', 0): (F2, 0, ISA.OP_ADD, 0, 0),
     ('SUB', 0): (F2, 0, ISA.OP_SUB, 0, 0),
     ('MUL', 0): (F2, 0, ISA.OP_MUL, 0, 0),
@@ -52,7 +52,7 @@ COMMANDS = {
     ('LOCALS', 1): (F2, 0, ISA.OP_LOCALS, 1, SIMM9),
     ('SET_FP', 0): (F2, 0, ISA.OP_SET_FP, 0, 0),
     ('RET', 1): (F2, 0, ISA.OP_RET, 1, SIMM9),
-    ('PUSH_INT', 1): (F2, 0, ISA.OP_PUSH_INT, 1, SIMM9),
+    ('PUSH', 1): (F2, 0, ISA.OP_PUSH, 1, SIMM9),
     ('PUSH_MR', 0): (F2, 0, ISA.OP_PUSH_MR, 0, 0),
     ('WAIT', 0): (F2, 0, ISA.OP_WAIT, 0, 0)
 }

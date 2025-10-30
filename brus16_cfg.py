@@ -39,7 +39,7 @@ FORMATS = [
 OP_JMP = 0
 OP_JZ = 1
 OP_CALL = 2
-OP_PUSH_ADDR = 3
+OP_PUSHU = 3
 
 OP_ADD = 0
 OP_SUB = 1
@@ -62,6 +62,32 @@ OP_STORE = 17
 OP_LOCALS = 18
 OP_SET_FP = 19
 OP_RET = 20
-OP_PUSH_INT = 21
+OP_PUSH = 21
 OP_PUSH_MR = 22
 OP_WAIT = 23
+
+
+def _make_fields(fmt):
+    lines = set()
+    for fields in fmt:
+        pos = 0
+        for name, size in reversed(fields):
+            lines.add(f'#define {name}_POS {pos}')
+            lines.add(f'#define {name}_SIZE {size}')
+            pos += size
+    return list(sorted(lines))
+
+
+def _make_header():
+    lines = []
+    for name, val in globals().items():
+        if isinstance(val, list):
+            lines += _make_fields(val)
+        elif not name.startswith('_'):
+            lines.append(f'#define {name} {val}')
+    return '\n'.join(lines) + '\n'
+
+
+if __name__ == '__main__':
+    with open('brus16_cfg.h', 'w') as _f:
+        _f.write(_make_header())

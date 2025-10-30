@@ -81,7 +81,7 @@ uint16_t exec_f1(struct CPU *cpu, uint16_t val, uint16_t new_pc) {
     case OP_CALL:
         rpush(cpu, new_pc);
         return imm13;
-    case OP_PUSH_ADDR: default:
+    case OP_PUSHU: default:
         push(cpu, imm13);
         return new_pc;
     }
@@ -112,7 +112,7 @@ uint16_t exec_f2(struct CPU *cpu, uint16_t val, uint16_t new_pc) {
     case OP_RET:
         cpu->fp += simm9;
         return rpop(cpu);
-    case OP_PUSH_INT:
+    case OP_PUSH:
         push(cpu, simm9);
         break;
     case OP_PUSH_MR:

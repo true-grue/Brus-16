@@ -50,11 +50,11 @@ new_label = label_gen()
 
 def push(x):
     if -256 <= x <= 255:
-        return [('PUSH_INT', x)]
+        return [('PUSH', x)]
     elif 0 <= x <= 8191:
-        return [('PUSH_ADDR', x)]
+        return [('PUSHU', x)]
     else:
-        return [('PUSH_INT', (x >> 8) & 255),
+        return [('PUSH', (x >> 8) & 255),
                 ('SHL', 8),
                 ('OR', x & 255)]
 
@@ -62,9 +62,9 @@ def push(x):
 def trans_load(env, name):
     match env.get(name):
         case 'var':
-            return [('PUSH_ADDR', name), *LOAD]
+            return [('PUSHU', name), *LOAD]
         case 'arr' | ('func', _):
-            return [('PUSH_ADDR', name)]
+            return [('PUSHU', name)]
         case 'loc':
             return GET_LOCAL(name)
         case _:
@@ -77,7 +77,7 @@ def trans_store(env, name, expr):
         env[name] = 'loc'
     match env[name]:
         case 'var':
-            return [*expr, ('PUSH_ADDR', name), ('STORE', 0)]
+            return [*expr, ('PUSHU', name), ('STORE', 0)]
         case 'loc':
             return [*expr, ('SET_LOCAL', name)]
         case _:
@@ -209,7 +209,7 @@ def optimize(asm):
                 stack[-2:] = [(mop, offs)]
             case [*_, ('RET', _) as ret, ('JMP', _)]:
                 stack[-2:] = [ret]
-            case [*_, ('PUSH_INT', x), (op,)] if op in binops:
+            case [*_, ('PUSH', x), (op,)] if op in binops:
                 stack[-2:] = [(op, x)]
     return stack
 
