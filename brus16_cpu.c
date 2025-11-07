@@ -30,8 +30,8 @@ uint16_t rpop(struct CPU *cpu) {
     return cpu->rstack[cpu->rp];
 }
 
-uint16_t exec_alu(struct CPU *cpu, uint8_t op, int has_imm, int16_t simm9) {
-    uint16_t y = has_imm ? (uint16_t) simm9 : pop(cpu);
+uint16_t exec_alu(struct CPU *cpu, uint8_t op, int has_imm, int16_t imm9) {
+    uint16_t y = has_imm ? (uint16_t) imm9 : pop(cpu);
     uint16_t x = pop(cpu);
     switch (op) {
     case OP_ADD:
@@ -72,7 +72,7 @@ uint16_t exec_alu(struct CPU *cpu, uint8_t op, int has_imm, int16_t simm9) {
 
 uint16_t exec_f1(struct CPU *cpu, uint16_t val, uint16_t new_pc) {
     uint8_t op = get_field(val, OP1_POS, OP1_SIZE);
-    uint16_t imm13 = get_field(val, IMM_POS, IMM_SIZE);
+    uint16_t imm13 = sext(get_field(val, IMM_POS, IMM_SIZE), IMM_SIZE);
     switch (op) {
     case OP_JMP:
         return imm13;
@@ -81,7 +81,7 @@ uint16_t exec_f1(struct CPU *cpu, uint16_t val, uint16_t new_pc) {
     case OP_CALL:
         rpush(cpu, new_pc);
         return imm13;
-    case OP_PUSHU: default:
+    case OP_PUSH: default:
         push(cpu, imm13);
         return new_pc;
     }
@@ -90,31 +90,28 @@ uint16_t exec_f1(struct CPU *cpu, uint16_t val, uint16_t new_pc) {
 uint16_t exec_f2(struct CPU *cpu, uint16_t val, uint16_t new_pc) {
     uint8_t op = get_field(val, OP2_POS, OP2_SIZE);
     int has_imm = get_field(val, I_POS, I_SIZE);
-    uint16_t simm9 = sext(get_field(val, SIMM_POS, SIMM_SIZE), SIMM_SIZE);
+    uint16_t imm9 = sext(get_field(val, SIMM_POS, SIMM_SIZE), SIMM_SIZE);
     if (op <= OP_LTU) {
-        push(cpu, exec_alu(cpu, op, has_imm, simm9));
+        push(cpu, exec_alu(cpu, op, has_imm, imm9));
         return new_pc;
     }
     switch (op) {
     case OP_LOAD: {
-        uint16_t addr = (has_imm ? cpu->fp : pop(cpu)) + simm9;
+        uint16_t addr = (has_imm ? cpu->fp : pop(cpu)) + imm9;
         cpu->mr = cpu->data[addr & (DATA_SIZE - 1)];
         break;
     }
     case OP_STORE: {
-        uint16_t addr = (has_imm ? cpu->fp : pop(cpu)) + simm9;
+        uint16_t addr = (has_imm ? cpu->fp : pop(cpu)) + imm9;
         cpu->data[addr & (DATA_SIZE - 1)] = pop(cpu);
         break;
     }
     case OP_LOCALS:
-        cpu->fp -= simm9;
+        cpu->fp -= imm9;
         break;
     case OP_RET:
-        cpu->fp += simm9;
+        cpu->fp += imm9;
         return rpop(cpu);
-    case OP_PUSH:
-        push(cpu, simm9);
-        break;
     case OP_PUSH_MR:
         push(cpu, cpu->mr);
         break;
@@ -129,15 +126,14 @@ uint16_t exec_f2(struct CPU *cpu, uint16_t val, uint16_t new_pc) {
 }
 
 void step(struct CPU *cpu) {
-    if (cpu->wait) {
-        return;
+    if (!cpu->wait) {
+        uint16_t val = cpu->code[cpu->pc];
+        uint16_t new_pc = cpu->pc + 1;
+        if (get_field(val, F_POS, F_SIZE)) {
+            new_pc = exec_f1(cpu, val, new_pc);
+        } else {
+            new_pc = exec_f2(cpu, val, new_pc);
+        }
+        cpu->pc = new_pc & (CODE_SIZE - 1);
     }
-    uint16_t val = cpu->code[cpu->pc];
-    uint16_t new_pc = (cpu->pc + 1) & (CODE_SIZE - 1);
-    if (get_field(val, F_POS, F_SIZE)) {
-        new_pc = exec_f1(cpu, val, new_pc);
-    } else {
-        new_pc = exec_f2(cpu, val, new_pc);
-    }
-    cpu->pc = new_pc;
 }

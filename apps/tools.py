@@ -7,9 +7,11 @@ from brus16_cfg import *
 
 
 def save_game(filename, source):
-    _, code, data = assemble(translate(source))
+    asm = translate(source)
+    _, code, data = assemble(asm)
     print(f'code: {len(code)}\ndata: {len(data)}')
     save(filename, code, data)
+    return asm
 
 
 def rgb(x):

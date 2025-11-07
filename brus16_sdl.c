@@ -73,8 +73,9 @@ SDL_AppResult SDL_AppIterate(void *appstate) {
     (void) appstate;
     uint64_t frame_start = SDL_GetTicksNS();
     const bool *keystate = SDL_GetKeyboardState(NULL);
+    int key_addr = KEY_MEM & (DATA_SIZE - 1);
     for (int i = 0; i < KEY_NUM; i++) {
-        cpu.data[KEY_MEM + i] = keystate[scancodes[i]];
+        cpu.data[key_addr + i] = keystate[scancodes[i]];
     }
     for(int cycles = 0; !cpu.wait; cycles++) {
         assert(cycles < CYCLES_PER_FRAME);
@@ -85,7 +86,7 @@ SDL_AppResult SDL_AppIterate(void *appstate) {
     SDL_RenderClear(renderer);
     int cursor_x = 0;
     int cursor_y = 0;
-    int rect_addr = RECT_MEM;
+    int rect_addr = RECT_MEM & (DATA_SIZE - 1);
     for (int i = 0; i < RECT_NUM; i++) {
         int is_abs = cpu.data[rect_addr + RECT_ABS];
         int16_t x = sext(cpu.data[rect_addr + RECT_X], 16);

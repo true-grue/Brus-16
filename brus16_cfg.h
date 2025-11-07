@@ -6,7 +6,7 @@
 #define SCREEN_H 480
 #define RECT_NUM 64
 #define RECT_SIZE 6
-#define RECT_MEM 7808
+#define RECT_MEM -384
 #define RECT_ABS 0
 #define RECT_X 1
 #define RECT_Y 2
@@ -14,7 +14,7 @@
 #define RECT_H 4
 #define RECT_COLOR 5
 #define KEY_NUM 16
-#define KEY_MEM 7792
+#define KEY_MEM -400
 #define KEY_UP 0
 #define KEY_DOWN 1
 #define KEY_LEFT 2
@@ -42,7 +42,7 @@
 #define OP_JMP 0
 #define OP_JZ 1
 #define OP_CALL 2
-#define OP_PUSH_ADDR 3
+#define OP_PUSH 3
 #define OP_ADD 0
 #define OP_SUB 1
 #define OP_MUL 2
@@ -64,6 +64,5 @@
 #define OP_LOCALS 18
 #define OP_SET_FP 19
 #define OP_RET 20
-#define OP_PUSH_INT 21
-#define OP_PUSH_MR 22
-#define OP_WAIT 23
+#define OP_PUSH_MR 21
+#define OP_WAIT 22
