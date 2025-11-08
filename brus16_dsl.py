@@ -49,20 +49,20 @@ new_label = label_gen()
 
 
 def push(x):
-    if -4096 <= x <= 4095:
+    if -256 <= x <= 255:
         return [('PUSH', x)]
-    else:
-        return [('PUSH', x >> 3),
-                ('SHL', 3),
-                ('OR', x & 7)]
+    for shift in range(4):
+        high, low = (x & 65535) >> shift, x & ((1 << shift) - 1)
+        if high <= 8191:
+            return [('PUSHU', high), ('SHL', shift), ('OR', low)]
 
 
 def trans_load(env, name):
     match env.get(name):
         case 'var':
-            return [('PUSH', name), *LOAD]
+            return [('PUSHU', name), *LOAD]
         case 'arr' | ('func', _):
-            return [('PUSH', name)]
+            return [('PUSHU', name)]
         case 'loc':
             return GET_LOCAL(name)
         case _:
@@ -75,7 +75,7 @@ def trans_store(env, name, expr):
         env[name] = 'loc'
     match env[name]:
         case 'var':
-            return [*expr, ('PUSH', name), ('STORE', 0)]
+            return [*expr, ('PUSHU', name), ('STORE', 0)]
         case 'loc':
             return [*expr, ('SET_LOCAL', name)]
         case _:
@@ -201,13 +201,13 @@ def optimize(asm):
     for cmd in asm:
         stack.append(cmd)
         match stack:
-            case [*_, ('ADD' | 'OR' | 'LOCALS', 0)]:
+            case [*_, ('ADD' | 'OR' | 'SHL' | 'LOCALS', 0)]:
                 stack[-1:] = []
             case [*_, ('ADD', offs), (('LOAD' | 'STORE') as mop, 0)]:
                 stack[-2:] = [(mop, offs)]
             case [*_, ('RET', _) as ret, ('JMP', _)]:
                 stack[-2:] = [ret]
-            case [*_, ('PUSH', x), (op,)] if op in binops and -256 <= x <= 255:
+            case [*_, ('PUSH', x), (op,)] if op in binops:
                 stack[-2:] = [(op, x)]
     return stack
 
