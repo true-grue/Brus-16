@@ -2,7 +2,7 @@ CC = clang
 EMCC = emcc
 CFLAGS = -O2 -Wall -Wextra -Wpedantic
 LDFLAGS = -lSDL3
-SRC = brus16_sdl.c brus16_cpu.c
+SRC = brus16_emu.c brus16_cpu.c
 
 ifeq ($(OS),Windows_NT)
 	TARGET = brus16.exe
