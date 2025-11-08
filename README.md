@@ -21,7 +21,7 @@ There is a basic set of tool templates:
 
 * Compiler (`brus16_dsl.py`): translates from a Python-like DSL to Brus-16 assembly.
 * Assembler (`brus16_asm.py`): translates assembly into a binary image.
-* Emulator (`brus16_cpu.c`, `brus16_sdl.c`): software model of the console using the SDL3 library.
+* Emulator (`brus16_cpu.c`, `brus16_emu.c`): software model of the console using the SDL3 library.
 
 ## Educational Projects
 
@@ -61,7 +61,7 @@ A Verilog hardware implementation by Kirill Pavlov is available [here](https://g
 
 * Компилятор (`brus16_dsl.py`): Транслирует код с Python-подобного DSL в язык ассемблера Брус-16.
 * Ассемблер (`brus16_asm.py`): Транслирует ассемблерный код в бинарную прошивку.
-* Эмулятор (`brus16_cpu.c`, `brus16_sdl.c`): Программная модель приставки с использованием библиотеки SDL3.
+* Эмулятор (`brus16_cpu.c`, `brus16_emu.c`): Программная модель приставки с использованием библиотеки SDL3.
 
 ## DSL для разработки игр
 
