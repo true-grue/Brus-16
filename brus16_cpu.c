@@ -34,37 +34,37 @@ uint16_t exec_alu(struct CPU *cpu, uint8_t op, int has_imm, int16_t simm9) {
     uint16_t y = has_imm ? (uint16_t) simm9 : pop(cpu);
     uint16_t x = pop(cpu);
     switch (op) {
-    case OP_ADD:
+    case OP2_ADD:
         return x + y;
-    case OP_SUB:
+    case OP2_SUB:
         return x - y;
-    case OP_MUL:
+    case OP2_MUL:
         return (int16_t) x * (int16_t) y;
-    case OP_AND:
+    case OP2_AND:
         return x & y;
-    case OP_OR:
+    case OP2_OR:
         return x | y;
-    case OP_XOR:
+    case OP2_XOR:
         return x ^ y;
-    case OP_SHL:
+    case OP2_SHL:
         return x << y;
-    case OP_SHR:
+    case OP2_SHR:
         return x >> y;
-    case OP_SHRA:
+    case OP2_SHRA:
         return (int16_t) x >> y;
-    case OP_EQ:
+    case OP2_EQ:
         return x == y;
-    case OP_NEQ:
+    case OP2_NEQ:
         return x != y;
-    case OP_LT:
+    case OP2_LT:
         return (int16_t) x < (int16_t) y;
-    case OP_LE:
+    case OP2_LE:
         return (int16_t) x <= (int16_t) y;
-    case OP_GT:
+    case OP2_GT:
         return (int16_t) x > (int16_t) y;
-    case OP_GE:
+    case OP2_GE:
         return (int16_t) x >= (int16_t) y;
-    case OP_LTU:
+    case OP2_LTU:
         return x < y;
     }
     return 0;
@@ -74,14 +74,14 @@ uint16_t exec_f1(struct CPU *cpu, uint16_t val, uint16_t new_pc) {
     uint8_t op = get_field(val, OP1_POS, OP1_SIZE);
     uint16_t imm13 = get_field(val, IMM_POS, IMM_SIZE);
     switch (op) {
-    case OP_JMP:
+    case OP1_JMP:
         return imm13;
-    case OP_JZ:
+    case OP1_JZ:
         return pop(cpu) ? new_pc : imm13;
-    case OP_CALL:
+    case OP1_CALL:
         rpush(cpu, new_pc);
         return imm13;
-    case OP_PUSHU: default:
+    case OP1_PUSHU: default:
         push(cpu, imm13);
         return new_pc;
     }
@@ -91,37 +91,37 @@ uint16_t exec_f2(struct CPU *cpu, uint16_t val, uint16_t new_pc) {
     uint8_t op = get_field(val, OP2_POS, OP2_SIZE);
     int has_imm = get_field(val, I_POS, I_SIZE);
     uint16_t simm9 = sext(get_field(val, SIMM_POS, SIMM_SIZE), SIMM_SIZE);
-    if (op <= OP_LTU) {
+    if (op <= OP2_LTU) {
         push(cpu, exec_alu(cpu, op, has_imm, simm9));
         return new_pc;
     }
     switch (op) {
-    case OP_LOAD: {
+    case OP2_LOAD: {
         uint16_t addr = (has_imm ? cpu->fp : pop(cpu)) + simm9;
         cpu->mr = cpu->data[addr & (DATA_SIZE - 1)];
         break;
     }
-    case OP_STORE: {
+    case OP2_STORE: {
         uint16_t addr = (has_imm ? cpu->fp : pop(cpu)) + simm9;
         cpu->data[addr & (DATA_SIZE - 1)] = pop(cpu);
         break;
     }
-    case OP_LOCALS:
+    case OP2_LOCALS:
         cpu->fp -= simm9;
         break;
-    case OP_RET:
+    case OP2_RET:
         cpu->fp += simm9;
         return rpop(cpu);
-    case OP_PUSH:
+    case OP2_PUSH:
         push(cpu, simm9);
         break;
-    case OP_PUSH_MR:
+    case OP2_PUSH_MR:
         push(cpu, cpu->mr);
         break;
-    case OP_SET_FP:
+    case OP2_SET_FP:
         cpu->fp = pop(cpu);
         break;
-    case OP_WAIT:
+    case OP2_WAIT:
         cpu->wait = 1;
         break;
     }
