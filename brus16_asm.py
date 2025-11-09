@@ -98,13 +98,7 @@ def assemble(asm):
     return pass2(*pass1(asm))
 
 
-def to_le(x):
-    return int.to_bytes(x & 0xffff, 2, 'little')
-
-
 def save(filename, code, data):
     with open(filename, 'wb') as f:
-        header = to_le(len(code)) + to_le(len(data))
-        code = b''.join(to_le(x) for x in code)
-        data = b''.join(to_le(x) for x in data)
-        f.write(header + code + data)
+        content = [len(code), len(data), *code, *data]
+        f.write(b''.join((x & 0xffff).to_bytes(2, 'little') for x in content))
