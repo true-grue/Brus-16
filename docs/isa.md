@@ -1,4 +1,11 @@
 ### Format 1
-![](format_1.svg)
+
+<div style="background-color: green">
+<img src="format_1.svg">
+</div>
+
 ### Format 2
-![](format_2.svg)
+
+<div style="background-color: green">
+<img src="format_2.svg">
+</div>

@@ -46,21 +46,30 @@ def wavedrom_to_svg(cmd, outfile):
     os.system(f'npx wavedrom-cli -i temp.json > {outfile}')
 
 
+MD = '''
+### Format {i}
+
+<div style="background-color: green">
+<img src="{outfile}">
+</div>
+'''.lstrip()
+
+
 def isa_to_md(mod):
     md = []
     formats, ops = get_isa(mod)
     for i, fmt in enumerate(formats, 1):
-        md.append(f'### Format {i}')
         cmd = []
         for name, bits in reversed(fmt):
             field = {'name': name, 'bits': bits}
             if name in ops:
-                field['attr'] = [f'{op} = {j}' for j, op in enumerate(ops[name])]
+                field['attr'] = [f'{op} = {j}'
+                                 for j, op in enumerate(ops[name])]
                 field['type'] = 1
             cmd.append(field)
         outfile = f'format_{i}.svg'
         wavedrom_to_svg({"reg": cmd}, outfile)
-        md.append(f'![]({outfile})')
+        md.append(MD.format(i=i, outfile=outfile))
     return '\n'.join(md)
 
 
