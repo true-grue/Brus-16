@@ -6,7 +6,7 @@
 #include <SDL3/SDL_main.h>
 #include "brus16_cpu.h"
 
-#define ZOOM 1
+#define ZOOM 2
 #define FPS 60
 #define FRAME_DELAY (SDL_NS_PER_SECOND / FPS)
 #define CYCLES_PER_FRAME 400000
@@ -61,6 +61,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv) {
     SDL_SetRenderVSync(renderer, 1);
     assert(argc == 2);
     load(argv[1], &cpu);
+    cpu.fp = KEY_MEM;
     return SDL_APP_CONTINUE;
 }
 

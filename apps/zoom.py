@@ -2,7 +2,6 @@ from tools import *
 
 save_game('zoom.bin', f'''
 def main():
-    set_fp({KEY_MEM})
     while 1:
         draw()
         wait()

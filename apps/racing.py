@@ -102,7 +102,6 @@ SLIDE = 30
 
 save_game('racing.bin', f'''
 def main():
-    set_fp({KEY_MEM})
     setup()
     while 1:
         draw()

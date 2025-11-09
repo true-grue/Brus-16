@@ -53,7 +53,6 @@ END_LEVEL = 160
 
 save_game('logo.bin', f'''
 def main():
-    set_fp({KEY_MEM})
     setup()
     while 1:
         draw()
