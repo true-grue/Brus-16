@@ -32,7 +32,7 @@ TITLE = [
     0, 10, 10, 20, 10, rgb(0xffffff),
     0, 10, 30, 10, 10, rgb(0xffffff)
 ]
-LOGO_ADDR = len(TITLE) // RECT_SIZE
+LOGO_RECT = len(TITLE) // RECT_SIZE
 LOGO = [
     1, 190, -160, 250, 90, rgb(0xc86828),
     0, 10, -10, 250, 10, rgb(0xf8b060),
@@ -63,7 +63,7 @@ def setup():
     copy(logo_data, {RECT_MEM}, {len(LOGO_DATA)})
 
 def draw():
-    poke({get_rect_addr(LOGO_ADDR, RECT_Y)}, anim())
+    poke({rect[LOGO_RECT].y}, anim())
     if counter >= 300:
         position = {START_LEVEL}
         velocity = 0

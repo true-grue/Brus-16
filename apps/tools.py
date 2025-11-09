@@ -1,9 +1,17 @@
 import sys
+from collections import namedtuple
 from pathlib import Path
 sys.path.append(str(Path(__file__).resolve().parent.parent))
 from brus16_dsl import translate
 from brus16_asm import assemble, save
 from brus16_cfg import *
+
+
+def asm_to_text(asm):
+    lines = []
+    for cmd in asm:
+        lines.append(' '.join(str(x) for x in cmd))
+    return '\n'.join(lines)
 
 
 def save_game(filename, source):
@@ -18,12 +26,16 @@ def rgb(x):
     return ((x >> 8) & 0xf800) | ((x >> 5) & 0x07e0) | ((x >> 3) & 0x001f)
 
 
-def get_rect_addr(rect, offs=0):
-    return RECT_MEM + rect * RECT_SIZE + offs
+Rect = namedtuple('Rect', 'addr abs x y w h color')
 
 
-def asm_to_text(asm):
-    lines = []
-    for cmd in asm:
-        lines.append(' '.join(str(x) for x in cmd))
-    return '\n'.join(lines)
+def make_rects():
+    rects = []
+    addr = RECT_MEM
+    for _ in range(RECT_NUM):
+        rects.append(Rect(addr, *range(addr, addr + RECT_SIZE)))
+        addr += RECT_SIZE
+    return rects
+
+
+rect = make_rects()

@@ -138,12 +138,12 @@ def slide_my_car():
         speed_x = max(0, speed_x - dx)
     elif speed_x < 0:
         speed_x = min(0, speed_x + dx)
-    car_x = peek({get_rect_addr(CAR_RECT, RECT_X)})
-    poke({get_rect_addr(CAR_RECT, RECT_X)}, car_x + shra(speed_x + 4, 3))
+    car_x = peek({rect[CAR_RECT].x})
+    poke({rect[CAR_RECT].x}, car_x + shra(speed_x + 4, 3))
 
 def move_npc_cars():
     move_npc_car(
-        {get_rect_addr(SMALL_CAR_RECT)},
+        {rect[SMALL_CAR_RECT].addr},
         -500,
         {SCREEN_H + 500},
         -80,
@@ -151,7 +151,7 @@ def move_npc_cars():
         small_car_speed,
         1000)
     move_npc_car(
-        {get_rect_addr(BIG_CAR_RECT)},
+        {rect[BIG_CAR_RECT].addr},
         -500,
         {SCREEN_H},
         -200,
@@ -169,14 +169,14 @@ def move_npc_car(car, y_min, y_max, y_start, x_pos, speed, prob):
         car[2] += speed[0] + (speed_y >> 7)
 
 def detect_collisions():
-    car = {get_rect_addr(CAR_RECT)}
+    car = {rect[CAR_RECT].addr}
     car_x1 = car[1] + {CAR_BBOX[0]}
     car_y1 = car[2] + {CAR_BBOX[1]}
     car_x2 = car_x1 + {CAR_BBOX[2]}
     car_y2 = car_y1 + {CAR_BBOX[3]}
     if (car_x1 < {ROAD1_DATA[1]}) | (car_x2 > {ROAD1_DATA[1] + ROAD1_W}):
         game_over()
-    small_car = {get_rect_addr(SMALL_CAR_RECT)}
+    small_car = {rect[SMALL_CAR_RECT].addr}
     small_car_x1 = small_car[1] + {SMALL_CAR_BBOX[0]}
     small_car_y1 = small_car[2] + {SMALL_CAR_BBOX[1]}
     small_car_x2 = small_car_x1 + {SMALL_CAR_BBOX[2]}
@@ -184,7 +184,7 @@ def detect_collisions():
     if hit(car_x1, car_y1, car_x2, car_y2,
            small_car_x1, small_car_y1, small_car_x2, small_car_y2):
         game_over()
-    big_car = {get_rect_addr(BIG_CAR_RECT)}
+    big_car = {rect[BIG_CAR_RECT].addr}
     big_car_x1 = big_car[1] + {BIG_CAR_BBOX[0]}
     big_car_y1 = big_car[2] + {BIG_CAR_BBOX[1]}
     big_car_x2 = big_car_x1 + {BIG_CAR_BBOX[2]}
@@ -194,7 +194,7 @@ def detect_collisions():
         game_over()
 
 def game_over():
-    car = {get_rect_addr(CAR_RECT)}
+    car = {rect[CAR_RECT].addr}
     x = car[{RECT_Y}]
     j = 0
     while j < 5:
@@ -216,12 +216,12 @@ def move_background():
     bg_speed = speed_y >> 7
     move_lines(bg_speed)
     move_crossing(bg_speed)
-    move_house({get_rect_addr(HOUSE0_RECT)}, bg_speed)
-    move_house({get_rect_addr(HOUSE1_RECT)}, bg_speed)
+    move_house({rect[HOUSE0_RECT].addr}, bg_speed)
+    move_house({rect[HOUSE1_RECT].addr}, bg_speed)
 
 def move_crossing(speed):
-    crossing = {get_rect_addr(CROSSING_RECT)}
-    line = {get_rect_addr(LINE_RECT)}
+    crossing = {rect[CROSSING_RECT].addr}
+    line = {rect[LINE_RECT].addr}
     if (crossing[{RECT_Y}] >= {SCREEN_H}) & ltu(rnd(), 1000):
         if line[{RECT_Y}] < 0:
             crossing[{RECT_Y}] = line[{RECT_Y}] - {CROSSING_H + 31}
@@ -251,7 +251,7 @@ def move_lines(speed):
 def move_line(rect_y):
     if line_y >= {SCREEN_H}:
         line_y -= {SCREEN_H + LINE_GAP}
-    poke({get_rect_addr(LINE_RECT)} + rect_y, line_y)
+    poke({rect[LINE_RECT].addr} + rect_y, line_y)
     line_y += {LINE_H + LINE_GAP}
 
 def hit(x1, y1, x2, y2, other_x1, other_y1, other_x2, other_y2):
