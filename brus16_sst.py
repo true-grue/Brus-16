@@ -49,16 +49,16 @@ def wavedrom_to_svg(cmd, outfile):
 def isa_to_md(mod):
     md = []
     formats, ops = get_isa(mod)
-    for i, fmt in enumerate(formats):
+    for i, fmt in enumerate(formats, 1):
+        md.append(f'### Format {i}')
         cmd = []
-        md.append(f'### Format {i+1}')
         for name, bits in reversed(fmt):
             field = {'name': name, 'bits': bits}
             if name in ops:
-                attr = [f'{op} = {j}' for j, op, in enumerate(ops[name])]
-                field |= {'attr': attr, 'type': 1}
+                field['attr'] = [f'{op} = {j}' for j, op in enumerate(ops[name])]
+                field['type'] = 1
             cmd.append(field)
-        outfile = f'format_{i + 1}.svg'
+        outfile = f'format_{i}.svg'
         wavedrom_to_svg({"reg": cmd}, outfile)
         md.append(f'![]({outfile})')
     return '\n'.join(md)
