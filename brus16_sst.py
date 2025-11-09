@@ -51,7 +51,7 @@ MD = '''
 ### Format {i}
 
 <div>
-<img src="{outfile}">
+<img src="{svg}">
 </div>
 '''.lstrip()
 
@@ -68,9 +68,10 @@ def isa_to_md(mod):
                                  for j, op in enumerate(ops[name])]
                 field['type'] = 1
             cmd.append(field)
-        outfile = f'docs/format_{i}.svg'
-        wavedrom_to_svg({"reg": cmd}, outfile)
-        md.append(MD.format(i=i, outfile=outfile))
+        svg = f'fmt_{i}.svg'
+        path = f'docs/{svg}'
+        wavedrom_to_svg({"reg": cmd}, path)
+        md.append(MD.format(i=i, svg=svg))
     return '\n'.join(md)
 
 
