@@ -49,7 +49,7 @@ def wavedrom_to_svg(cmd, outfile):
 MD = '''
 ### Format {i}
 
-<div style="background-color: green">
+<div>
 <img src="{outfile}">
 </div>
 '''.lstrip()
@@ -68,7 +68,7 @@ def isa_to_md(mod):
                 field['type'] = 1
             cmd.append(field)
         outfile = f'format_{i}.svg'
-        wavedrom_to_svg({"reg": cmd}, outfile)
+        wavedrom_to_svg({"reg": cmd, "config": { "skin": 'dark' } }, outfile)
         md.append(MD.format(i=i, outfile=outfile))
     return '\n'.join(md)
 
