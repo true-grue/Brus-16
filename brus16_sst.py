@@ -44,6 +44,7 @@ def wavedrom_to_svg(cmd, outfile):
     with open('temp.json', 'w') as f:
         f.write(json.dumps(cmd))
     os.system(f'npx wavedrom-cli -i temp.json > {outfile}')
+    os.remove('temp.json')
 
 
 MD = '''
@@ -67,8 +68,8 @@ def isa_to_md(mod):
                                  for j, op in enumerate(ops[name])]
                 field['type'] = 1
             cmd.append(field)
-        outfile = f'format_{i}.svg'
-        wavedrom_to_svg({"reg": cmd, "config": { "skin": 'dark' } }, outfile)
+        outfile = f'docs/format_{i}.svg'
+        wavedrom_to_svg({"reg": cmd}, outfile)
         md.append(MD.format(i=i, outfile=outfile))
     return '\n'.join(md)
 
@@ -76,5 +77,5 @@ def isa_to_md(mod):
 if __name__ == '__main__':
     with open('brus16_cfg.h', 'w') as f:
         f.write(make_c_header(brus16_cfg))
-    with open('isa.md', 'w') as f:
+    with open('docs/isa.md', 'w') as f:
         f.write(isa_to_md(brus16_cfg))

@@ -1,11 +1,11 @@
 ### Format 1
 
 <div>
-<img src="format_1.svg">
+<img src="docs/format_1.svg">
 </div>
 
 ### Format 2
 
 <div>
-<img src="format_2.svg">
+<img src="docs/format_2.svg">
 </div>
