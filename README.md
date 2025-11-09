@@ -15,6 +15,8 @@ Brus-16 consists of:
 * **Graphics processor**: Renders 64 filled rectangles per frame without a framebuffer. 640x480x16bpp, 60 fps.
 * **Input controller**: Supports 16 buttons.
 
+The ISA is described [here](docs/isa.md).
+
 ## Software Tools
 
 There is a basic set of tool templates:
@@ -54,6 +56,8 @@ A Verilog hardware implementation by Kirill Pavlov is available [here](https://g
 * **16-битный стековый процессор**: гарвардская архитектура (8К слов для кода, 8К слов для данных), два аппаратных стека (для значений и адресов возврата), фиксированная длина команд. Архитектура процессора спроектирована для удобства написания простых компиляторов. 
 * **Графический процессор**: обрабатывает 64 закрашенных прямоугольника на кадр без использования видеобуфера. Характеристики графики: 640x480x16bpp, 60 fps.
 * **Контроллер ввода**: поддерживает 16 кнопок.
+
+Система команд oписана [здесь](docs/isa.md).
 
 ## Программные инструменты
 
