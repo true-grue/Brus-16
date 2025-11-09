@@ -40,12 +40,10 @@ def get_isa(mod):
     return formats, ops
 
 
-def cmd_to_svg(cmd):
+def wavedrom_to_svg(cmd, outfile):
     with open('temp.json', 'w') as f:
         f.write(json.dumps(cmd))
-    os.system(f'npx wavedrom-cli -i temp.json > temp.svg')
-    with open('temp.svg') as f:
-        return f.read()
+    os.system(f'npx wavedrom-cli -i temp.json > {outfile}')
 
 
 def isa_to_md(mod):
@@ -60,7 +58,9 @@ def isa_to_md(mod):
                 attr = [f'{op} = {j}' for j, op, in enumerate(ops[name])]
                 field |= {'attr': attr, 'type': 1}
             cmd.append(field)
-        md.append(cmd_to_svg({"reg": cmd}))
+        outfile = f'format_{i + 1}.svg'
+        wavedrom_to_svg({"reg": cmd}, outfile)
+        md.append(f'![]({outfile})')
     return '\n'.join(md)
 
 
