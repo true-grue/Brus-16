@@ -35,7 +35,7 @@ def add_lane(lane, x, y, w, h):
     return lines
 
 
-def svgbits(lanes, bits, x=3, y=20, w=40, h=30):
+def svgbits(lanes, bits, x=5, y=20, w=40, h=30):
     svg_w, svg_h = x + bits * w + 1, y + len(lanes) * h + 1
     lines = [rect(0, 0, svg_w, svg_h, stroke='white', fill='white')]
     lines += add_bits(bits, x, y, w)
