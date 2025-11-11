@@ -34,37 +34,37 @@ uint16_t exec_alu(struct CPU *cpu, uint8_t op, int has_imm, int16_t simm9) {
     uint16_t y = has_imm ? (uint16_t) simm9 : pop(cpu);
     uint16_t x = pop(cpu);
     switch (op) {
-    case OP2_ADD:
+    case OP0_ADD:
         return x + y;
-    case OP2_SUB:
+    case OP0_SUB:
         return x - y;
-    case OP2_MUL:
+    case OP0_MUL:
         return (int16_t) x * (int16_t) y;
-    case OP2_AND:
+    case OP0_AND:
         return x & y;
-    case OP2_OR:
+    case OP0_OR:
         return x | y;
-    case OP2_XOR:
+    case OP0_XOR:
         return x ^ y;
-    case OP2_SHL:
+    case OP0_SHL:
         return x << y;
-    case OP2_SHR:
+    case OP0_SHR:
         return x >> y;
-    case OP2_SHRA:
+    case OP0_SHRA:
         return (int16_t) x >> y;
-    case OP2_EQ:
+    case OP0_EQ:
         return x == y;
-    case OP2_NEQ:
+    case OP0_NEQ:
         return x != y;
-    case OP2_LT:
+    case OP0_LT:
         return (int16_t) x < (int16_t) y;
-    case OP2_LE:
+    case OP0_LE:
         return (int16_t) x <= (int16_t) y;
-    case OP2_GT:
+    case OP0_GT:
         return (int16_t) x > (int16_t) y;
-    case OP2_GE:
+    case OP0_GE:
         return (int16_t) x >= (int16_t) y;
-    case OP2_LTU:
+    case OP0_LTU:
         return x < y;
     }
     return 0;
@@ -87,41 +87,41 @@ uint16_t exec_f1(struct CPU *cpu, uint16_t val, uint16_t new_pc) {
     }
 }
 
-uint16_t exec_f2(struct CPU *cpu, uint16_t val, uint16_t new_pc) {
-    uint8_t op = get_field(val, OP2_POS, OP2_SIZE);
+uint16_t exec_f0(struct CPU *cpu, uint16_t val, uint16_t new_pc) {
+    uint8_t op = get_field(val, OP0_POS, OP0_SIZE);
     int has_imm = get_field(val, I_POS, I_SIZE);
     uint16_t simm9 = sext(get_field(val, SIMM_POS, SIMM_SIZE), SIMM_SIZE);
-    if (op <= OP2_LTU) {
+    if (op <= OP0_LTU) {
         push(cpu, exec_alu(cpu, op, has_imm, simm9));
         return new_pc;
     }
     switch (op) {
-    case OP2_LOAD: {
+    case OP0_LOAD: {
         uint16_t addr = (has_imm ? cpu->fp : pop(cpu)) + simm9;
         cpu->mr = cpu->data[addr & (DATA_SIZE - 1)];
         break;
     }
-    case OP2_STORE: {
+    case OP0_STORE: {
         uint16_t addr = (has_imm ? cpu->fp : pop(cpu)) + simm9;
         cpu->data[addr & (DATA_SIZE - 1)] = pop(cpu);
         break;
     }
-    case OP2_LOCALS:
+    case OP0_LOCALS:
         cpu->fp -= simm9;
         break;
-    case OP2_RET:
+    case OP0_RET:
         cpu->fp += simm9;
         return rpop(cpu);
-    case OP2_PUSH:
+    case OP0_PUSH:
         push(cpu, simm9);
         break;
-    case OP2_PUSH_MR:
+    case OP0_PUSH_MR:
         push(cpu, cpu->mr);
         break;
-    case OP2_SET_FP:
+    case OP0_SET_FP:
         cpu->fp = pop(cpu);
         break;
-    case OP2_WAIT:
+    case OP0_WAIT:
         cpu->wait = 1;
         break;
     }
@@ -135,7 +135,7 @@ void step(struct CPU *cpu) {
         if (get_field(val, F_POS, F_SIZE)) {
             new_pc = exec_f1(cpu, val, new_pc);
         } else {
-            new_pc = exec_f2(cpu, val, new_pc);
+            new_pc = exec_f0(cpu, val, new_pc);
         }
         cpu->pc = new_pc & (CODE_SIZE - 1);
     }

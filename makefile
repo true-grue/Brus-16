@@ -1,4 +1,4 @@
-CC = clang
+CC = gcc
 EMCC = emcc
 CFLAGS = -O2 -Wall -Wextra -Wpedantic
 LDFLAGS = -lSDL3
@@ -15,7 +15,7 @@ endif
 
 CFLAGS += -I"$(SDL)/include"
 
-sdl:
+emu:
 	$(CC) $(CFLAGS) $(SRC) -o $(TARGET) $(LDFLAGS)
 
 APPS = --preload-file apps/racing.bin \

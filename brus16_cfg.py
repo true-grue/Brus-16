@@ -32,36 +32,65 @@ KEY_A2 = 10
 KEY_B2 = 11
 
 FORMATS = [
-    [('F', 1), ('OP1', 2), ('IMM', 13)],
-    [('F', 1), ('OP2', 5), ('I', 1), ('SIMM', 9)]
+    [('F', 1), ('OP0', 5), ('I', 1), ('SIMM', 9)],
+    [('F', 1), ('OP1', 2), ('IMM', 13)]
 ]
 
-OP1_JMP = 0
-OP1_JZ = 1
-OP1_CALL = 2
-OP1_PUSHU = 3
+FIELDS = {
+    'OP0': ['ADD', 'SUB', 'MUL', 'AND', 'OR', 'XOR', 'SHL', 'SHR', 'SHRA',
+            'EQ', 'NEQ', 'LT', 'LE', 'GT', 'GE', 'LTU', 'LOAD', 'STORE',
+            'LOCALS', 'SET_FP', 'RET', 'PUSH', 'PUSH_MR', 'WAIT'],
+    'OP1': ['JMP', 'JZ', 'CALL', 'PUSHU']
+}
 
-OP2_ADD = 0
-OP2_SUB = 1
-OP2_MUL = 2
-OP2_AND = 3
-OP2_OR = 4
-OP2_XOR = 5
-OP2_SHL = 6
-OP2_SHR = 7
-OP2_SHRA = 8
-OP2_EQ = 9
-OP2_NEQ = 10
-OP2_LT = 11
-OP2_LE = 12
-OP2_GT = 13
-OP2_GE = 14
-OP2_LTU = 15
-OP2_LOAD = 16
-OP2_STORE = 17
-OP2_LOCALS = 18
-OP2_SET_FP = 19
-OP2_RET = 20
-OP2_PUSH = 21
-OP2_PUSH_MR = 22
-OP2_WAIT = 23
+F0 = FORMATS[0]
+F1 = FORMATS[1]
+
+COMMANDS = {
+    ('JMP', 1): (F1, 1, 'JMP', '#1'),
+    ('JZ', 1): (F1, 1, 'JZ', '#1'),
+    ('CALL', 1): (F1, 1, 'CALL', '#1'),
+    ('PUSHU', 1): (F1, 1, 'PUSHU', '#1'),
+    ('ADD', 0): (F0, 0, 'ADD', 0, 0),
+    ('SUB', 0): (F0, 0, 'SUB', 0, 0),
+    ('MUL', 0): (F0, 0, 'MUL', 0, 0),
+    ('AND', 0): (F0, 0, 'AND', 0, 0),
+    ('OR', 0): (F0, 0, 'OR', 0, 0),
+    ('XOR', 0): (F0, 0, 'XOR', 0, 0),
+    ('SHL', 0): (F0, 0, 'SHL', 0, 0),
+    ('SHR', 0): (F0, 0, 'SHR', 0, 0),
+    ('SHRA', 0): (F0, 0, 'SHRA', 0, 0),
+    ('EQ', 0): (F0, 0, 'EQ', 0, 0),
+    ('NEQ', 0): (F0, 0, 'NEQ', 0, 0),
+    ('LT', 0): (F0, 0, 'LT', 0, 0),
+    ('LE', 0): (F0, 0, 'LE', 0, 0),
+    ('GT', 0): (F0, 0, 'GT', 0, 0),
+    ('GE', 0): (F0, 0, 'GE', 0, 0),
+    ('LTU', 0): (F0, 0, 'LTU', 0, 0),
+    ('ADD', 1): (F0, 0, 'ADD', 1, '#1'),
+    ('SUB', 1): (F0, 0, 'SUB', 1, '#1'),
+    ('MUL', 1): (F0, 0, 'MUL', 1, '#1'),
+    ('AND', 1): (F0, 0, 'AND', 1, '#1'),
+    ('OR', 1): (F0, 0, 'OR', 1, '#1'),
+    ('XOR', 1): (F0, 0, 'XOR', 1, '#1'),
+    ('SHL', 1): (F0, 0, 'SHL', 1, '#1'),
+    ('SHR', 1): (F0, 0, 'SHR', 1, '#1'),
+    ('SHRA', 1): (F0, 0, 'SHRA', 1, '#1'),
+    ('EQ', 1): (F0, 0, 'EQ', 1, '#1'),
+    ('NEQ', 1): (F0, 0, 'NEQ', 1, '#1'),
+    ('LT', 1): (F0, 0, 'LT', 1, '#1'),
+    ('LE', 1): (F0, 0, 'LE', 1, '#1'),
+    ('GT', 1): (F0, 0, 'GT', 1, '#1'),
+    ('GE', 1): (F0, 0, 'GE', 1, '#1'),
+    ('LTU', 1): (F0, 0, 'LTU', 1, '#1'),
+    ('LOAD', 1): (F0, 0, 'LOAD', 0, '#1'),
+    ('STORE', 1): (F0, 0, 'STORE', 0, '#1'),
+    ('GET_LOCAL', 1): (F0, 0, 'LOAD', 1, '#1'),
+    ('SET_LOCAL', 1): (F0, 0, 'STORE', 1, '#1'),
+    ('LOCALS', 1): (F0, 0, 'LOCALS', 1, '#1'),
+    ('SET_FP', 0): (F0, 0, 'SET_FP', 0, 0),
+    ('RET', 1): (F0, 0, 'RET', 1, '#1'),
+    ('PUSH', 1): (F0, 0, 'PUSH', 1, '#1'),
+    ('PUSH_MR', 0): (F0, 0, 'PUSH_MR', 0, 0),
+    ('WAIT', 0): (F0, 0, 'WAIT', 0, 0)
+}

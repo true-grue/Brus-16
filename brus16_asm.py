@@ -1,61 +1,5 @@
 # Author: Peter Sovietov
-import brus16_cfg as ISA
-
-
-def IMM13(arg): return arg
-def SIMM9(arg): return arg
-
-
-F1 = ISA.FORMATS[0]
-F2 = ISA.FORMATS[1]
-COMMANDS = {
-    ('JMP', 1): (F1, 1, ISA.OP1_JMP, IMM13),
-    ('JZ', 1): (F1, 1, ISA.OP1_JZ, IMM13),
-    ('CALL', 1): (F1, 1, ISA.OP1_CALL, IMM13),
-    ('PUSHU', 1): (F1, 1, ISA.OP1_PUSHU, IMM13),
-    ('ADD', 0): (F2, 0, ISA.OP2_ADD, 0, 0),
-    ('SUB', 0): (F2, 0, ISA.OP2_SUB, 0, 0),
-    ('MUL', 0): (F2, 0, ISA.OP2_MUL, 0, 0),
-    ('AND', 0): (F2, 0, ISA.OP2_AND, 0, 0),
-    ('OR', 0): (F2, 0, ISA.OP2_OR, 0, 0),
-    ('XOR', 0): (F2, 0, ISA.OP2_XOR, 0, 0),
-    ('SHL', 0): (F2, 0, ISA.OP2_SHL, 0, 0),
-    ('SHR', 0): (F2, 0, ISA.OP2_SHR, 0, 0),
-    ('SHRA', 0): (F2, 0, ISA.OP2_SHRA, 0, 0),
-    ('EQ', 0): (F2, 0, ISA.OP2_EQ, 0, 0),
-    ('NEQ', 0): (F2, 0, ISA.OP2_NEQ, 0, 0),
-    ('LT', 0): (F2, 0, ISA.OP2_LT, 0, 0),
-    ('LE', 0): (F2, 0, ISA.OP2_LE, 0, 0),
-    ('GT', 0): (F2, 0, ISA.OP2_GT, 0, 0),
-    ('GE', 0): (F2, 0, ISA.OP2_GE, 0, 0),
-    ('LTU', 0): (F2, 0, ISA.OP2_LTU, 0, 0),
-    ('ADD', 1): (F2, 0, ISA.OP2_ADD, 1, SIMM9),
-    ('SUB', 1): (F2, 0, ISA.OP2_SUB, 1, SIMM9),
-    ('MUL', 1): (F2, 0, ISA.OP2_MUL, 1, SIMM9),
-    ('AND', 1): (F2, 0, ISA.OP2_AND, 1, SIMM9),
-    ('OR', 1): (F2, 0, ISA.OP2_OR, 1, SIMM9),
-    ('XOR', 1): (F2, 0, ISA.OP2_XOR, 1, SIMM9),
-    ('SHL', 1): (F2, 0, ISA.OP2_SHL, 1, SIMM9),
-    ('SHR', 1): (F2, 0, ISA.OP2_SHR, 1, SIMM9),
-    ('SHRA', 1): (F2, 0, ISA.OP2_SHRA, 1, SIMM9),
-    ('EQ', 1): (F2, 0, ISA.OP2_EQ, 1, SIMM9),
-    ('NEQ', 1): (F2, 0, ISA.OP2_NEQ, 1, SIMM9),
-    ('LT', 1): (F2, 0, ISA.OP2_LT, 1, SIMM9),
-    ('LE', 1): (F2, 0, ISA.OP2_LE, 1, SIMM9),
-    ('GT', 1): (F2, 0, ISA.OP2_GT, 1, SIMM9),
-    ('GE', 1): (F2, 0, ISA.OP2_GE, 1, SIMM9),
-    ('LTU', 1): (F2, 0, ISA.OP2_LTU, 1, SIMM9),
-    ('LOAD', 1): (F2, 0, ISA.OP2_LOAD, 0, SIMM9),
-    ('STORE', 1): (F2, 0, ISA.OP2_STORE, 0, SIMM9),
-    ('GET_LOCAL', 1): (F2, 0, ISA.OP2_LOAD, 1, SIMM9),
-    ('SET_LOCAL', 1): (F2, 0, ISA.OP2_STORE, 1, SIMM9),
-    ('LOCALS', 1): (F2, 0, ISA.OP2_LOCALS, 1, SIMM9),
-    ('SET_FP', 0): (F2, 0, ISA.OP2_SET_FP, 0, 0),
-    ('RET', 1): (F2, 0, ISA.OP2_RET, 1, SIMM9),
-    ('PUSH', 1): (F2, 0, ISA.OP2_PUSH, 1, SIMM9),
-    ('PUSH_MR', 0): (F2, 0, ISA.OP2_PUSH_MR, 0, 0),
-    ('WAIT', 0): (F2, 0, ISA.OP2_WAIT, 0, 0)
-}
+from brus16_cfg import FIELDS, COMMANDS
 
 
 def encode(fmt, fields):
@@ -69,36 +13,47 @@ def encode(fmt, fields):
     return cmd
 
 
-def pass1(asm):
+def pass1(ir):
     labels = {}
-    asm_code, data = [], []
-    for cmd in asm:
+    new_ir, data = [], []
+    for cmd in ir:
         match cmd:
             case ('LABEL', name):
-                labels[name] = len(asm_code)
+                labels[name] = len(new_ir)
             case ('DATA', name, *vals):
                 labels[name] = len(data)
                 data += vals
             case _:
-                asm_code.append(cmd)
-    return labels, asm_code, data
+                new_ir.append(cmd)
+    return labels, new_ir, data
 
 
-def pass2(labels, asm_code, data):
+def parse_val(field, val, args):
+    name, bits = field
+    match val:
+        case str() if val.startswith('#'):
+            return args[int(val[1:]) - 1]
+        case str():
+            return FIELDS[name].index(val)
+        case _:
+            return val
+
+
+def pass2(labels, ir, data):
     code = []
-    for op, *args in asm_code:
+    for op, *args in ir:
         args = [labels.get(x, x) for x in args]
-        fmt, *fields = COMMANDS[(op, len(args))]
-        fields = [f(*args) if callable(f) else f for f in fields]
-        code.append(encode(fmt, fields))
+        fmt, *vals = COMMANDS[(op, len(args))]
+        vals = [parse_val(fmt[i], v, args) for i, v in enumerate(vals)]
+        code.append(encode(fmt, vals))
     return labels, code, data
 
 
-def assemble(asm):
-    return pass2(*pass1(asm))
+def assemble(ir):
+    return pass2(*pass1(ir))
 
 
 def save(filename, code, data):
     with open(filename, 'wb') as f:
-        content = [len(code), len(data), *code, *data]
-        f.write(b''.join((x & 0xffff).to_bytes(2, 'little') for x in content))
+        total = [len(code), len(data), *code, *data]
+        f.write(b''.join((x & 0xffff).to_bytes(2, 'little') for x in total))

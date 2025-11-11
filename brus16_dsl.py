@@ -150,7 +150,7 @@ def trans_stmt(env, node):
             return [*expr, *addr, *idx, ('ADD',), ('STORE', 0)]
         case ast.AugAssign(target, op, val):
             return trans_stmt(env, ast.Assign([target],
-                                             ast.BinOp(target, op, val)))
+                                              ast.BinOp(target, op, val)))
         case ast.If(test, true, false):
             return trans_if(env, test, true, false)
         case ast.While(test, body, []):
