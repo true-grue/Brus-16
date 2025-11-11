@@ -1,9 +1,7 @@
 # Author: Peter Sovietov
 def make_svg(width, height, body):
-    return (
-        f'<svg version="1.1" width="{width}" height="{height}" '
-        f'xmlns="http://www.w3.org/2000/svg">{body}</svg>'
-    )
+    return (f'<svg version="1.1" width="{width}" height="{height}" '
+            f'xmlns="http://www.w3.org/2000/svg">{body}</svg>')
 
 
 def rect(x, y, w, h, stroke='black', fill='none'):
@@ -38,7 +36,9 @@ def add_lane(lane, x, y, w, h):
 
 
 def svgbits(lanes, bits, x=2, y=20, w=40, h=30):
-    lines = add_bits(bits, x, y, w)
+    svg_w, svg_h = x * 2 + bits * w, y + len(lanes) * h + 2
+    lines = [rect(2, 0, svg_w, svg_h, stroke='white', fill='white')]
+    lines += add_bits(bits, x, y, w)
     for i, lane in enumerate(lanes):
         lines += add_lane(lane, x, y + i * h, w, h)
-    return make_svg(x * 2 + bits * w, y + len(lanes) * h + 2, '\n'.join(lines))
+    return make_svg(svg_w, svg_h, '\n'.join(lines))
