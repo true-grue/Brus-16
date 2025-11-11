@@ -50,5 +50,5 @@ def gen_md():
     return '\n'.join(lines)
 
 
-with open(f'{PATH}/isa_md', 'w') as f:
+with open(f'{PATH}/isa.md', 'w') as f:
     f.write(gen_md())
