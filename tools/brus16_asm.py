@@ -1,5 +1,5 @@
 # Author: Peter Sovietov
-from brus16_cfg import FIELDS, COMMANDS
+from .brus16_cfg import FIELDS, COMMANDS
 
 
 def encode(fmt, fields):

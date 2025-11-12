@@ -1,3 +1,4 @@
+import sys
 import brus16_cfg
 from brus16_cfg import FORMATS, FIELDS
 
@@ -36,5 +37,6 @@ def gen_cfg_h():
     return '\n'.join(lines) + '\n'
 
 
-with open('brus16_cfg.h', 'w') as f:
+PATH = sys.argv[1]
+with open(f'{PATH}/brus16_cfg.h', 'w') as f:
     f.write(gen_cfg_h())

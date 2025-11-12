@@ -1,10 +1,10 @@
 import sys
-from collections import namedtuple
 from pathlib import Path
+from collections import namedtuple
 sys.path.append(str(Path(__file__).resolve().parent.parent))
-from brus16_dsl import translate
-from brus16_asm import assemble, save
-from brus16_cfg import *
+from tools.brus16_dsl import translate
+from tools.brus16_asm import assemble, save
+from tools.brus16_cfg import *
 
 
 def asm_to_text(asm):

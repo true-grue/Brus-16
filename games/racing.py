@@ -1,4 +1,4 @@
-from tools import *
+from brus16 import *
 
 GRASS_DATA = [1, 0, 0, SCREEN_W, SCREEN_H, rgb(0x3a661c)]
 

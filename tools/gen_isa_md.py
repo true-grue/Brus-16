@@ -1,3 +1,4 @@
+import sys
 from brus16_cfg import FORMATS, FIELDS, COMMANDS
 from svgbits import svgbits
 
@@ -9,9 +10,6 @@ COLORS = {
     'IMM': '#d5e5ff',
     'SIMM': '#d5e5ff'
 }
-
-
-PATH = 'docs'
 
 
 def parse_field(name, val, size):
@@ -28,7 +26,7 @@ def parse_field(name, val, size):
 def gen_images():
     for i, format in enumerate(FORMATS):
         fmt = [(n, v, COLORS.get(n, 'white')) for n, v in format]
-        with open(f'{PATH}/fmt_{i}.svg', 'w') as f:
+        with open(f'{PATH}/images/fmt_{i}.svg', 'w') as f:
             f.write(svgbits([fmt], 16))
         lanes = []
         for cmd in COMMANDS.values():
@@ -36,7 +34,7 @@ def gen_images():
             if format == fmt:
                 lanes.append([parse_field(n, v, size)
                               for (n, size), v in zip(fmt, vals)])
-        with open(f'{PATH}/cmd_{i}.svg', 'w') as f:
+        with open(f'{PATH}/images/cmd_{i}.svg', 'w') as f:
             f.write(svgbits(lanes, 16))
 
 
@@ -45,10 +43,11 @@ def gen_md():
     gen_images()
     for i, format in enumerate(FORMATS):
         lines.append(f'### Format {i}\n')
-        lines.append(f'Encoding\n\n![](fmt_{i}.svg)\n')
-        lines.append(f'Instructions\n\n![](cmd_{i}.svg)\n')
+        lines.append(f'Encoding\n\n![](images/fmt_{i}.svg)\n')
+        lines.append(f'Instructions\n\n![](images/cmd_{i}.svg)\n')
     return '\n'.join(lines)
 
 
+PATH = sys.argv[1]
 with open(f'{PATH}/isa.md', 'w') as f:
     f.write(gen_md())

@@ -1,4 +1,4 @@
-from tools import *
+from brus16 import *
 
 save_game('zoom.bin', f'''
 def main():

@@ -2,11 +2,11 @@ CC = gcc
 EMCC = emcc
 CFLAGS = -O2 -Wall -Wextra -Wpedantic
 LDFLAGS = -lSDL3
-SRC = brus16_emu.c brus16_cpu.c
+SRC = src/brus16_cpu.c src/brus16_emu.c
 
 ifeq ($(OS),Windows_NT)
 	TARGET = brus16.exe
-	SDL = SDL_MINGW/x86_64-w64-mingw32
+	SDL = SDL/x86_64-w64-mingw32
 	LDFLAGS += -L"$(SDL)/lib"
 else
 	TARGET = brus16
@@ -18,12 +18,16 @@ CFLAGS += -I"$(SDL)/include"
 emu:
 	$(CC) $(CFLAGS) $(SRC) -o $(TARGET) $(LDFLAGS)
 
-APPS = --preload-file apps/racing.bin \
-       --preload-file apps/flippy.bin \
-       --preload-file apps/zoom.bin \
-       --preload-file apps/logo.bin
+gen:
+	python tools/gen_cfg_h.py src
+	python tools/gen_isa_md.py docs
+
+GAMES = --preload-file games/racing.bin \
+        --preload-file games/flippy.bin \
+        --preload-file games/zoom.bin \
+        --preload-file games/logo.bin
 
 web:
-	$(EMCC) $(CFLAGS) $(SRC) $(APPS) -s USE_SDL=3 -s MODULARIZE=1 -o brus16.html --shell-file template.html
+	$(EMCC) $(CFLAGS) $(SRC) $(GAMES) -s USE_SDL=3 -s MODULARIZE=1 -o brus16.html --shell-file src/template.html
 
 .PHONY: sdl web

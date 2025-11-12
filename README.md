@@ -3,7 +3,7 @@
 Brus-16 is an educational 16-bit game console with an original, minimalistic architecture.
 Unlike fantasy consoles, Brus-16 was designed for FPGA implementation.
 
-![](docs/games.png)
+![](docs/images/games.png)
 
 See in [action](https://github.com/true-grue/Brus-16-Apps).
 
