@@ -14,9 +14,17 @@ def text(x, y, txt, fill='black', anchor='middle', baseline='middle'):
             f'dominant-baseline="{baseline}">{txt}</text>')
 
 
-def add_bits(bits, x, y, w):
-    return [text(x + i * w + w / 2, y / 2, str(bits - i - 1))
-            for i in range(bits)]
+def add_bits(bits, lane, x, y, w):
+    lines = []
+    pos = 0
+    for name, size, _ in lane:
+        rpos = bits - pos - 1
+        lines.append(text(x + pos * w + w / 2, y / 2, str(rpos)))
+        if size > 1:
+            lines.append(text(x + (pos + size - 1) * w + w / 2, y / 2,
+                              str(rpos + 1 - size)))
+        pos += size
+    return lines
 
 
 def add_lane(lane, x, y, w, h):
@@ -38,7 +46,7 @@ def add_lane(lane, x, y, w, h):
 def svgbits(lanes, bits, x=2, y=20, w=40, h=30):
     svg_w, svg_h = x + bits * w + 2, y + len(lanes) * h + 2
     lines = [rect(0, 0, svg_w, svg_h, stroke='white', fill='white')]
-    lines += add_bits(bits, x, y, w)
+    lines += add_bits(bits, lanes[0], x, y, w)
     for i, lane in enumerate(lanes):
         lines += add_lane(lane, x, y + i * h, w, h)
     return make_svg(svg_w, svg_h, '\n'.join(lines))
