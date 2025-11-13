@@ -54,7 +54,7 @@ def gen_md():
             fmt, *vals = cmd
             if format == fmt:
                 label, cmd = gen_command(op, arity, fmt, vals)
-                lines.append(label)
+                lines.append(f'`{label}`')
                 lines.append(svgbits([cmd]))
     return '\n\n'.join(lines) + '\n'
 
