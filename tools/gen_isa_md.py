@@ -35,7 +35,7 @@ def get_label(op, arity, fmt, vals):
         if arg in vals:
             field, _ = fmt[vals.index(arg)]
             args.append(field.lower())
-    return ' '.join([op, ', '.join(args)])
+    return ' '.join([op, *args])
 
 
 def gen_command(op, arity, fmt, vals):
@@ -50,12 +50,15 @@ def gen_md():
         lines.append('#### Encoding')
         lines.append(svgbits([gen_format(format)]))
         lines.append(f'#### Instructions')
+        lines.append('<table>')
         for j, ((op, arity), cmd) in enumerate(COMMANDS.items()):
             fmt, *vals = cmd
             if format == fmt:
                 label, cmd = gen_command(op, arity, fmt, vals)
-                lines.append(f'`{label}`')
-                lines.append(svgbits([cmd]))
+                lines.append(f'<tr><td>{svgbits([cmd])}</td>')
+                lines.append(f'<td style="position: relative; top: 7px">'
+                             f'{label}</td></tr>')
+        lines.append('</table>')
     return '\n\n'.join(lines) + '\n'
 
 
