@@ -1,0 +1,1670 @@
+<h2 id="brus-16-instruction-set">Brus-16 instruction set</h2>
+<h3 id="format-0">Format 0</h3>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">F</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">OP0</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">I</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">SIMM</text>
+</svg>
+<h4 id="encoding">Encoding</h4>
+<h4 id="instructions">Instructions</h4>
+<p>ADD</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+</svg>
+<p>SUB</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+</svg>
+<p>MUL</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">2</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+</svg>
+<p>AND</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">3</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+</svg>
+<p>OR</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">4</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+</svg>
+<p>XOR</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">5</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+</svg>
+<p>SHL</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">6</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+</svg>
+<p>SHR</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">7</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+</svg>
+<p>SHRA</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+</svg>
+<p>EQ</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+</svg>
+<p>NEQ</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+</svg>
+<p>LT</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">11</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+</svg>
+<p>LE</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">12</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+</svg>
+<p>GT</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">13</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+</svg>
+<p>GE</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+</svg>
+<p>LTU</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+</svg>
+<p>ADD simm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">SIMM</text>
+</svg>
+<p>SUB simm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">SIMM</text>
+</svg>
+<p>MUL simm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">2</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">SIMM</text>
+</svg>
+<p>AND simm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">3</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">SIMM</text>
+</svg>
+<p>OR simm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">4</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">SIMM</text>
+</svg>
+<p>XOR simm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">5</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">SIMM</text>
+</svg>
+<p>SHL simm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">6</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">SIMM</text>
+</svg>
+<p>SHR simm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">7</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">SIMM</text>
+</svg>
+<p>SHRA simm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">SIMM</text>
+</svg>
+<p>EQ simm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">SIMM</text>
+</svg>
+<p>NEQ simm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">SIMM</text>
+</svg>
+<p>LT simm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">11</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">SIMM</text>
+</svg>
+<p>LE simm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">12</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">SIMM</text>
+</svg>
+<p>GT simm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">13</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">SIMM</text>
+</svg>
+<p>GE simm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">SIMM</text>
+</svg>
+<p>LTU simm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">SIMM</text>
+</svg>
+<p>LOAD simm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">16</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">SIMM</text>
+</svg>
+<p>STORE simm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">17</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">SIMM</text>
+</svg>
+<p>GET_LOCAL simm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">16</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">SIMM</text>
+</svg>
+<p>SET_LOCAL simm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">17</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">SIMM</text>
+</svg>
+<p>LOCALS simm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">18</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">SIMM</text>
+</svg>
+<p>SET_FP</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">19</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+</svg>
+<p>RET simm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">20</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">SIMM</text>
+</svg>
+<p>PUSH simm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">21</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">SIMM</text>
+</svg>
+<p>PUSH_MR</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">22</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+</svg>
+<p>WAIT</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="222.0" y="10.0" text-anchor="middle" dominant-baseline="middle">10</text>
+<text x="262.0" y="10.0" text-anchor="middle" dominant-baseline="middle">9</text>
+<text x="302.0" y="10.0" text-anchor="middle" dominant-baseline="middle">8</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="194" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="200" height="30" stroke="black" fill="none" />
+<text x="142.0" y="35.0" text-anchor="middle" dominant-baseline="middle">23</text>
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#f4d7d7" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="262.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="285" y="23" width="354" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="282" y="20" width="360" height="30" stroke="black" fill="none" />
+<text x="462.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+</svg>
+<h3 id="format-1">Format 1</h3>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="102.0" y="10.0" text-anchor="middle" dominant-baseline="middle">13</text>
+<text x="142.0" y="10.0" text-anchor="middle" dominant-baseline="middle">12</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">F</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="74" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="80" height="30" stroke="black" fill="none" />
+<text x="82.0" y="35.0" text-anchor="middle" dominant-baseline="middle">OP1</text>
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="125" y="23" width="514" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="122" y="20" width="520" height="30" stroke="black" fill="none" />
+<text x="382.0" y="35.0" text-anchor="middle" dominant-baseline="middle">IMM</text>
+</svg>
+<h4 id="encoding-1">Encoding</h4>
+<h4 id="instructions-1">Instructions</h4>
+<p>JMP imm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="102.0" y="10.0" text-anchor="middle" dominant-baseline="middle">13</text>
+<text x="142.0" y="10.0" text-anchor="middle" dominant-baseline="middle">12</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="74" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="80" height="30" stroke="black" fill="none" />
+<text x="82.0" y="35.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="125" y="23" width="514" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="122" y="20" width="520" height="30" stroke="black" fill="none" />
+<text x="382.0" y="35.0" text-anchor="middle" dominant-baseline="middle">IMM</text>
+</svg>
+<p>JZ imm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="102.0" y="10.0" text-anchor="middle" dominant-baseline="middle">13</text>
+<text x="142.0" y="10.0" text-anchor="middle" dominant-baseline="middle">12</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="74" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="80" height="30" stroke="black" fill="none" />
+<text x="82.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="125" y="23" width="514" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="122" y="20" width="520" height="30" stroke="black" fill="none" />
+<text x="382.0" y="35.0" text-anchor="middle" dominant-baseline="middle">IMM</text>
+</svg>
+<p>CALL imm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="102.0" y="10.0" text-anchor="middle" dominant-baseline="middle">13</text>
+<text x="142.0" y="10.0" text-anchor="middle" dominant-baseline="middle">12</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="74" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="80" height="30" stroke="black" fill="none" />
+<text x="82.0" y="35.0" text-anchor="middle" dominant-baseline="middle">2</text>
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="125" y="23" width="514" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="122" y="20" width="520" height="30" stroke="black" fill="none" />
+<text x="382.0" y="35.0" text-anchor="middle" dominant-baseline="middle">IMM</text>
+</svg>
+<p>PUSHU imm</p>
+<svg version="1.1" width="644" height="52" xmlns="http://www.w3.org/2000/svg">
+<text x="22.0" y="10.0" text-anchor="middle" dominant-baseline="middle">15</text>
+<text x="62.0" y="10.0" text-anchor="middle" dominant-baseline="middle">14</text>
+<text x="102.0" y="10.0" text-anchor="middle" dominant-baseline="middle">13</text>
+<text x="142.0" y="10.0" text-anchor="middle" dominant-baseline="middle">12</text>
+<text x="622.0" y="10.0" text-anchor="middle" dominant-baseline="middle">0</text>
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="#e3f4d7" />
+<rect x="2" y="20" width="40" height="30" stroke="black" fill="none" />
+<text x="22.0" y="35.0" text-anchor="middle" dominant-baseline="middle">1</text>
+<rect x="42" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="82" y="20" width="40" height="30" stroke="black" fill="#fff6d5" />
+<rect x="45" y="23" width="74" height="24" stroke="none" fill="#fff6d5" />
+<rect x="42" y="20" width="80" height="30" stroke="black" fill="none" />
+<text x="82.0" y="35.0" text-anchor="middle" dominant-baseline="middle">3</text>
+<rect x="122" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="162" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="202" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="242" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="282" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="322" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="362" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="402" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="442" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="482" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="522" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="562" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="602" y="20" width="40" height="30" stroke="black" fill="#d5e5ff" />
+<rect x="125" y="23" width="514" height="24" stroke="none" fill="#d5e5ff" />
+<rect x="122" y="20" width="520" height="30" stroke="black" fill="none" />
+<text x="382.0" y="35.0" text-anchor="middle" dominant-baseline="middle">IMM</text>
+</svg>

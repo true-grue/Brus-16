@@ -20,12 +20,13 @@ emu:
 
 gen:
 	python tools/gen_cfg_h.py src
-	python tools/gen_isa_md.py docs
+	python tools/gen_isa_md.py .
+	pandoc isa.md -o docs/isa.html
 
-GAMES = --preload-file games/racing.bin \
-        --preload-file games/flippy.bin \
-        --preload-file games/zoom.bin \
-        --preload-file games/logo.bin
+GAMES = --preload-file logo.bin \
+        --preload-file racing.bin \
+        --preload-file flippy.bin \
+        --preload-file zoom.bin
 
 web:
 	$(EMCC) $(CFLAGS) $(SRC) $(GAMES) -s USE_SDL=3 -s MODULARIZE=1 -o brus16.html --shell-file src/template.html

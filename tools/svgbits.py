@@ -1,5 +1,5 @@
 # Author: Peter Sovietov
-def make_svg(width, height, body):
+def svg(width, height, body):
     return (f'<svg version="1.1" width="{width}" height="{height}" '
             f'xmlns="http://www.w3.org/2000/svg">{body}</svg>')
 
@@ -9,44 +9,40 @@ def rect(x, y, w, h, stroke='black', fill='none'):
             f'stroke="{stroke}" fill="{fill}" />')
 
 
-def text(x, y, txt, fill='black', anchor='middle', baseline='middle'):
-    return (f'<text x="{x}" y="{y}" fill="{fill}" text-anchor="{anchor}" '
-            f'dominant-baseline="{baseline}">{txt}</text>')
+def text(label, x, y):
+    return (f'<text x="{x}" y="{y}" text-anchor="middle" '
+            f'dominant-baseline="middle">{label}</text>')
 
 
-def add_bits(bits, lane, x, y, w):
-    lines = []
+def make_indices(bits, lane, x, y, w):
     pos = 0
     for name, size, _ in lane:
-        rpos = bits - pos - 1
-        lines.append(text(x + pos * w + w / 2, y / 2, str(rpos)))
+        start = bits - pos - 1
+        yield text(start, x + pos * w + w / 2, y / 2)
         if size > 1:
-            lines.append(text(x + (pos + size - 1) * w + w / 2, y / 2,
-                              str(rpos + 1 - size)))
-        pos += size
-    return lines
+            end_x = x + (pos + size - 1) * w + w / 2
+            yield text(start - size + 1, end_x, y / 2)
+        pos += size        
 
 
 def add_lane(lane, x, y, w, h):
-    lines = []
     pos = 0
     gap = round(h * 0.1)
     for name, size, color in lane:
         fx, fw = x + pos * w, w * size
-        lines += [rect(fx + i * w, y, w, h, fill=color) for i in range(size)]
+        for i in range(size):
+            yield rect(fx + i * w, y, w, h, fill=color)
         if size > 1:
-            lines.append(rect(fx + gap, y + gap, fw - gap * 2,
-                              h - gap * 2, stroke='none', fill=color))
-        lines.append(rect(fx, y, fw, h))
-        lines.append(text(fx + fw / 2, y + h / 2, name))
+            yield rect(fx + gap, y + gap, fw - gap * 2, h - gap * 2,
+                       stroke='none', fill=color)
+        yield rect(fx, y, fw, h)
+        yield text(name, fx + fw / 2, y + h / 2)
         pos += size
-    return lines
 
 
-def svgbits(lanes, bits, x=2, y=20, w=40, h=30):
-    svg_w, svg_h = x + bits * w + 2, y + len(lanes) * h + 2
-    lines = [rect(0, 0, svg_w, svg_h, stroke='white', fill='white')]
-    lines += add_bits(bits, lanes[0], x, y, w)
+def svgbits(lanes, x=2, y=20, w=40, h=30):
+    bits = sum(size for _, size, _ in lanes[0])
+    lines = [*make_indices(bits, lanes[0], x, y, w)]
     for i, lane in enumerate(lanes):
         lines += add_lane(lane, x, y + i * h, w, h)
-    return make_svg(svg_w, svg_h, '\n'.join(lines))
+    return svg(x + bits * w + 2, y + len(lanes) * h + 2, '\n'.join(lines))
