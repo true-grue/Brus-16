@@ -69,7 +69,7 @@ A Verilog hardware implementation by Kirill Pavlov is available [here](https://g
 
 ## DSL для разработки игр
 
-Краткое описание DSL находится [здесь](docs/dsl_ru.md).
+Краткое описание DSL находится [здесь](https://true-grue.github.io/Brus-16/isa.html).
 
 ## Учебные проекты
 
