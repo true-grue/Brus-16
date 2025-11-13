@@ -15,7 +15,7 @@ Brus-16 consists of:
 * **Graphics processor**: Renders 64 filled rectangles per frame without a framebuffer. 640x480x16bpp, 60 fps.
 * **Input controller**: Supports 16 buttons.
 
-The ISA is described [here](docs/isa.md).
+The ISA is described [here](https://true-grue.github.io/Brus-16/isa.html).
 
 ## Software Tools
 
