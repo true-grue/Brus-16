@@ -57,7 +57,7 @@ A Verilog hardware implementation by Kirill Pavlov is available [here](https://g
 * **Графический процессор**: обрабатывает 64 закрашенных прямоугольника на кадр без использования видеобуфера. Характеристики графики: 640x480x16bpp, 60 fps.
 * **Контроллер ввода**: поддерживает 16 кнопок.
 
-Система команд oписана [здесь](docs/isa.md).
+Система команд oписана [здесь](https://true-grue.github.io/Brus-16/isa.html).
 
 ## Программные инструменты
 
@@ -69,7 +69,7 @@ A Verilog hardware implementation by Kirill Pavlov is available [here](https://g
 
 ## DSL для разработки игр
 
-Краткое описание DSL находится [здесь](https://true-grue.github.io/Brus-16/isa.html).
+Краткое описание DSL находится [здесь](docs/dsl_ru.md).
 
 ## Учебные проекты
 
