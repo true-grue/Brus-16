@@ -47,8 +47,8 @@ def gen_md():
     lines = ['## Brus-16 instruction set']
     for i, format in enumerate(FORMATS):
         lines.append(f'### Format {i}')
-        lines.append(svgbits([gen_format(format)]))
         lines.append('#### Encoding')
+        lines.append(svgbits([gen_format(format)]))
         lines.append(f'#### Instructions')
         for j, ((op, arity), cmd) in enumerate(COMMANDS.items()):
             fmt, *vals = cmd
