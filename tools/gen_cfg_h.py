@@ -31,9 +31,7 @@ def gen_fields(fields):
 
 
 def gen_cfg_h():
-    lines = gen_consts(brus16_cfg)
-    lines += gen_formats(FORMATS)
-    lines += gen_fields(FIELDS)
+    lines = gen_consts(brus16_cfg) + gen_formats(FORMATS) + gen_fields(FIELDS)
     return '\n'.join(lines) + '\n'
 
 
