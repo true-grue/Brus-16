@@ -8,6 +8,7 @@ __pycache__/
 *.so
 *.dll
 *.exe
+SDL
 
 # Distribution / packaging
 .Python

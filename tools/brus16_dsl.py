@@ -189,7 +189,7 @@ def trans_func(env, name, args, body):
         env[arg.arg] = 'loc'
         asm.append(('SET_LOCAL', arg.arg))
     asm += trans_block(env, body)
-    if ('RET', None) not in asm:
+    if asm[-1] != ('RET', None):
         asm.append(('RET', None))
     locs = (k for k in env if env[k] == 'loc')
     return replace_locs({k: i for i, k in enumerate(locs)}, asm)

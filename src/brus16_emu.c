@@ -18,16 +18,16 @@ SDL_Scancode scancodes[KEY_NUM] = {
     SDL_SCANCODE_RIGHT,
     SDL_SCANCODE_RCTRL,
     SDL_SCANCODE_RSHIFT,
+    SDL_SCANCODE_PERIOD,
+    SDL_SCANCODE_SLASH,
     SDL_SCANCODE_W,
     SDL_SCANCODE_S,
     SDL_SCANCODE_A,
     SDL_SCANCODE_D,
+    SDL_SCANCODE_F,
     SDL_SCANCODE_G,
     SDL_SCANCODE_H,
-    SDL_SCANCODE_1,
-    SDL_SCANCODE_2,
-    SDL_SCANCODE_3,
-    SDL_SCANCODE_4
+    SDL_SCANCODE_J
 };
 
 void from_rgb565(uint16_t color, uint8_t *r, uint8_t *g, uint8_t *b) {
