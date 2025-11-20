@@ -1,3 +1,4 @@
+# Author: Peter Sovietov
 from brus16 import *
 
 GRASS_DATA = [1, 0, 0, SCREEN_W, SCREEN_H, rgb(0x3a661c)]
@@ -49,8 +50,10 @@ HOUSE_SIZES = [HOUSE_H, HOUSE_H * 2, HOUSE_H * 3, HOUSE_H * 4]
 
 CAR_RECT = HOUSE1_RECT + HOUSE_PARTS
 CAR_BBOX = [2, -8, 20, 56]
+CAR_X = (SCREEN_W - 24) // 2 + 40
+CAR_Y = 350
 CAR_DATA = [
-    1, (SCREEN_W - 24) // 2 + 40, 350, 24, 9, rgb(0),
+    1, CAR_X, CAR_Y, 24, 9, rgb(0),
     0, 0, 32, 24, 9, rgb(0),
     0, 2, -8, 20, 56, rgb(0xff2a2a),
     0, 2, -8, 20, 20, rgb(0xff5555),
@@ -111,11 +114,21 @@ def setup():
     copy(bg_data, {RECT_MEM}, {len(BG_DATA)})
 
 def draw():
-    detect_collisions()
+    if detect_collisions():
+        game_over()
+        restart()
     control_my_car()
     slide_my_car()
     move_background()
     move_npc_cars()
+
+def restart():
+    speed_x = 0
+    speed_y = 0
+    poke({rect[SMALL_CAR_RECT].y}, -500)
+    poke({rect[BIG_CAR_RECT].y}, -500)
+    poke({rect[CAR_RECT].x}, {CAR_X})
+    poke({rect[CAR_RECT].y}, {CAR_Y})
 
 def control_my_car():
     if peek({KEY_MEM + KEY_UP}):
@@ -174,7 +187,7 @@ def detect_collisions():
     car_x2 = car_x1 + {CAR_BBOX[2]}
     car_y2 = car_y1 + {CAR_BBOX[3]}
     if (car_x1 < {ROAD1_DATA[1]}) | (car_x2 > {ROAD1_DATA[1] + ROAD1_W}):
-        game_over()
+        return 1
     small_car = {rect[SMALL_CAR_RECT].addr}
     small_car_x1 = small_car[1] + {SMALL_CAR_BBOX[0]}
     small_car_y1 = small_car[2] + {SMALL_CAR_BBOX[1]}
@@ -182,7 +195,7 @@ def detect_collisions():
     small_car_y2 = small_car_y1 + {SMALL_CAR_BBOX[3]}
     if hit(car_x1, car_y1, car_x2, car_y2,
            small_car_x1, small_car_y1, small_car_x2, small_car_y2):
-        game_over()
+        return 1
     big_car = {rect[BIG_CAR_RECT].addr}
     big_car_x1 = big_car[1] + {BIG_CAR_BBOX[0]}
     big_car_y1 = big_car[2] + {BIG_CAR_BBOX[1]}
@@ -190,7 +203,8 @@ def detect_collisions():
     big_car_y2 = big_car_y1 + {BIG_CAR_BBOX[3]}
     if hit(car_x1, car_y1, car_x2, car_y2,
            big_car_x1, big_car_y1, big_car_x2, big_car_y2):
-        game_over()
+        return 1
+    return 0
 
 def game_over():
     car = {rect[CAR_RECT].addr}
@@ -208,8 +222,6 @@ def game_over():
             wait()
             i += 1
         j += 1
-    while 1:
-        wait()
 
 def move_background():
     bg_speed = speed_y >> 7

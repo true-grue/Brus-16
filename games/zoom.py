@@ -1,3 +1,4 @@
+# Author: Peter Sovietov
 from brus16 import *
 
 save_game('zoom.bin', f'''

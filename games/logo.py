@@ -1,3 +1,4 @@
+# Author: Vladimir Miklashevich
 from brus16 import *
 
 TITLE_LETTERS = [1, 4, 7, 10, 12, 13, 16, 19]

@@ -26,6 +26,7 @@ gen:
 GAMES = --preload-file logo.bin \
         --preload-file racing.bin \
         --preload-file flippy.bin \
+        --preload-file ping.bin \
         --preload-file zoom.bin
 
 web:
