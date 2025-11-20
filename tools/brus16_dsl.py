@@ -174,12 +174,10 @@ def trans_block(env, block):
 def replace_locs(locs, asm):
     for i in range(len(asm)):
         match asm[i]:
-            case ('LOCALS', None):
-                asm[i] = ('LOCALS', len(locs))
+            case (('LOCALS' | 'RET') as op, None):
+                asm[i] = (op, len(locs))
             case (('GET_LOCAL' | 'SET_LOCAL') as op, name):
                 asm[i] = (op, locs[name])
-            case ('RET', None):
-                asm[i] = ('RET', len(locs))
     return asm
 
 
@@ -188,9 +186,7 @@ def trans_func(env, name, args, body):
     for arg in args:
         env[arg.arg] = 'loc'
         asm.append(('SET_LOCAL', arg.arg))
-    asm += trans_block(env, body)
-    if asm[-1] != ('RET', None):
-        asm.append(('RET', None))
+    asm += trans_block(env, body) + [('RET', None)]
     locs = (k for k in env if env[k] == 'loc')
     return replace_locs({k: i for i, k in enumerate(locs)}, asm)
 
@@ -203,9 +199,9 @@ def optimize(asm):
         match stack:
             case [*_, ('ADD' | 'OR' | 'SHL' | 'LOCALS', 0)]:
                 stack[-1:] = []
-            case [*_, ('ADD', offs), (('LOAD' | 'STORE') as mop, 0)]:
-                stack[-2:] = [(mop, offs)]
-            case [*_, ('RET', _) as ret, ('JMP', _)]:
+            case [*_, ('ADD', offs), (('LOAD' | 'STORE') as op, 0)]:
+                stack[-2:] = [(op, offs)]
+            case [*_, ('RET', _) as ret, ('JMP' | 'RET', _)]:
                 stack[-2:] = [ret]
             case [*_, ('PUSH', x), (op,)] if op in binops:
                 stack[-2:] = [(op, x)]
