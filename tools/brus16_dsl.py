@@ -66,7 +66,7 @@ def trans_load(env, name):
         case 'loc':
             return GET_LOCAL(name)
         case _:
-            raise RuntimeError(name)
+            raise SyntaxError(name)
 
 
 def trans_store(env, name, expr):
@@ -79,7 +79,7 @@ def trans_store(env, name, expr):
         case 'loc':
             return [*expr, ('SET_LOCAL', name)]
         case _:
-            raise RuntimeError(name)
+            raise SyntaxError(name)
 
 
 def is_func(env, name, arity):
@@ -110,7 +110,7 @@ def trans_expr(env, node):
                 return MACROS[name](*args)
             return [*sum(reversed(args), []), ('CALL', name)]
         case _:
-            raise RuntimeError(ast.unparse(node))
+            raise SyntaxError(ast.unparse(node))
 
 
 def trans_if(env, test, true, false):
@@ -164,7 +164,7 @@ def trans_stmt(env, node):
         case ast.Pass():
             return []
         case _:
-            raise RuntimeError(ast.unparse(node))
+            raise SyntaxError(ast.unparse(node))
 
 
 def trans_block(env, block):
@@ -224,7 +224,7 @@ def translate(src):
                 env[name] = ('func', len(args.args))
                 funcs.append((name, args.args, body))
             case _:
-                raise RuntimeError(ast.unparse(node))
+                raise SyntaxError(ast.unparse(node))
     for name, args, body in funcs:
         asm += trans_func(env.copy(), name, args, body)
     while (opt_asm := optimize(asm)) != asm:
