@@ -314,6 +314,8 @@ def strike(who):
         ball_vx = max({-MAX_VX}, -right_power)
 
 def check_left_racket():
+    if ball_vx > 0:
+        return 0
     update_ball_bbox(ball_bbox)
     prev_racket_bbox[0] = prev_left_racket_x
     prev_racket_bbox[1] = prev_left_racket_y
@@ -331,6 +333,8 @@ def check_left_racket():
     return 0
 
 def check_right_racket():
+    if ball_vx < 0:
+        return 0
     update_ball_bbox(ball_bbox)
     prev_racket_bbox[0] = prev_right_racket_x
     prev_racket_bbox[1] = prev_right_racket_y
