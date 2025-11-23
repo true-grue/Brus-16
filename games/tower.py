@@ -1,4 +1,4 @@
-# Author: Artyom Gorchakov
+# Author: Artyom Gorchakov & Vladimir Miklashevich
 from brus16 import *
 
 rects_gen = iter(range(1, 65))
@@ -69,10 +69,15 @@ BUILDING_BOX_WARM_LIGHT = rgb(0xffc107)
 BUILDING_BOX_WARM_CURTAIN = rgb(0xb28704)
 BUILDING_BOX_COLD_LIGHT = rgb(0xe3e6f3)
 BUILDING_BOX_COLD_CURTAIN = rgb(0xafb7df)
-BUILDING_BOX_VIOL_LIGHT = rgb(0xdd33fa)
-BUILDING_BOX_VIOL_CURTAIN = rgb(0x9500ae)
-BUILDING_BOX_DARK_LIGHT = rgb(0x757de8)
-BUILDING_BOX_DARK_CURTAIN = rgb(0x656cca)
+
+BUILDING_BOX_GREEN_LIGHT = rgb(0x33bdd1)
+BUILDING_BOX_GREEN_CURTAIN = rgb(0x0480a6)
+BUILDING_BOX_RED_LIGHT = rgb(0xd1333d)
+BUILDING_BOX_RED_CURTAIN = rgb(0xa60400)
+BUILDING_BOX_YELLOW_LIGHT = rgb(0xbdd133)
+BUILDING_BOX_YELLOW_CURTAIN = rgb(0x80a604)
+BUILDING_BOX_PINK_LIGHT = rgb(0xd133bd)
+BUILDING_BOX_PINK_CURTAIN = rgb(0xa60480)
 
 BUILDING_BOX_BASE = \
   [1,  0,  0, 70, 70, rgb(0x3f51b5),
@@ -180,15 +185,10 @@ def set_random_building_box_curtain_width(box):
     set_building_box_curtain_width(box, width)
 
 def set_random_building_box_colors(box):
-    n = random(0, 7)
-    if n <= 3:
-        set_building_box_colors(box, {BUILDING_BOX_WARM_LIGHT}, {BUILDING_BOX_WARM_CURTAIN})
-    elif n <= 5:
-        set_building_box_colors(box, {BUILDING_BOX_COLD_LIGHT}, {BUILDING_BOX_COLD_CURTAIN})
-    elif n == 6:
-        set_building_box_colors(box, {BUILDING_BOX_VIOL_LIGHT}, {BUILDING_BOX_VIOL_CURTAIN})
-    elif n == 7:
-        set_building_box_colors(box, {BUILDING_BOX_DARK_LIGHT}, {BUILDING_BOX_DARK_CURTAIN})
+    n = random(0, 1)
+    light = {BUILDING_BOX_WARM_LIGHT} * n + {BUILDING_BOX_COLD_LIGHT} * (1 - n)
+    curtain = {BUILDING_BOX_WARM_CURTAIN} * n + {BUILDING_BOX_COLD_CURTAIN} * (1 - n)
+    set_building_box_colors(box, light, curtain)
 
 def set_random_building_box(box):
     n = random(0, 9)
@@ -205,11 +205,32 @@ def set_random_building_box(box):
         set_building_box_shape(box, building_box_clothes)
     set_random_building_box_colors(box)
 
+def get_next_building_box_disco_light_color(color):
+    if color == {BUILDING_BOX_GREEN_LIGHT}:
+        return {BUILDING_BOX_RED_LIGHT}
+    if color == {BUILDING_BOX_RED_LIGHT}:
+        return {BUILDING_BOX_YELLOW_LIGHT}
+    if color == {BUILDING_BOX_YELLOW_LIGHT}:
+        return {BUILDING_BOX_PINK_LIGHT}
+    return {BUILDING_BOX_GREEN_LIGHT}
+
+def get_next_building_box_disco_curtain_color(color):
+    if color == {BUILDING_BOX_GREEN_CURTAIN}:
+        return {BUILDING_BOX_RED_CURTAIN}
+    if color == {BUILDING_BOX_RED_CURTAIN}:
+        return {BUILDING_BOX_YELLOW_CURTAIN}
+    if color == {BUILDING_BOX_YELLOW_CURTAIN}:
+        return {BUILDING_BOX_PINK_CURTAIN}
+    return {BUILDING_BOX_GREEN_CURTAIN}
+
 def get_hook_box_pos_x():
     return hook_pos_x - {HOOK_BOX_W // 2}
 
 def is_correctly_installed():
-    return abs(get_hook_box_pos_x() - building_box_pos_x) < {HOOK_BOX_W // 4}
+    return abs(get_hook_box_pos_x() - building_box_pos_x) < {HOOK_BOX_W // 3}
+
+def is_brilliantly_installed():
+    return abs(get_hook_box_pos_x() - building_box_pos_x) < 3
 
 def is_installed():
     return hook_box_pos_y >= {SCREEN_H - BUILDING_BOX_W * 3}
@@ -243,6 +264,8 @@ def update_destroying_hook_box():
     if is_destroyed():
         state = IDLE
         score = 0
+        building_box_bottom_disco = 0
+        building_box_disco = 0
         building_box_pos_x = {SCREEN_W // 2 - BUILDING_BOX_W // 2}
         building_box_pos_y = {SCREEN_H - BUILDING_BOX_W * 2}
         building_box_bottom_pos_x = {SCREEN_W // 2 - BUILDING_BOX_W // 2}
@@ -262,6 +285,8 @@ def update_scrolling_building():
     building_box_bottom_pos_y += scrolling_speed
     if building_box_bottom_pos_y >= {SCREEN_H}:
         state = IDLE
+        building_box_bottom_disco = building_box_disco
+        building_box_disco = is_brilliantly_installed()
         building_box_bottom_pos_x = building_box_pos_x
         building_box_bottom_pos_y = building_box_pos_y
         building_box_pos_x = get_hook_box_pos_x()
@@ -269,27 +294,49 @@ def update_scrolling_building():
         copy({rect[BUILDING_BOX_RECT].addr}, {rect[BUILDING_BOX_BOTTOM_RECT].addr}, {RECT_SIZE * BUILDING_BOX_SIZE})
         set_random_building_box({rect[BUILDING_BOX_RECT].addr})
         hook_box_pos_y = {HOOK_H}
-        score += 1
+        score += building_box_disco
 
 def update_building():
     if state == SCROLLING:
         update_scrolling_building()
 
 def update_keyboard():
-    if state != IDLE:
-        return
-    keyboard_time += 1
-    if keyboard_time <= keyboard_delta:
-        return
-    if peek({KEY_MEM + KEY_A}):
-        state = FALLING
-        keyboard_time = 0
+    if state == IDLE:
+        keyboard_time += 1
+        if keyboard_time <= keyboard_delta:
+            return
+        if peek({KEY_MEM + KEY_A}):
+            state = FALLING
+            keyboard_time = 0
+
+def update_disco_colors():
+    if building_box_disco | building_box_bottom_disco:
+        building_box_disco_time += 1
+        if building_box_disco_time <= building_box_disco_delta:
+            return
+        building_box_disco_light_color = get_next_building_box_disco_light_color(building_box_disco_light_color)
+        building_box_disco_curtain_color = get_next_building_box_disco_curtain_color(building_box_disco_curtain_color)
+        building_box_disco_time = 0
+
+def update_building_box_disco():
+    if building_box_disco:
+        set_building_box_colors({rect[BUILDING_BOX_RECT].addr}, building_box_disco_light_color, building_box_disco_curtain_color)
+
+def update_building_box_bottom_disco():
+    if building_box_bottom_disco:
+        set_building_box_colors({rect[BUILDING_BOX_BOTTOM_RECT].addr}, building_box_disco_light_color, building_box_disco_curtain_color)
+
+def update_disco():
+    update_disco_colors()
+    update_building_box_disco()
+    update_building_box_bottom_disco()
 
 def update():
     update_keyboard()
     update_hook()
     update_hook_box()
     update_building()
+    update_disco()
 
 def draw_score():
     tens = 0
@@ -384,6 +431,13 @@ building_box_pos_x = {SCREEN_W // 2 - BUILDING_BOX_W // 2}
 building_box_pos_y = {SCREEN_H - BUILDING_BOX_W * 2}
 building_box_bottom_pos_x = {SCREEN_W // 2 - BUILDING_BOX_W // 2}
 building_box_bottom_pos_y = {SCREEN_H - BUILDING_BOX_W}
+
+building_box_disco_light_color = {BUILDING_BOX_GREEN_LIGHT}
+building_box_disco_curtain_color = {BUILDING_BOX_GREEN_CURTAIN}
+building_box_disco = 0
+building_box_bottom_disco = 0
+building_box_disco_time = 0
+building_box_disco_delta = 30
 
 hook_box = {HOOK_BOX}
 hook_box_pos_y = {HOOK_H}
