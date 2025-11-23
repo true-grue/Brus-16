@@ -227,7 +227,7 @@ def get_hook_box_pos_x():
     return hook_pos_x - {HOOK_BOX_W // 2}
 
 def is_correctly_installed():
-    return abs(get_hook_box_pos_x() - building_box_pos_x) < {HOOK_BOX_W // 3}
+    return abs(get_hook_box_pos_x() - building_box_pos_x) < {HOOK_BOX_W // 4}
 
 def is_brilliantly_installed():
     return abs(get_hook_box_pos_x() - building_box_pos_x) < 3
