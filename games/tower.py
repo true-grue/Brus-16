@@ -103,24 +103,29 @@ def main():
         draw()
         wait()
 
-def prev_mask(n):
-    n |= n >> 1
-    n |= n >> 2
-    n |= n >> 4
-    n |= n >> 8
-    n ^= n >> 1
-    return n - 1
-
-def rnd():
+def xorshift16():
     seed ^= seed << 7
     seed ^= seed >> 9
     seed ^= seed << 8
     return seed
 
-def rnd_number(lower, upper):
+def mask(n):
+    n |= n >> 1
+    n |= n >> 2
+    n |= n >> 4
+    n |= n >> 8
+    return n
+
+def rnd(size):
+    m = mask(size)
+    n = xorshift16()
+    while (n & m) > size:
+        n = xorshift16()
+    return n & m
+
+def random(lower, upper):
     size = upper - lower + 1
-    number = rnd() & prev_mask(size)
-    return number + lower
+    return lower + rnd(size)
 
 def copy(src, dst, size):
     end = src + size
@@ -135,16 +140,16 @@ def abs(value):
     return -value
 
 def rnd_building_curtain(box):
-    width = rnd_number({BUILDING_BOX_CURTAIN_MIN}, {BUILDING_BOX_CURTAIN_MAX})
-    box[{RECT_W + (BUILDING_BOX_CURTAIN + 0) * RECT_SIZE}] = width
-    box[{RECT_W + (BUILDING_BOX_CURTAIN + 1) * RECT_SIZE}] = width
-    box[{RECT_W + (BUILDING_BOX_CURTAIN + 2) * RECT_SIZE}] = width
-    box[{RECT_W + (BUILDING_BOX_CURTAIN + 3) * RECT_SIZE}] = width
-    box[{RECT_X + (BUILDING_BOX_CURTAIN + 2) * RECT_SIZE}] = {BUILDING_BOX_CURTAIN_END} - width
-    box[{RECT_X + (BUILDING_BOX_CURTAIN + 3) * RECT_SIZE}] = {BUILDING_BOX_CURTAIN_END} - width
+    w = random({BUILDING_BOX_CURTAIN_MIN}, {BUILDING_BOX_CURTAIN_MAX})
+    box[{RECT_W + (BUILDING_BOX_CURTAIN + 0) * RECT_SIZE}] = w
+    box[{RECT_W + (BUILDING_BOX_CURTAIN + 1) * RECT_SIZE}] = w
+    box[{RECT_W + (BUILDING_BOX_CURTAIN + 2) * RECT_SIZE}] = w
+    box[{RECT_W + (BUILDING_BOX_CURTAIN + 3) * RECT_SIZE}] = w
+    box[{RECT_X + (BUILDING_BOX_CURTAIN + 2) * RECT_SIZE}] = {BUILDING_BOX_CURTAIN_END} - w
+    box[{RECT_X + (BUILDING_BOX_CURTAIN + 3) * RECT_SIZE}] = {BUILDING_BOX_CURTAIN_END} - w
 
 def rnd_building(box):
-    value = rnd_number(0, 4)
+    value = random(0, 4)
     if value == 0:
         copy(building_box_cold, box, {RECT_SIZE * BUILDING_BOX_SIZE})
         rnd_building_curtain(box)
@@ -169,18 +174,17 @@ def is_destroyed():
     return hook_box_pos_y >= {SCREEN_H}
 
 def update_hook():
-    if state != IDLE:
-        return
-    hook_box_pos_y += hook_velocity_y
-    hook_pos_x += hook_velocity_x
-    if hook_box_pos_y >= {HOOK_H + HOOK_H // 4}:
-        hook_velocity_y = -hook_velocity_y
-    elif hook_box_pos_y <= {HOOK_H - HOOK_H // 4}:
-        hook_velocity_y = -hook_velocity_y
-    if hook_pos_x >= {HOOK_RIGHT_BOUNARY}:
-        hook_velocity_x = -hook_velocity_x
-    elif hook_pos_x <= {HOOK_LEFT_BOUNARY}:
-        hook_velocity_x = -hook_velocity_x
+    if state == IDLE:
+        hook_box_pos_y += hook_velocity_y
+        hook_pos_x += hook_velocity_x
+        if hook_box_pos_y >= {HOOK_H + HOOK_H // 4}:
+            hook_velocity_y = -hook_velocity_y
+        elif hook_box_pos_y <= {HOOK_H - HOOK_H // 4}:
+            hook_velocity_y = -hook_velocity_y
+        if hook_pos_x >= {HOOK_RIGHT_BOUNARY}:
+            hook_velocity_x = -hook_velocity_x
+        elif hook_pos_x <= {HOOK_LEFT_BOUNARY}:
+            hook_velocity_x = -hook_velocity_x
 
 def update_falling_hook_box():
     hook_box_pos_y += falling_speed
@@ -293,25 +297,19 @@ def setup_building_box():
 
 def setup_cloud(cloud):
     copy(clouds, cloud, {RECT_SIZE * CLOUD_SIZE})
-    cloud[{RECT_SIZE + RECT_X}] = rnd_number({-CLOUD_OFFS}, {CLOUD_OFFS})
-    cloud[{RECT_SIZE + RECT_Y}] = rnd_number({-CLOUD_OFFS}, {CLOUD_OFFS})
-    cloud[{RECT_SIZE + RECT_W}] = rnd_number({CLOUD_W // 2}, {CLOUD_W})
-    cloud[{RECT_SIZE + RECT_H}] = rnd_number({CLOUD_H // 4}, {CLOUD_H // 2})
-    cloud[{RECT_W}] = rnd_number({CLOUD_W // 2}, {CLOUD_W})
-    cloud[{RECT_H}] = rnd_number({CLOUD_H // 4}, {CLOUD_H // 2})
+    cloud[{RECT_SIZE + RECT_X}] = random({-CLOUD_OFFS}, {CLOUD_OFFS})
+    cloud[{RECT_SIZE + RECT_Y}] = random({-CLOUD_OFFS}, {CLOUD_OFFS})
+    cloud[{RECT_SIZE + RECT_W}] = random({CLOUD_W // 2}, {CLOUD_W})
+    cloud[{RECT_SIZE + RECT_H}] = random({CLOUD_H // 4}, {CLOUD_H // 2})
     cloud[{RECT_X}] = -(cloud[{RECT_W}] + {CLOUD_OFFS})
-    cloud[{RECT_Y}] = rnd_number({CLOUD_H}, {SCREEN_H - CLOUD_H})
+    cloud[{RECT_Y}] = random({CLOUD_H}, {SCREEN_H - CLOUD_H})
+    cloud[{RECT_W}] = random({CLOUD_W // 2}, {CLOUD_W})
+    cloud[{RECT_H}] = random({CLOUD_H // 4}, {CLOUD_H // 2})
 
 def setup_clouds():
     setup_cloud({rect[CLOUD_A_RECT].addr})
     setup_cloud({rect[CLOUD_B_RECT].addr})
     setup_cloud({rect[CLOUD_C_RECT].addr})
-
-def setup_rnd():
-    i = 0
-    while i < 10:
-        seed = rnd()
-        i += 1
 
 def setup():
     copy(hook, {rect[HOOK_RECT].addr}, {RECT_SIZE})
@@ -320,7 +318,6 @@ def setup():
     setup_building_box()
     setup_clouds()
     {STAR_SETUP}
-    setup_rnd()
 
 IDLE = 0
 FALLING = 1
