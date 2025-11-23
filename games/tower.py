@@ -294,7 +294,7 @@ def update_scrolling_building():
         copy({rect[BUILDING_BOX_RECT].addr}, {rect[BUILDING_BOX_BOTTOM_RECT].addr}, {RECT_SIZE * BUILDING_BOX_SIZE})
         set_random_building_box({rect[BUILDING_BOX_RECT].addr})
         hook_box_pos_y = {HOOK_H}
-        score += building_box_disco
+        score += 1
 
 def update_building():
     if state == SCROLLING:
