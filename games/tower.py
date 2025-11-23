@@ -61,39 +61,34 @@ BUILDING_BOX_W = 70
 BUILDING_BOX_RECT = new_rect(count=BUILDING_BOX_SIZE)
 BUILDING_BOX_BOTTOM_RECT = new_rect(count=BUILDING_BOX_SIZE)
 
-BUILDING_BOX_CURTAIN_MIN = 8
+BUILDING_BOX_CURTAIN_MIN = 5
 BUILDING_BOX_CURTAIN_MAX = 25
-BUILDING_BOX_CURTAIN = 5
 BUILDING_BOX_CURTAIN_END = 63
-BUILDING_BOX_WARM = [1,  0,  0, 70, 70, rgb(0x3f51b5),
-                     0,  5,  5, 60, 60, rgb(0x002984),
-                     0,  7,  7, 27, 56, rgb(0xffc107),
-                     0, 36,  7, 27, 15, rgb(0xffc107),
-                     0, 36, 24, 27, 39, rgb(0xffc107),
-                     0,  7,  7, 10, 56, rgb(0xb28704),
-                     0,  7,  7, 10, 56, rgb(0xb28704),
-                     0, 53,  7, 10, 15, rgb(0xb28704),
-                     0, 53, 24, 10, 39, rgb(0xb28704)]
 
-BUILDING_BOX_COLD = [1,  0,  0, 70, 70, rgb(0x3f51b5),
-                     0,  5,  5, 60, 60, rgb(0x002984),
-                     0,  7,  7, 27, 56, rgb(0xe3e6f3),
-                     0, 36,  7, 27, 15, rgb(0xe3e6f3),
-                     0, 36, 24, 27, 39, rgb(0xe3e6f3),
-                     0,  7,  7,  5, 56, rgb(0xafb7df),
-                     0,  7,  7,  5, 56, rgb(0xafb7df),
-                     0, 58,  7,  5, 15, rgb(0xafb7df),
-                     0, 58,  24, 5, 39, rgb(0xafb7df)]
+BUILDING_BOX_WARM_LIGHT = rgb(0xffc107)
+BUILDING_BOX_WARM_CURTAIN = rgb(0xb28704)
+BUILDING_BOX_COLD_LIGHT = rgb(0xe3e6f3)
+BUILDING_BOX_COLD_CURTAIN = rgb(0xafb7df)
+
+BUILDING_BOX = [1,  0,  0, 70, 70, rgb(0x3f51b5),
+                0,  5,  5, 60, 60, rgb(0x002984),
+                0,  7,  7, 27, 56, BUILDING_BOX_WARM_LIGHT,
+                0, 36,  7, 27, 15, BUILDING_BOX_WARM_LIGHT,
+                0, 36, 24, 27, 39, BUILDING_BOX_WARM_LIGHT,
+                0,  7,  7, 10, 56, BUILDING_BOX_WARM_CURTAIN,
+                0,  7,  7, 10, 56, BUILDING_BOX_WARM_CURTAIN,
+                0, 53,  7, 10, 15, BUILDING_BOX_WARM_CURTAIN,
+                0, 53, 24, 10, 39, BUILDING_BOX_WARM_CURTAIN]
 
 BUILDING_BOX_CAT = [1,  0,  0, 70, 70, rgb(0x3f51b5),
                     0,  5,  5, 60, 60, rgb(0x002984),
-                    0,  7,  7, 27, 56, rgb(0xe3e6f3),
-                    0, 36,  7, 27, 15, rgb(0xe3e6f3),
-                    0, 36, 24, 27, 39, rgb(0xe3e6f3),
-                    0, 10, 56, 14,  7, rgb(0xafb7df),
-                    0, 19, 50,  8,  6, rgb(0xafb7df),
-                    0, 19, 48,  3,  2, rgb(0xafb7df),
-                    0, 24, 48,  3,  2, rgb(0xafb7df)]
+                    0,  7,  7, 27, 56, BUILDING_BOX_WARM_LIGHT,
+                    0, 36,  7, 27, 15, BUILDING_BOX_WARM_LIGHT,
+                    0, 36, 24, 27, 39, BUILDING_BOX_WARM_LIGHT,
+                    0, 10, 56, 14,  7, BUILDING_BOX_WARM_CURTAIN,
+                    0, 19, 50,  8,  6, BUILDING_BOX_WARM_CURTAIN,
+                    0, 19, 48,  3,  2, BUILDING_BOX_WARM_CURTAIN,
+                    0, 24, 48,  3,  2, BUILDING_BOX_WARM_CURTAIN]
 
 save_game('tower.bin', f'''
 def main():
@@ -119,7 +114,7 @@ def mask(n):
 def rnd(size):
     m = mask(size)
     n = xorshift16()
-    while (n & m) > size:
+    while (n & m) >= size:
         n = xorshift16()
     return n & m
 
@@ -139,27 +134,45 @@ def abs(value):
         return value
     return -value
 
-def rnd_building_curtain(box):
-    w = random({BUILDING_BOX_CURTAIN_MIN}, {BUILDING_BOX_CURTAIN_MAX})
-    box[{RECT_W + (BUILDING_BOX_CURTAIN + 0) * RECT_SIZE}] = w
-    box[{RECT_W + (BUILDING_BOX_CURTAIN + 1) * RECT_SIZE}] = w
-    box[{RECT_W + (BUILDING_BOX_CURTAIN + 2) * RECT_SIZE}] = w
-    box[{RECT_W + (BUILDING_BOX_CURTAIN + 3) * RECT_SIZE}] = w
-    box[{RECT_X + (BUILDING_BOX_CURTAIN + 2) * RECT_SIZE}] = {BUILDING_BOX_CURTAIN_END} - w
-    box[{RECT_X + (BUILDING_BOX_CURTAIN + 3) * RECT_SIZE}] = {BUILDING_BOX_CURTAIN_END} - w
+def set_building_box_curtain_width(box, width):
+    box[{RECT_W + 5 * RECT_SIZE}] = width
+    box[{RECT_W + 6 * RECT_SIZE}] = width
+    box[{RECT_W + 7 * RECT_SIZE}] = width
+    box[{RECT_W + 8 * RECT_SIZE}] = width
+    box[{RECT_X + 7 * RECT_SIZE}] = {BUILDING_BOX_CURTAIN_END} - width
+    box[{RECT_X + 8 * RECT_SIZE}] = {BUILDING_BOX_CURTAIN_END} - width
 
-def rnd_building(box):
-    value = random(0, 4)
-    if value == 0:
-        copy(building_box_cold, box, {RECT_SIZE * BUILDING_BOX_SIZE})
-        rnd_building_curtain(box)
-    elif value == 1:
-        copy(building_box_warm, box, {RECT_SIZE * BUILDING_BOX_SIZE})
-        rnd_building_curtain(box)
-    elif value == 2:
-        copy(building_box_warm, box, {RECT_SIZE * BUILDING_BOX_SIZE})
-    elif value == 3:
-        copy(building_box_cat, box, {RECT_SIZE * BUILDING_BOX_SIZE})
+def set_building_box_colors(box, light, curtain):
+    box[{RECT_COLOR + 2 * RECT_SIZE}] = light
+    box[{RECT_COLOR + 3 * RECT_SIZE}] = light
+    box[{RECT_COLOR + 4 * RECT_SIZE}] = light
+    box[{RECT_COLOR + 5 * RECT_SIZE}] = curtain
+    box[{RECT_COLOR + 6 * RECT_SIZE}] = curtain
+    box[{RECT_COLOR + 7 * RECT_SIZE}] = curtain
+    box[{RECT_COLOR + 8 * RECT_SIZE}] = curtain
+
+def set_building_box_shape(box, shape):
+    copy(shape, box, {RECT_SIZE * BUILDING_BOX_SIZE})
+
+def set_random_building_box_curtain_width(box):
+    width = random({BUILDING_BOX_CURTAIN_MIN}, {BUILDING_BOX_CURTAIN_MAX})
+    set_building_box_curtain_width(box, width)
+
+def set_random_building_box_colors(box):
+    n = random(0, 1)
+    light = {BUILDING_BOX_WARM_LIGHT} * n + {BUILDING_BOX_COLD_LIGHT} * (1 - n)
+    curtain = {BUILDING_BOX_WARM_CURTAIN} * n + {BUILDING_BOX_COLD_CURTAIN} * (1 - n)
+    set_building_box_colors(box, light, curtain)
+
+def set_random_building_box(box):
+    n = random(0, 3)
+    if n < 3:
+        set_building_box_shape(box, building_box)
+        set_random_building_box_curtain_width(box)
+        set_random_building_box_colors(box)
+    elif n == 3:
+        set_building_box_shape(box, building_box_cat)
+        set_random_building_box_colors(box)
 
 def get_hook_box_pos_x():
     return hook_pos_x - {HOOK_BOX_W // 2}
@@ -223,7 +236,7 @@ def update_scrolling_building():
         building_box_pos_x = get_hook_box_pos_x()
         building_box_pos_y = {SCREEN_H - BUILDING_BOX_W * 2}
         copy({rect[BUILDING_BOX_RECT].addr}, {rect[BUILDING_BOX_BOTTOM_RECT].addr}, {RECT_SIZE * BUILDING_BOX_SIZE})
-        rnd_building({rect[BUILDING_BOX_RECT].addr})
+        set_random_building_box({rect[BUILDING_BOX_RECT].addr})
         hook_box_pos_y = {HOOK_H}
         score += 1
 
@@ -292,8 +305,8 @@ def draw():
     draw_clouds()
 
 def setup_building_box():
-    copy(building_box_warm, {rect[BUILDING_BOX_RECT].addr}, {RECT_SIZE * BUILDING_BOX_SIZE})
-    copy(building_box_warm, {rect[BUILDING_BOX_BOTTOM_RECT].addr}, {RECT_SIZE * BUILDING_BOX_SIZE})
+    copy(building_box, {rect[BUILDING_BOX_RECT].addr}, {RECT_SIZE * BUILDING_BOX_SIZE})
+    copy(building_box, {rect[BUILDING_BOX_BOTTOM_RECT].addr}, {RECT_SIZE * BUILDING_BOX_SIZE})
 
 def setup_cloud(cloud):
     copy(clouds, cloud, {RECT_SIZE * CLOUD_SIZE})
@@ -330,8 +343,7 @@ star = {STAR}
 clouds = {CLOUD}
 clouds_velocity = 1
 
-building_box_warm = {BUILDING_BOX_WARM}
-building_box_cold = {BUILDING_BOX_COLD}
+building_box = {BUILDING_BOX}
 building_box_cat = {BUILDING_BOX_CAT}
 
 building_box_pos_x = {SCREEN_W // 2 - BUILDING_BOX_W // 2}
