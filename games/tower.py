@@ -8,9 +8,10 @@ SKY_RECT = new_rect(count=1)
 SKY_COLOR = rgb(0x1e2758)
 SKY = [1, 0, 0, SCREEN_W, SCREEN_H, SKY_COLOR]
 
-STAR_SIZE = 1
-STAR = [1, 0, 0, 5, 5, rgb(0xffffff)]
-STAR_COORDS = [(50, 100), (250, 50), (400, 60), (520, 90), (310, 120), (80, 220), (180, 350), (240, 270), (420, 430), (550, 370)]
+STAR_SIZE = 2
+STAR = [1, 0,  0, 7, 3, rgb(0xffffff),
+        0, 2, -2, 3, 7, rgb(0xffffff)]
+STAR_COORDS = [(50, 100), (250, 50), (400, 60), (520, 90), (310, 120), (80, 220), (180, 350), (240, 270), (490, 230), (550, 370)]
 STAR_RECTS = [new_rect(count=STAR_SIZE) for _ in STAR_COORDS]
 STAR_SETUP = '\n'.join(
     f'''
@@ -238,18 +239,29 @@ def is_installed():
 def is_destroyed():
     return hook_box_pos_y >= {SCREEN_H}
 
+def update_idle_hook():
+    hook_box_pos_y += hook_box_velocity_y
+    hook_pos_x += hook_box_velocity_x
+    hook_h = hook_box_pos_y
+    if hook_box_pos_y >= {HOOK_H + HOOK_H // 4}:
+        hook_box_velocity_y = -hook_box_velocity_y
+    elif hook_box_pos_y <= {HOOK_H - HOOK_H // 4}:
+        hook_box_velocity_y = -hook_box_velocity_y
+    if hook_pos_x >= {HOOK_RIGHT_BOUNARY}:
+        hook_box_velocity_x = -hook_box_velocity_x
+    elif hook_pos_x <= {HOOK_LEFT_BOUNARY}:
+        hook_box_velocity_x = -hook_box_velocity_x
+
+def update_falling_hook():
+    hook_h -= spawning_speed * 2
+    if hook_h <= 0:
+        hook_h = 0
+
 def update_hook():
     if state == IDLE:
-        hook_box_pos_y += hook_velocity_y
-        hook_pos_x += hook_velocity_x
-        if hook_box_pos_y >= {HOOK_H + HOOK_H // 4}:
-            hook_velocity_y = -hook_velocity_y
-        elif hook_box_pos_y <= {HOOK_H - HOOK_H // 4}:
-            hook_velocity_y = -hook_velocity_y
-        if hook_pos_x >= {HOOK_RIGHT_BOUNARY}:
-            hook_velocity_x = -hook_velocity_x
-        elif hook_pos_x <= {HOOK_LEFT_BOUNARY}:
-            hook_velocity_x = -hook_velocity_x
+        update_idle_hook()
+    elif state == FALLING:
+        update_falling_hook()
 
 def update_falling_hook_box():
     hook_box_pos_y += falling_speed
@@ -262,7 +274,7 @@ def update_falling_hook_box():
 def update_destroying_hook_box():
     hook_box_pos_y += falling_speed
     if is_destroyed():
-        state = IDLE
+        state = SPAWNING
         score = 0
         building_box_bottom_disco = 0
         building_box_disco = 0
@@ -272,19 +284,36 @@ def update_destroying_hook_box():
         building_box_bottom_pos_y = {SCREEN_H - BUILDING_BOX_W}
         hook_box_pos_y = {HOOK_H}
         setup_building_box()
+        hook_box_pos_y = {-HOOK_BOX_W}
+        hook_pos_y = 1
 
+def update_spawning_hook_box():
+    hook_box_pos_y += spawning_speed
+    if hook_box_pos_y >= {HOOK_H}:
+        hook_box_pos_y = {HOOK_H}
+        state = IDLE
+    if hook_box_pos_y >= 0:
+        hook_h = hook_box_pos_y
+    hook_pos_x += hook_box_velocity_x
+    if hook_pos_x >= {HOOK_RIGHT_BOUNARY}:
+        hook_box_velocity_x = -hook_box_velocity_x
+    elif hook_pos_x <= {HOOK_LEFT_BOUNARY}:
+        hook_box_velocity_x = -hook_box_velocity_x
+      
 def update_hook_box():
     if state == FALLING:
         update_falling_hook_box()
-    if state == DESTROYING:
+    elif state == DESTROYING:
         update_destroying_hook_box()
+    elif state == SPAWNING:
+        update_spawning_hook_box()
 
 def update_scrolling_building():
     hook_box_pos_y += scrolling_speed
     building_box_pos_y += scrolling_speed
     building_box_bottom_pos_y += scrolling_speed
     if building_box_bottom_pos_y >= {SCREEN_H}:
-        state = IDLE
+        state = SPAWNING
         building_box_bottom_disco = building_box_disco
         building_box_disco = is_brilliantly_installed()
         building_box_bottom_pos_x = building_box_pos_x
@@ -293,7 +322,8 @@ def update_scrolling_building():
         building_box_pos_y = {SCREEN_H - BUILDING_BOX_W * 2}
         copy({rect[BUILDING_BOX_RECT].addr}, {rect[BUILDING_BOX_BOTTOM_RECT].addr}, {RECT_SIZE * BUILDING_BOX_SIZE})
         set_random_building_box({rect[BUILDING_BOX_RECT].addr})
-        hook_box_pos_y = {HOOK_H}
+        hook_box_pos_y = {-HOOK_BOX_W}
+        hook_pos_y = 1
         score += 1
 
 def update_building():
@@ -301,7 +331,7 @@ def update_building():
         update_scrolling_building()
 
 def update_keyboard():
-    if state == IDLE:
+    if (state == IDLE) | (state == SPAWNING):
         keyboard_time += 1
         if keyboard_time <= keyboard_delta:
             return
@@ -309,7 +339,7 @@ def update_keyboard():
             state = FALLING
             keyboard_time = 0
 
-def update_disco_colors():
+def update_disco():
     if building_box_disco | building_box_bottom_disco:
         building_box_disco_time += 1
         if building_box_disco_time <= building_box_disco_delta:
@@ -317,19 +347,6 @@ def update_disco_colors():
         building_box_disco_light_color = get_next_building_box_disco_light_color(building_box_disco_light_color)
         building_box_disco_curtain_color = get_next_building_box_disco_curtain_color(building_box_disco_curtain_color)
         building_box_disco_time = 0
-
-def update_building_box_disco():
-    if building_box_disco:
-        set_building_box_colors({rect[BUILDING_BOX_RECT].addr}, building_box_disco_light_color, building_box_disco_curtain_color)
-
-def update_building_box_bottom_disco():
-    if building_box_bottom_disco:
-        set_building_box_colors({rect[BUILDING_BOX_BOTTOM_RECT].addr}, building_box_disco_light_color, building_box_disco_curtain_color)
-
-def update_disco():
-    update_disco_colors()
-    update_building_box_disco()
-    update_building_box_bottom_disco()
 
 def update():
     update_keyboard()
@@ -353,7 +370,7 @@ def draw_score():
 
 def draw_hook():
     poke({rect[HOOK_RECT].x}, hook_pos_x)
-    poke({rect[HOOK_RECT].h}, hook_box_pos_y)
+    poke({rect[HOOK_RECT].h}, hook_h)
 
 def draw_hook_box():
     poke({rect[HOOK_BOX_RECT].x}, get_hook_box_pos_x())
@@ -365,15 +382,24 @@ def draw_building():
     poke({rect[BUILDING_BOX_BOTTOM_RECT].x}, building_box_bottom_pos_x)
     poke({rect[BUILDING_BOX_BOTTOM_RECT].y}, building_box_bottom_pos_y)
 
-def draw_cloud(cloud, velocity):
-    cloud[{RECT_X}] += velocity
+def draw_cloud(cloud, time, velocity):
+    if time <= cloud_time_delta:
+        return time + velocity
+    cloud[{RECT_X}] += 1
     if cloud[{RECT_X}] >= {SCREEN_W}:
         setup_cloud(cloud)
+    return 0
 
 def draw_clouds():
-    draw_cloud({rect[CLOUD_A_RECT].addr}, clouds_velocity)
-    draw_cloud({rect[CLOUD_B_RECT].addr}, clouds_velocity * 2)
-    draw_cloud({rect[CLOUD_C_RECT].addr}, clouds_velocity * 3)
+    cloud_a_time = draw_cloud({rect[CLOUD_A_RECT].addr}, cloud_a_time, 1)
+    cloud_b_time = draw_cloud({rect[CLOUD_B_RECT].addr}, cloud_b_time, 2)
+    cloud_c_time = draw_cloud({rect[CLOUD_C_RECT].addr}, cloud_c_time, 3)
+
+def draw_disco():
+    if building_box_disco:
+        set_building_box_colors({rect[BUILDING_BOX_RECT].addr}, building_box_disco_light_color, building_box_disco_curtain_color)
+    if building_box_bottom_disco:
+        set_building_box_colors({rect[BUILDING_BOX_BOTTOM_RECT].addr}, building_box_disco_light_color, building_box_disco_curtain_color)
 
 def draw():
     draw_building()
@@ -381,6 +407,7 @@ def draw():
     draw_hook_box()
     draw_score()
     draw_clouds()
+    draw_disco()
 
 def setup_building_box():
     copy(building_box, {rect[BUILDING_BOX_RECT].addr}, {RECT_SIZE * BUILDING_BOX_SIZE})
@@ -401,6 +428,9 @@ def setup_clouds():
     setup_cloud({rect[CLOUD_A_RECT].addr})
     setup_cloud({rect[CLOUD_B_RECT].addr})
     setup_cloud({rect[CLOUD_C_RECT].addr})
+    poke({rect[CLOUD_A_RECT].x}, 100)
+    poke({rect[CLOUD_B_RECT].x}, 300)
+    poke({rect[CLOUD_C_RECT].x}, 200)
 
 def setup():
     copy(hook, {rect[HOOK_RECT].addr}, {RECT_SIZE})
@@ -414,12 +444,17 @@ IDLE = 0
 FALLING = 1
 SCROLLING = 2
 DESTROYING = 3
+SPAWNING = 4
 state = 0
 
 sky = {SKY}
 star = {STAR}
 clouds = {CLOUD}
 clouds_velocity = 1
+cloud_a_time = 0
+cloud_b_time = 0
+cloud_c_time = 0
+cloud_time_delta = 3
 
 building_box = {BUILDING_BOX}
 building_box_lazy_cat = {BUILDING_BOX_LAZY_CAT}
@@ -442,12 +477,15 @@ building_box_disco_delta = 30
 hook_box = {HOOK_BOX}
 hook_box_pos_y = {HOOK_H}
 hook = {HOOK}
+hook_h = {HOOK_H}
 hook_pos_x = {HOOK_LEFT_BOUNARY}
-hook_velocity_x = 4
-hook_velocity_y = 1
+hook_box_velocity_x = 4
+hook_box_velocity_y = 1
 
 falling_speed = 4
 scrolling_speed = 2
+spawning_speed = 6
+
 score_digits = {SCORE_DIGITS}
 score = 0
 seed = 1
