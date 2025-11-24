@@ -7,7 +7,7 @@ Unlike fantasy consoles, Brus-16 was designed for FPGA implementation.
 
 See in [action](https://github.com/true-grue/Brus-16-Apps):
 
-https://github.com/user-attachments/assets/5c63b0a2-222e-467e-87e9-88916ec096f5
+https://github.com/user-attachments/assets/fc8523e4-babf-4235-aff2-f02d6fa1cbf7
 
 ## Architecture
 
