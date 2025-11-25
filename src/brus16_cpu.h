@@ -13,7 +13,7 @@ struct CPU {
     uint16_t sp;
     uint16_t rp;
     uint16_t fp;
-    uint16_t mr;
+    uint16_t addr;
     int wait;
 };
 

@@ -97,13 +97,12 @@ uint16_t exec_f0(struct CPU *cpu, uint16_t val, uint16_t new_pc) {
     }
     switch (op) {
     case OP0_LOAD: {
-        uint16_t addr = (has_imm ? cpu->fp : pop(cpu)) + simm9;
-        cpu->mr = cpu->data[addr & (DATA_SIZE - 1)];
+        cpu->addr = (has_imm ? cpu->fp : pop(cpu)) + simm9;
         break;
     }
     case OP0_STORE: {
-        uint16_t addr = (has_imm ? cpu->fp : pop(cpu)) + simm9;
-        cpu->data[addr & (DATA_SIZE - 1)] = pop(cpu);
+        cpu->addr = (has_imm ? cpu->fp : pop(cpu)) + simm9;
+        cpu->data[cpu->addr & (DATA_SIZE - 1)] = pop(cpu);
         break;
     }
     case OP0_LOCALS:
@@ -116,7 +115,8 @@ uint16_t exec_f0(struct CPU *cpu, uint16_t val, uint16_t new_pc) {
         push(cpu, simm9);
         break;
     case OP0_PUSH_MR:
-        push(cpu, cpu->mr);
+        cpu->addr = cpu->data[cpu->addr & (DATA_SIZE - 1)];
+        push(cpu, cpu->addr);
         break;
     case OP0_SET_FP:
         cpu->fp = pop(cpu);

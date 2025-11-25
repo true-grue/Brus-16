@@ -21,12 +21,14 @@ emu:
 gen:
 	python tools/gen_cfg_h.py src
 	python tools/gen_isa_md.py .
-	pandoc isa.md --template docs/isa_template.html --metadata title="Brus-16 ISA" -o docs/isa.html
+	pandoc isa.md --template docs/template.html --metadata title="Brus-16 ISA" -o docs/isa.html
 
 GAMES = --preload-file logo.bin \
         --preload-file racing.bin \
         --preload-file flippy.bin \
         --preload-file ping.bin \
+        --preload-file tower.bin \
+        --preload-file alterego.bin \
         --preload-file zoom.bin
 
 web:

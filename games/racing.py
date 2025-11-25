@@ -131,9 +131,9 @@ def restart():
     poke({rect[CAR_RECT].y}, {CAR_Y})
 
 def control_my_car():
-    if peek({KEY_MEM + KEY_UP}):
+    if peek({KEY_MEM + KEY_A}):
         speed_y += {ACCEL}
-    if peek({KEY_MEM + KEY_DOWN}):
+    if peek({KEY_MEM + KEY_B}):
         speed_y -= {BRAKE}
         speed_x = 0
     if peek({KEY_MEM + KEY_LEFT}):
