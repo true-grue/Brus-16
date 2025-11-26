@@ -6,7 +6,8 @@
 <style>
 body { text-align: center; }
 canvas { display: block; margin: 0 auto; }
-.ui { margin-top: 1em; }
+.ui, .controls { margin: 0 auto; margin-top: 1em; }
+.control { width: 50px; height: 50px; }
 </style>
 </head>
 <body>
@@ -23,7 +24,66 @@ canvas { display: block; margin: 0 auto; }
 </select>
 <button id="reset">Reset</button>
 </div>
+<table class="controls" cellspacing="8">
+<tr height="40">
+<td></td>
+<td bgcolor="silver" width="40"><button class="control" data-key='ArrowUp ArrowUp'>↑</button></td>
+<td></td>
+<td width="160" rowspan="3"></td>
+<td></td>
+<td bgcolor="silver" width="40"><button class="control" data-key='I KeyI'>I (C)</button></td>
+<td></td>
+</tr>
+<tr height="40">
+<td bgcolor="silver" width="40"><button class="control" data-key='ArrowLeft ArrowLeft'>←</button></td>
+<td></td>
+<td bgcolor="silver" width="40"><button class="control" data-key='ArrowRight ArrowRight'>→</button></td>
+<td bgcolor="silver" width="40"><button class="control" data-key='K KeyK'>K (A)</button></td>
+<td></td>
+<td bgcolor="silver" width="40"><button class="control" data-key='L KeyL'>L (B)</button></td>
+</tr>
+<tr height="40">
+<td></td>
+<td bgcolor="silver" width="40"><button class="control" data-key='ArrowDown ArrowDown'>↓</button></td>
+<td></td>
+<td></td>
+<td id="D" bgcolor="silver" width="40"><button class="control" data-key='O KeyO'>O (D)</button></td>
+<td></td>
+</tr>
+</table>
 <script type='text/javascript'>
+function sendKeyEvent(type, keyInfo, element) {
+  const [key, code] = keyInfo.split(' ');
+  const keyCode = key.toUpperCase().charCodeAt(0);
+  element.dispatchEvent(new KeyboardEvent(type, {
+    key: key,
+    keyCode: keyCode,
+    which: keyCode,
+    code: code,
+    cancelable: true,
+    bubbles: true,
+    composed: true,
+  }));
+}
+
+function setupControls(canvas) {
+  canvas.setAttribute('tabindex', '0');
+  canvas.focus();
+  const buttons = document.querySelectorAll('.control');
+  buttons.forEach(button => {
+    button.addEventListener('mousedown', () => sendKeyEvent('keydown', button.dataset.key, canvas));
+    button.addEventListener('mouseup', () => sendKeyEvent('keyup', button.dataset.key, canvas));
+    button.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      sendKeyEvent('keydown', button.dataset.key, canvas);
+    });
+    button.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      sendKeyEvent('keyup', button.dataset.key, canvas);
+    });
+  });
+}
+
 window.onload = function() {
   const canvas = document.getElementById('canvas');
   const select = document.getElementById('game');
@@ -40,6 +100,7 @@ window.onload = function() {
   }
   select.addEventListener('change', run);
   reset.addEventListener('click', run);
+  setupControls(canvas);
   run();
 };
 </script>
