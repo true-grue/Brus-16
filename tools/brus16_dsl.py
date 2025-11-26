@@ -113,10 +113,10 @@ def trans_expr(env, node):
             raise SyntaxError(ast.unparse(node))
 
 
-def trans_if(env, test, true, false):
+def trans_if(env, test, true, false, end_label):
     test = trans_expr(env, test)
-    true = trans_block(env, true)
-    false = trans_block(env, false)
+    true = trans_block(env, true, end_label)
+    false = trans_block(env, false, end_label)
     L1, L2 = next(new_label), next(new_label)
     return [*test,
             ('JZ', L1),
@@ -129,17 +129,17 @@ def trans_if(env, test, true, false):
 
 def trans_while(env, test, body):
     test = trans_expr(env, test)
-    body = trans_block(env, body)
-    L1, L2 = next(new_label), next(new_label)
+    L1, end_label = next(new_label), next(new_label)
+    body = trans_block(env, body, end_label)
     return [('LABEL', L1),
             *test,
-            ('JZ', L2),
+            ('JZ', end_label),
             *body,
             ('JMP', L1),
-            ('LABEL', L2)]
+            ('LABEL', end_label)]
 
 
-def trans_stmt(env, node):
+def trans_stmt(env, node, end_label):
     match node:
         case ast.Assign([ast.Name(name)], expr):
             return trans_store(env, name, expr)
@@ -152,11 +152,13 @@ def trans_stmt(env, node):
             return trans_stmt(env, ast.Assign([target],
                                               ast.BinOp(target, op, val)))
         case ast.If(test, true, false):
-            return trans_if(env, test, true, false)
+            return trans_if(env, test, true, false, end_label)
         case ast.While(test, body, []):
             return trans_while(env, test, body)
         case ast.Return(None):
             return [('RET', None)]
+        case ast.Break() if end_label is not None:
+            return [('JMP', end_label)]
         case ast.Return(val):
             return [*trans_expr(env, val), ('RET', None)]
         case ast.Expr(ast.Call() as call):
@@ -167,8 +169,8 @@ def trans_stmt(env, node):
             raise SyntaxError(ast.unparse(node))
 
 
-def trans_block(env, block):
-    return sum([trans_stmt(env, stmt) for stmt in block], [])
+def trans_block(env, block, end_label=None):
+    return sum([trans_stmt(env, stmt, end_label) for stmt in block], [])
 
 
 def replace_locs(locs, asm):
