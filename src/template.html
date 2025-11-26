@@ -6,7 +6,8 @@
 <style>
 body { text-align: center; }
 canvas { display: block; margin: 0 auto; }
-.ui { margin-top: 1em; }
+.ui, #controls { margin-top: 1em; }
+#controls button { margin: 1em; width: 50px; height: 50px; }
 </style>
 </head>
 <body>
@@ -23,7 +24,41 @@ canvas { display: block; margin: 0 auto; }
 </select>
 <button id="reset">Reset</button>
 </div>
+<div id='controls'>
+  <button data-key='K KeyK'>K</button>
+  <button data-key='L KeyL'>L</button>
+  <button data-key='I KeyI'>I</button>
+  <button data-key='O KeyO'>O</button>
+  <button data-key='ArrowUp ArrowUp'>↑</button>
+  <button data-key='ArrowDown ArrowDown'>↓</button>
+  <button data-key='ArrowLeft ArrowLeft'>←</button>
+  <button data-key='ArrowRight ArrowRight'>→</button>
+</div>
 <script type='text/javascript'>
+function sendKeyEvent(type, keyInfo, element) {
+  const [key, code] = keyInfo.split(' ');
+  const keyCode = key.toUpperCase().charCodeAt(0);
+  element.dispatchEvent(new KeyboardEvent(type, {
+    key: key,
+    keyCode: keyCode,
+    which: keyCode,
+    code: code,
+    cancelable: true,
+    bubbles: true,
+    composed: true,
+  }));
+}
+
+function setupControls(canvas) {
+  canvas.setAttribute('tabindex', '0');
+  canvas.focus();
+  const buttons = document.querySelectorAll('#controls button');
+  buttons.forEach(button => {
+    button.addEventListener('mousedown', () => sendKeyEvent('keydown', button.dataset.key, canvas));
+    button.addEventListener('mouseup', () => sendKeyEvent('keyup', button.dataset.key, canvas));
+  });
+}
+
 window.onload = function() {
   const canvas = document.getElementById('canvas');
   const select = document.getElementById('game');
@@ -36,7 +71,10 @@ window.onload = function() {
     Module({
       canvas: canvas,
       arguments: [select.value]
-    }).then(inst => { instance = inst; });
+    }).then(inst => {
+      instance = inst;
+      setupControls(canvas);
+    });
   }
   select.addEventListener('change', run);
   reset.addEventListener('click', run);
