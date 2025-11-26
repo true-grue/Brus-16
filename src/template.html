@@ -24,36 +24,32 @@ canvas { display: block; margin: 0 auto; }
 </select>
 <button id="reset">Reset</button>
 </div>
-<table class="controls" border="0" cellpadding="10">
-  <tr>
-    <td valign="top" align="center">
-      <table border="0" cellspacing="2">
-        <tr>
-          <td></td>
-          <td><button class="control" data-key='ArrowUp ArrowUp'>↑</button></td>
-          <td></td>
-        </tr>
-        <tr>
-          <td><button class="control" data-key='ArrowLeft ArrowLeft'>←</button></td>
-          <td><button class="control" data-key='ArrowDown ArrowDown'>↓</button></td>
-          <td><button class="control" data-key='ArrowRight ArrowRight'>→</button></td>
-        </tr>
-      </table>
-    </td>
-    <td width="50"></td>
-    <td valign="top" align="center">
-      <table border="0" cellspacing="2">
-        <tr>
-          <td><button class="control" data-key='I KeyI'>I (C)</button></td>
-          <td><button class="control" data-key='O KeyO'>O (D)</button></td>
-        </tr>
-        <tr>
-          <td><button class="control" data-key='K KeyK'>K (A)</button></td>
-          <td><button class="control" data-key='L KeyL'>L (B)</button></td>
-        </tr>
-      </table>
-    </td>
-  </tr>
+<table class="controls" cellspacing="8">
+<tr height="40">
+<td></td>
+<td bgcolor="silver" width="40"><button class="control" data-key='ArrowUp ArrowUp'>↑</button></td>
+<td></td>
+<td width="160" rowspan="3"></td>
+<td></td>
+<td bgcolor="silver" width="40"><button class="control" data-key='I KeyI'>I (C)</button></td>
+<td></td>
+</tr>
+<tr height="40">
+<td bgcolor="silver" width="40"><button class="control" data-key='ArrowLeft ArrowLeft'>←</button></td>
+<td></td>
+<td bgcolor="silver" width="40"><button class="control" data-key='ArrowRight ArrowRight'>→</button></td>
+<td bgcolor="silver" width="40"><button class="control" data-key='K KeyK'>K (A)</button></td>
+<td></td>
+<td bgcolor="silver" width="40"><button class="control" data-key='L KeyL'>L (B)</button></td>
+</tr>
+<tr height="40">
+<td></td>
+<td bgcolor="silver" width="40"><button class="control" data-key='ArrowDown ArrowDown'>↓</button></td>
+<td></td>
+<td></td>
+<td id="D" bgcolor="silver" width="40"><button class="control" data-key='O KeyO'>O (D)</button></td>
+<td></td>
+</tr>
 </table>
 <script type='text/javascript'>
 function sendKeyEvent(type, keyInfo, element) {
