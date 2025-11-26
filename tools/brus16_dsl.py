@@ -139,7 +139,7 @@ def trans_while(env, test, body):
             ('LABEL', end_label)]
 
 
-def trans_stmt(env, node, end_label):
+def trans_stmt(env, node, end_label=None):
     match node:
         case ast.Assign([ast.Name(name)], expr):
             return trans_store(env, name, expr)
@@ -148,9 +148,8 @@ def trans_stmt(env, node, end_label):
             idx = trans_expr(env, idx)
             expr = trans_expr(env, expr)
             return [*expr, *addr, *idx, ('ADD',), ('STORE', 0)]
-        case ast.AugAssign(target, op, val):
-            return trans_stmt(env, ast.Assign([target],
-                                              ast.BinOp(target, op, val)))
+        case ast.AugAssign(x, op, y):
+            return trans_stmt(env, ast.Assign([x], ast.BinOp(x, op, y)))
         case ast.If(test, true, false):
             return trans_if(env, test, true, false, end_label)
         case ast.While(test, body, []):
