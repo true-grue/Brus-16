@@ -6,7 +6,9 @@
 #include <SDL3/SDL_main.h>
 #include "brus16_cpu.h"
 
+#ifndef ZOOM
 #define ZOOM 2
+#endif
 #define FPS 60
 #define FRAME_DELAY (SDL_NS_PER_SECOND / FPS)
 #define CYCLES_PER_FRAME 400000

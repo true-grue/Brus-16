@@ -32,6 +32,6 @@ GAMES = --preload-file logo.bin \
         --preload-file zoom.bin
 
 web:
-	$(EMCC) $(CFLAGS) $(SRC) $(GAMES) -s USE_SDL=3 -s MODULARIZE=1 -o brus16.html --shell-file src/template.html
+	$(EMCC) $(CFLAGS) -DZOOM=1 $(SRC) $(GAMES) -s USE_SDL=3 -s MODULARIZE=1 -o brus16.html --shell-file src/template.html
 
 .PHONY: sdl web
