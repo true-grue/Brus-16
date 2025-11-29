@@ -102,6 +102,12 @@ uint16_t exec_f0(struct CPU *cpu, uint16_t val, uint16_t new_pc) {
     }
     case OP0_STORE: {
         cpu->addr = (has_imm ? cpu->fp : pop(cpu)) + simm9;
+#ifdef DEBUG
+        if (cpu->addr == 0xffff) {
+            putchar(pop(cpu));
+            break;
+        }
+#endif
         cpu->data[cpu->addr & (DATA_SIZE - 1)] = pop(cpu);
         break;
     }
@@ -129,14 +135,12 @@ uint16_t exec_f0(struct CPU *cpu, uint16_t val, uint16_t new_pc) {
 }
 
 void step(struct CPU *cpu) {
-    if (!cpu->wait) {
-        uint16_t val = cpu->code[cpu->pc];
-        uint16_t new_pc = cpu->pc + 1;
-        if (get_field(val, F_POS, F_SIZE)) {
-            new_pc = exec_f1(cpu, val, new_pc);
-        } else {
-            new_pc = exec_f0(cpu, val, new_pc);
-        }
-        cpu->pc = new_pc & (CODE_SIZE - 1);
+    uint16_t val = cpu->code[cpu->pc];
+    uint16_t new_pc = cpu->pc + 1;
+    if (get_field(val, F_POS, F_SIZE)) {
+        new_pc = exec_f1(cpu, val, new_pc);
+    } else {
+        new_pc = exec_f0(cpu, val, new_pc);
     }
+    cpu->pc = new_pc & (CODE_SIZE - 1);
 }

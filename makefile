@@ -16,7 +16,7 @@ endif
 CFLAGS += -I"$(SDL)/include"
 
 emu:
-	$(CC) $(CFLAGS) $(SRC) -o $(TARGET) $(LDFLAGS)
+	$(CC) $(CFLAGS) -DDEBUG $(SRC) -o $(TARGET) $(LDFLAGS)
 
 gen:
 	python tools/gen_cfg_h.py src
