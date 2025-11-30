@@ -9,8 +9,15 @@ from tools.brus16_cfg import *
 
 def asm_to_text(asm):
     lines = []
+    pos = 0
     for cmd in asm:
-        lines.append(' '.join(str(x) for x in cmd))
+        text = ' '.join(str(x) for x in cmd)
+        match cmd:
+            case ('LABEL' | 'DATA', *_):
+                lines.append(text)
+            case _:
+                lines.append(f'{pos}: {text}')
+                pos += 1
     return '\n'.join(lines)
 
 
@@ -20,6 +27,12 @@ def save_game(filename, source):
     print(f'code: {len(code)}\ndata: {len(data)}')
     save(filename, code, data)
     return asm
+
+
+def load_code(filename):
+    with open(filename) as f:
+        code = f'f"""{f.read()}"""'
+    return eval(code, sys._getframe(1).f_globals)
 
 
 def rgb(x):

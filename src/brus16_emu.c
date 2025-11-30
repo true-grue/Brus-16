@@ -56,8 +56,13 @@ SDL_Window *window;
 SDL_Renderer *renderer;
 struct CPU cpu;
 
+void send_char(int c) {
+    putchar(c);
+}
+
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv) {
     (void) appstate;
+    setvbuf(stdout, NULL, _IONBF, 0);
     assert(SDL_Init(SDL_INIT_VIDEO));
     assert(SDL_CreateWindowAndRenderer("Brus-16", SCREEN_W * ZOOM, SCREEN_H * ZOOM, 0, &window, &renderer));
     SDL_SetRenderVSync(renderer, 1);

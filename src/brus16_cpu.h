@@ -1,7 +1,6 @@
 #ifndef BRUS16_CPU_H
 #define BRUS16_CPU_H
 
-#include <stdio.h>
 #include <stdint.h>
 #include "brus16_cfg.h"
 
