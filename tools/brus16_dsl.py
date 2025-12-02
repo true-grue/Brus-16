@@ -82,10 +82,6 @@ def trans_store(env, name, expr, lineno):
             raise NameError(f"'{name}' at line {lineno}")
 
 
-def is_func(env, name, arity):
-    return env.get(name) == ('func', arity) or name in MACROS
-
-
 def trans_expr(env, node):
     match node:
         case ast.Constant(int(val)):
@@ -104,7 +100,9 @@ def trans_expr(env, node):
             x = trans_expr(env, x)
             y = trans_expr(env, y)
             return [*x, *y, (BINOPS[type(op)],)]
-        case ast.Call(ast.Name(name), args) if is_func(env, name, len(args)):
+        case ast.Call(ast.Name(name) as n, args):
+            assert env.get(name) == ('func', len(args)) or name in MACROS, \
+                f"'{name}' at line {n.lineno}"
             args = [trans_expr(env, x) for x in args]
             if name in MACROS:
                 return MACROS[name](*args)
