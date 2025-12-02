@@ -57,7 +57,7 @@ def push(x):
             return [('PUSHU', high), ('SHL', shift), ('OR', low)]
 
 
-def trans_load(env, name):
+def trans_load(env, name, lineno):
     match env.get(name):
         case 'var':
             return [('PUSHU', name), *LOAD]
@@ -66,10 +66,10 @@ def trans_load(env, name):
         case 'loc':
             return GET_LOCAL(name)
         case _:
-            raise SyntaxError(name)
+            raise NameError(f"'{name}' at line {lineno}")
 
 
-def trans_store(env, name, expr):
+def trans_store(env, name, expr, lineno):
     expr = trans_expr(env, expr)
     if name not in env:
         env[name] = 'loc'
@@ -79,7 +79,7 @@ def trans_store(env, name, expr):
         case 'loc':
             return [*expr, ('SET_LOCAL', name)]
         case _:
-            raise SyntaxError(name)
+            raise NameError(f"'{name}' at line {lineno}")
 
 
 def is_func(env, name, arity):
@@ -91,7 +91,7 @@ def trans_expr(env, node):
         case ast.Constant(int(val)):
             return push(val)
         case ast.Name(name):
-            return trans_load(env, name)
+            return trans_load(env, name, node.lineno)
         case ast.Subscript(x, y):
             x = trans_expr(env, x)
             y = trans_expr(env, y)
@@ -141,8 +141,8 @@ def trans_while(env, test, body):
 
 def trans_stmt(env, node, end_label=None):
     match node:
-        case ast.Assign([ast.Name(name)], expr):
-            return trans_store(env, name, expr)
+        case ast.Assign([ast.Name(name) as n], expr):
+            return trans_store(env, name, expr, n.lineno)
         case ast.Assign([ast.Subscript(addr, idx)], expr):
             addr = trans_expr(env, addr)
             idx = trans_expr(env, idx)
