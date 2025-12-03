@@ -29,7 +29,7 @@ def save_game(filename, source):
 
 def load_code(filename):
     with open(filename) as f:
-        code = f'f"""{f.read()}"""'
+        code = f'fr"""{f.read()}"""'
     return eval(code, sys._getframe(1).f_globals)
 
 

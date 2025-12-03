@@ -6,7 +6,6 @@ UNOPS = {
     ast.USub: ('MUL', -1)
 }
 
-
 BINOPS = {
     ast.Add: 'ADD',
     ast.Sub: 'SUB',
@@ -24,10 +23,7 @@ BINOPS = {
     ast.GtE: 'GE',
 }
 
-
 LOAD = [('LOAD', 0), ('PUSH_MR',)]
-def GET_LOCAL(name): return [('GET_LOCAL', name), ('PUSH_MR',)]
-
 
 MACROS = {
     'poke': lambda addr, val: [*val, *addr, ('STORE', 0)],
@@ -64,7 +60,7 @@ def trans_load(env, name, lineno):
         case 'arr' | ('func', _):
             return [('PUSHU', name)]
         case 'loc':
-            return GET_LOCAL(name)
+            return [('GET_LOCAL', name), ('PUSH_MR',)]
         case _:
             raise NameError(f"'{name}' at line {lineno}")
 
@@ -100,9 +96,9 @@ def trans_expr(env, node):
             x = trans_expr(env, x)
             y = trans_expr(env, y)
             return [*x, *y, (BINOPS[type(op)],)]
-        case ast.Call(ast.Name(name) as n, args):
+        case ast.Call(ast.Name(name), args):
             assert env.get(name) == ('func', len(args)) or name in MACROS, \
-                f"'{name}' at line {n.lineno}"
+                f"'{name}' at line {node.lineno}"
             args = [trans_expr(env, x) for x in args]
             if name in MACROS:
                 return MACROS[name](*args)
