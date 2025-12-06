@@ -2,12 +2,21 @@
 <html>
 <head>
 <meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Brus-16</title>
 <style>
-body { text-align: center; }
+body {
+text-align: center;
+margin: 0;
+padding: 0;
+-webkit-user-select: none;
+user-select: none;
+-webkit-touch-callout: none;
+touch-action: manipulation;
+}
 canvas { display: block; margin: 0 auto; width: 100%!important; outline: none; max-width: 640px; }
 .ui, .controls { margin: 0 auto; margin-top: 1em; }
-.control { width: 50px; height: 50px; }
+.control { width: 60px; height: 60px; -webkit-tap-highlight-color: transparent; }
 </style>
 </head>
 <body>
@@ -17,9 +26,12 @@ canvas { display: block; margin: 0 auto; width: 100%!important; outline: none; m
 <option value='logo.bin'>Logo</option>
 <option value='racing.bin'>Racing</option>
 <option value='flippy.bin'>Flippy</option>
+<option value='pong.bin'>Pong</option>
 <option value='ping.bin'>Ping</option>
 <option value='tower.bin'>Tower</option>
 <option value='alterego.bin'>Alter Ego</option>
+<option value='gerion.bin'>Gerion</option>
+<option value='robot.bin'>Robot</option>
 <option value='zoom.bin'>Zoom</option>
 </select>
 <button id="reset">Reset</button>

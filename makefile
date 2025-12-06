@@ -19,17 +19,20 @@ emu:
 	$(CC) $(CFLAGS) -DDEBUG $(SRC) -o $(TARGET) $(LDFLAGS)
 
 gen:
-	python tools/gen_cfg_h.py src
-	python tools/gen_isa_md.py .
+	python tools/gen_cfg.py src
+	python tools/gen_isa.py .
 	pandoc isa.md --template docs/template.html --metadata title="Brus-16 ISA" -o docs/isa.html
 
 GAMES = --preload-file logo.bin \
-        --preload-file racing.bin \
-        --preload-file flippy.bin \
-        --preload-file ping.bin \
-        --preload-file tower.bin \
-        --preload-file alterego.bin \
-        --preload-file zoom.bin
+		--preload-file racing.bin \
+		--preload-file flippy.bin \
+		--preload-file pong.bin \
+		--preload-file ping.bin \
+		--preload-file tower.bin \
+		--preload-file alterego.bin \
+		--preload-file gerion.bin \
+		--preload-file robot.bin \
+		--preload-file zoom.bin
 
 web:
 	$(EMCC) $(CFLAGS) -DZOOM=1 $(SRC) $(GAMES) -s USE_SDL=3 -s MODULARIZE=1 -o brus16.html --shell-file src/template.html

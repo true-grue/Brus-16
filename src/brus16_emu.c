@@ -56,7 +56,7 @@ SDL_Window *window;
 SDL_Renderer *renderer;
 struct CPU cpu;
 
-void send_char(int c) {
+void debug_put(int c) {
     putchar(c);
 }
 

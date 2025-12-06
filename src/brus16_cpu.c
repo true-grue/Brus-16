@@ -103,9 +103,9 @@ uint16_t exec_f0(struct CPU *cpu, uint16_t val, uint16_t new_pc) {
     case OP0_STORE: {
         cpu->addr = (has_imm ? cpu->fp : pop(cpu)) + simm9;
 #ifdef DEBUG
-        void send_char(int c);
+        void debug_put(int c);
         if (cpu->addr == 0xffff) {
-            send_char(pop(cpu));
+            debug_put(pop(cpu));
             break;
         }
 #endif
