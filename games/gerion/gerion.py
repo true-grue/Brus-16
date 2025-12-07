@@ -277,6 +277,7 @@ def loadlev():
     DIV = cb[3]
     # items
     cb += 4
+    cb_start = cb
     bzero(SPAWNS, {SPAWNS_MAX})
     PADS_NR = 0
     SPAWNS_NR = 0
@@ -286,7 +287,7 @@ def loadlev():
     TELEPORT_FRAME = FRAMES
 
     while 1:
-        if not_bit(cb[0], {OB_MASK}):
+        if cb[0] == 0:
             break
         cx = int2cx(cb[0])
         cy = int2cy(cb[0])
@@ -309,8 +310,9 @@ def loadlev():
             obs_add(cx, cy, cb[0])
             PADS_NR += 1
         elif it == {OB_TRAP}:
-            oset(cx, cy, c2int(int2cx(cb[1]), int2cy(cb[1]))|{OB_TRAP})
-            cb += 1
+            oset(cx, cy, (cb[0]&0xff00)|(cb-cb_start+1))
+            while cb[0]&0xff00:
+                cb += 1
         else:
             obs_add(cx, cy, cb[0])
         cb += 1
@@ -757,7 +759,8 @@ def draw_mrect(ptr, cx, cy, xoff, yoff):
         ptr[5] = rate_color({SPAWNCOL_RATE}, {SPAWNCOL1}, {SPAWNCOL2})
         x = 2; y = 2; w = {TW-4}; h = {TH-4}
     elif (ot == {OB_TRAP}) & not_bit(obj, {OB_SECRET}):
-        if oget(int2cx(obj), int2cy(obj)):
+        traps = LEVEL + (obj&0xff) + {LEVEL_HEADER}
+        if oget(int2cx(traps[0]), int2cy(traps[0])):
             ptr[5] = rate_color({BTN_RATE}, {BTNCOL1}, BG)
         else:
             ptr[5] = {BTNCOL2}
@@ -1281,7 +1284,10 @@ def upd_hero():
         SCROLL_MODE = -480
         return
     elif otype(o, {OB_TRAP}):
-        oclr(int2cx(o), int2cy(o))
+        traps = LEVEL + (o&0xff) + {LEVEL_HEADER}
+        while traps[0]&0xff00:
+            oclr(int2cx(traps[0]), int2cy(traps[0]))
+            traps += 1
 
     if (o == {OB_SPAWN}) & (obxy(ox, oy, {OB_SPAWN}) != 1) & (SPAWNS_NR > 1):
         i = 0
