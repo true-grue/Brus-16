@@ -276,6 +276,8 @@ DOOR_HEALTH = 0x19
 
 R_HEALTH = 0x1f
 
+LEVEL_HEADER = H + 5
+
 def debug(text):
     code = []
     for c in text:
@@ -299,8 +301,8 @@ def debug(text):
 # fg:r,g,b - foreground
 # bg:r,g,b - backround
 # fill:r,g,b - fill color
-# trap:x1,y1,x2,y2 - when step on x1 y1 -> remove x2 y2 block or laser-secret
-# btn:x1,y1,x2,y2 - visible trap
+# trap:abc - a - trigger symbol, b - target symbol, c - item symbol
+# btn:abc - same as trap, but visible
 # press C+A - next level
 # press C+B - prev level ;)
 
@@ -730,8 +732,13 @@ def parsecolor(l):
     r, g, b = parsenumbers(l)
     return rgb(r, g, b)
 
+# trap:{}%
 def parsetrap(l):
-    return parsenumbers(l)
+    l = l.strip()
+    a = l[0:1]
+    b = l[1:2]
+    t = l[2:3]
+    return { 'src':a, 'dst':b, 'o':t, "list": [], "secret": False }
 
 def mget(m, cx, cy):
     if cx < 0 or cx >= W:
@@ -742,6 +749,7 @@ def mget(m, cx, cy):
 
 def map2bit(t):
     r = []
+    traps = { "src": {}, "dst": {}, "list": [] }
     lasers = []
     items = []
     x, y = 0, 0
@@ -765,14 +773,17 @@ def map2bit(t):
             fill = parsecolor(l[5:])
             continue
         elif l.startswith("trap:"):
-            x1,y1,x2,y2 = parsetrap(l[5:])
-            items.append((x1, y1, OB_TRAP|OB_SECRET))
-            items.append((x2, y2, OB_TRAP))
+            trap = parsetrap(l[5:])
+            trap["secret"] = True
+            traps["src"][trap['src']] = trap
+            traps["dst"][trap['dst']] = trap
+            traps["list"].append(trap)
             continue
         elif l.startswith("btn:"):
-            x1,y1,x2,y2 = parsetrap(l[4:])
-            items.append((x1, y1, OB_TRAP))
-            items.append((x2, y2, OB_TRAP))
+            trap = parsetrap(l[4:])
+            traps["src"][trap['src']] = trap
+            traps["dst"][trap['dst']] = trap
+            traps["list"].append(trap)
             continue
         c = 0
         las = 0
@@ -780,6 +791,15 @@ def map2bit(t):
         for i in l:
             c >>= 1
             las >>= 1
+            if i in traps["src"]:
+                t = traps["src"][i]
+                i = '.'
+                t["x"] = x
+                t["y"] = y
+            elif i in traps["dst"]:
+                t = traps["dst"][i]
+                i = t['o']
+                t["list"].append((x, y))
             c |= 0x8000 if i == '#' else 0
             if i == '@':
                 px, py = x, y
@@ -820,6 +840,14 @@ def map2bit(t):
     r.append(bg)
     r.append(fill)
     r.append(div)
+
+    for v in traps["list"]:
+        fl = v["secret"] and OB_SECRET or 0
+        r.append(v["x"]|(v["y"]<<4)| OB_TRAP | fl)
+        for t in v["list"]:
+            r.append(t[0]|(t[1]<<4)| OB_TRAP)
+        r.append(0xff)
+
     for i in items:
         fl = 0
         if (i[2]&OB_MASK) == OB_DOOR:
