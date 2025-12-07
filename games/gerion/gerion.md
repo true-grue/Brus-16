@@ -23,3 +23,4 @@ A spacecraft is dispatched to the object.
 - hugeping - idea, code
 - true-grue - Brus-16, ideas, fixes, advices, levels
 - Title screen art by pixelrat (more arts: t.me/artpixelrat vk.ru/artpixelrat)
+- spline - levels

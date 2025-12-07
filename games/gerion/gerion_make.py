@@ -59,7 +59,12 @@ SPAWNCOL1 = rgb(200, 0, 22)
 SPAWNCOL2 = rgb(240, 255, 255)
 SPAWNCOL_RATE = 1
 
+BTNCOL1 = rgb(0xBFAA30)
+BTNCOL2 = rgb(0xFFD900)
+BTN_RATE = 4
+
 DOORCOL = rgb(41,132,159)
+DOORCOL_BOSS = rgb(0xBF3330)
 
 TITLE = [
     1, 0, 0, 15, 100, rgb(0x70a4b2),
@@ -233,22 +238,27 @@ THM = 0x1f
 W = 15
 H = 15
 
-PADS_MAP = [0]*H
-SPAWN_MAP = [0]*H
-LASERS_MAP = [0]*H
-RADAR_MAP = [0]*H
-OBS_MAP = [0]*H
+OBJS = [0]*(W*H)
 
-ITEM_PAD   = 0x0100
-ITEM_ALIEN = 0x0200
-ITEM_DOOR  = 0x0300
-ITEM_ALIEN_BOSS = 0x0400
-ITEM_DOOR_SECRET  = 0x0500
-ITEM_REACTOR = 0x0600
-ITEM_LASER = 0x0700
-ITEM_SPAWN = 0xff00
-ITEM_SPAWN_BOSS = 0xfe00
-ITEM_MASK  = 0xff00
+RADAR_MAP = [0]*H
+
+DOOR_H = 0x1
+LASER_H = 0x1
+
+OB_H      = 0x4000
+OB_SECRET = 0x2000
+OB_BOSS   = 0x8000
+
+OB_OBSTACLE  = 0x1000
+OB_WALL      = OB_OBSTACLE
+OB_PAD       = 0x0100
+OB_ALIEN     = 0x0200
+OB_DOOR      = 0x0300|OB_OBSTACLE
+OB_REACTOR   = 0x0400|OB_OBSTACLE
+OB_LASER     = 0x0500
+OB_SPAWN     = 0x0600
+OB_TRAP      = 0x0700
+OB_MASK      = 0x1f00
 
 ALIEN_DEAD =  0x2000
 ALIEN_HIT =   0x4000
@@ -284,9 +294,13 @@ def debug(text):
 # B - boss spawn
 # R - reactor
 # / - laser
+# ^ - boss laser (use trap/btn)
+# + - boss door (use trap/btn)
 # fg:r,g,b - foreground
 # bg:r,g,b - backround
 # fill:r,g,b - fill color
+# trap:x1,y1,x2,y2 - when step on x1 y1 -> remove x2 y2 block or laser-secret
+# btn:x1,y1,x2,y2 - visible trap
 # press C+A - next level
 # press C+B - prev level ;)
 
@@ -308,6 +322,7 @@ MAP = (
 ######   ######
 ###############
 ###############''',
+
 # 2
 '''
 fg:0,0,0
@@ -326,6 +341,7 @@ fg:0,0,0
 #$           $#
 ###############
 ###############''',
+
 # 3
 '''
 ###############
@@ -343,27 +359,9 @@ fg:0,0,0
 ####### #######
 #####*   *#####
 #######&#######''',
+
 # 4
-'''
-fg:0,47,85
-bg:0,0,0
-fill:0,0,0
-###############
-###############
-*      *      *
-               
-$             $
-               
-               
-@      E      *
-               
-               
-$             $
-               
-*      *      *
-###############
-###############''',
-# 5
+
 '''
 fg:#CEB7A6
 bg:#2F435A
@@ -383,7 +381,48 @@ fill:#000000
 # #*       *# #
 # ########### #
 ###############''',
-# 6
+
+# 5
+'''
+fg:0,47,85
+bg:0,0,0
+fill:0,0,0
+###############
+###############
+*      *      *
+               
+$             $
+               
+               
+@      E      *
+               
+               
+$             $
+               
+*      *      *
+###############
+###############''',
+
+#6
+'''
+fg:255,128,0
+###############
+#   %  $     *#
+# @ #########%#
+#   ######### #
+##%#### ##*   #
+## #### #####$#
+##$###   #### #
+##     E   ## #
+## ###   #### #
+## #### ##### #
+## #### ##*   #
+#   ######### #
+# * ######### #
+#        $  %$#
+###############''',
+
+# 7
 '''
 fg:#3d3846
 bg:#241f31
@@ -404,7 +443,29 @@ fill:#241f31
 #    *# #*    #
 #######&#######
 ''',
-# 7
+
+
+# 8
+'''
+fg:0,128,192
+bg:0,200,220
+###############
+##@#*%   %*#*##
+## # ##%## #$##
+## #$## ##$# ##
+## # ## ## # ##
+##$% ## ## %$##
+####### #######
+#      E      #
+####### #######
+##$% ## ## %$##
+## # ## ## # ##
+## #$## ##$# ##
+##$# ## ## #$##
+##*#*%   %*#*##
+###############''',
+
+# 9
 '''
 .......B.......
  ##%## # ##%##.
@@ -422,7 +483,8 @@ fill:#241f31
 .    # E #    .
 ####..*#*..####
 ''',
-# 8
+
+# 10
 '''
 bg:0,47,85
 fg:112, 128, 144
@@ -443,48 +505,6 @@ fill:0,0,0
 #             #
 #######&#######
 ''',
-# 9
-'''
-fg:#5093CD
-bg:#0D1954
-fill:#0D1954
-. ###&   &### .
-. #*?     #*# .
-. ### ### #?# .
-.     #*#     .
-. ### #?# ### .
-. ?*#     #*? .
-. ### ### ### .
-.     #@#     .
-. ### #?# #?# .
-. #*?     #*# .
-. ### ### ### .
-.     ?*#     .
-. ### ### ### .
-. #*?     #*? .
-. ###&   &### .
-''',
-
-# 10
-'''
-fg:#000000
-bg:#1a5fb4
-fill:#000000
-# #### E #### #
-#*####   ####*#
-# ####   #### #
-&      *      &
-# ####   #### #
-#*####   ####*#
-# ####   #### #
-###### * ######
-# ####   #### #
-#*####   ####*#
-# ####   #### #
-&      *      &
-# ####   #### #
-#*####   ####*#
-# #### @ #### #''',
 
 # 11
 '''
@@ -509,6 +529,69 @@ fill:#000000
 
 # 12
 '''
+fg:#5093CD
+bg:#0D1954
+fill:#0D1954
+. ###&   &### .
+. #*?     #*# .
+. ### ### #?# .
+.     #*#     .
+. ### #?# ### .
+. ?*#     #*? .
+. ### ### ### .
+.     #@#     .
+. ### #?# #?# .
+. #*?     #*# .
+. ### ### ### .
+.     ?*#     .
+. ### ### ### .
+. #*?     #*? .
+. ###&   &### .
+''',
+
+# 13
+'''
+fg:200,200,160
+bg:100,0,100
+###############
+#@  % ### %  *#
+# ### $*$ ###$#
+# #####%##### #
+#%##### #####%#
+#  ####/####  #
+##$###   ###$##
+##*% / E / %*##
+##$###   ###$##
+#  ####/####  #
+#%##### #####%#
+# #####%##### #
+#$##  $*$  ##$#
+#*%  ##### % *#
+###############''',
+
+# 14
+'''
+fg:#000000
+bg:#1a5fb4
+fill:#000000
+# #### E #### #
+#*####   ####*#
+# ####   #### #
+&      *      &
+# ####   #### #
+#*####   ####*#
+# ####   #### #
+###### * ######
+# ####   #### #
+#*####   ####*#
+# ####   #### #
+&      *      &
+# ####   #### #
+#*####   ####*#
+# #### @ #### #''',
+
+# 15
+'''
 B..#...#...#..@
 .*./.*./.*./.*.
 ...#...#...#...
@@ -525,7 +608,25 @@ B..#...#...#..@
 .*./.*./.*./.*..
 ...#...#...#..B''',
 
-# 13
+# 16
+'''
+###############
+ @ ####*#### &
+#   ###?###   #
+##   ##?##   ##
+###   #?#   ###
+####   ?   ####
+#####     #####
+#*???? E ????*#
+#####     #####
+####   ?   ####
+###   #?#   ###
+##   ##?##   ##
+#   ###?###   #
+ & ####*#### &.
+###############''',
+
+# 17
 '''
 *      &   @  *
  ######%######.
@@ -543,8 +644,25 @@ B..#...#...#..@
  ######%######.
 *      &      *
 ''',
+# 18
+'''
+###############
+##  #######  ##
+# $ /  @  / $ #
+#  ##/#/#/##  #
+# ?*#     #*? #
+# #####%##### #
+# ##### ##### #
+# %*$% E %*$% #
+# #####!##### #
+# #####%##### #
+# #*?     ?*# #
+#  ##/#/#/##  #
+# $ /  *  / $ #
+##  #######  ##
+###############''',
 
-# 14
+# 19
 '''
 fg:0,0,0
 #####  @  #####
@@ -564,7 +682,7 @@ fg:0,0,0
 #####B B B#####
 ''',
 
-# 15
+# 20
 '''
      #*!*#    B
  ### ## ## ###.
@@ -583,7 +701,7 @@ fg:0,0,0
 B    #*!*#    .
 ''',
 
-# 16
+# 21
 '''
 !    #####....!
  ??? #   #.???.
@@ -602,15 +720,29 @@ B    #*!*#    .
 !... ##### ...!''',
 )
 
+def parsenumbers(l):
+    return map(int, l.strip().split(","))
+
 def parsecolor(l):
     l = l.strip()
     if l.startswith('#'):
         return rgb(int(l[1:], 16))
-    r, g, b = map(int, l.split(","))
+    r, g, b = parsenumbers(l)
     return rgb(r, g, b)
+
+def parsetrap(l):
+    return parsenumbers(l)
+
+def mget(m, cx, cy):
+    if cx < 0 or cx >= W:
+        return False
+    if cy < 0 or cy >= H:
+        return False
+    return (m[cy]&(1<<cx)) != 0
 
 def map2bit(t):
     r = []
+    lasers = []
     items = []
     x, y = 0, 0
     px, py = 0, 0
@@ -632,35 +764,54 @@ def map2bit(t):
         elif l.startswith("fill:"):
             fill = parsecolor(l[5:])
             continue
+        elif l.startswith("trap:"):
+            x1,y1,x2,y2 = parsetrap(l[5:])
+            items.append((x1, y1, OB_TRAP|OB_SECRET))
+            items.append((x2, y2, OB_TRAP))
+            continue
+        elif l.startswith("btn:"):
+            x1,y1,x2,y2 = parsetrap(l[4:])
+            items.append((x1, y1, OB_TRAP))
+            items.append((x2, y2, OB_TRAP))
+            continue
         c = 0
+        las = 0
         x = 0
         for i in l:
             c >>= 1
+            las >>= 1
             c |= 0x8000 if i == '#' else 0
             if i == '@':
                 px, py = x, y
             elif i == 'E':
                 ex, ey = x, y
             elif i == '*':
-                items.append((x, y, ITEM_PAD))
+                items.append((x, y, OB_PAD))
             elif i == '&':
-                items.append((x, y, ITEM_SPAWN))
+                items.append((x, y, OB_SPAWN))
             elif i == 'B':
-                items.append((x, y, ITEM_SPAWN_BOSS))
+                items.append((x, y, OB_SPAWN | OB_BOSS))
             elif i == '$':
-                items.append((x, y, ITEM_ALIEN))
+                items.append((x, y, OB_ALIEN))
             elif i == '!':
-                items.append((x, y, ITEM_ALIEN_BOSS))
+                items.append((x, y, OB_ALIEN | OB_BOSS))
             elif i == '%':
-                items.append((x, y, ITEM_DOOR))
+                items.append((x, y, OB_DOOR))
             elif i == '?':
-                items.append((x, y, ITEM_DOOR_SECRET))
+                items.append((x, y, OB_DOOR | OB_SECRET))
             elif i == 'R':
-                items.append((x, y, ITEM_REACTOR))
+                items.append((x, y, OB_REACTOR))
             elif i == '/':
-                items.append((x, y, ITEM_LASER))
+                items.append((x, y, OB_LASER))
+                las |= 0x8000
+            elif i == '+':
+                items.append((x, y, OB_DOOR | OB_BOSS))
+            elif i == '^':
+                items.append((x, y, OB_LASER | OB_SECRET))
+                las |= 0x8000
             x += 1
         r.append(c>>1)
+        lasers.append(las>>1)
         y += 1
     if ex < 0:
         ex, ey = px, py
@@ -670,7 +821,18 @@ def map2bit(t):
     r.append(fill)
     r.append(div)
     for i in items:
-        r.append((i[1]<<4)|i[0]|i[2])
+        fl = 0
+        if (i[2]&OB_MASK) == OB_DOOR:
+            if mget(r, i[0] + 1, i[1]) or mget(r, i[0] - 1, i[1]):
+                fl |= OB_H
+        elif (i[2]&OB_MASK) == OB_LASER:
+            if mget(lasers, i[0] + 1, i[1]) or mget(lasers, i[0] - 1, i[1]):
+                fl |= OB_H
+            elif mget(lasers, i[0], i[1]-1) or mget(lasers, i[0], i[1]+1):
+                fl |= 0
+            elif mget(r, i[0] + 1, i[1]) or mget(r, i[0] - 1, i[1]):
+                fl |= OB_H
+        r.append(i[0]|(i[1]<<4)|i[2]|fl)
     r.append(0) # end
     return r
 

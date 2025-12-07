@@ -16,6 +16,7 @@ FG = 0
 BG = 0
 FILL = 0
 DIV = 0
+OBJS = {OBJS}
 TITLE = {TITLE}
 ASTEROID = {ASTEROID}
 STARS= {STARS}
@@ -26,11 +27,7 @@ HERO_LDIRS = {HERO_LASER_DIR}
 DIRS = {DIRS}
 HERO_C = {HERO_C}
 FRAMES = 0
-PADS_MAP = {PADS_MAP}
-SPAWN_MAP = {SPAWN_MAP}
-LASERS_MAP = {LASERS_MAP}
 RADAR_MAP = {RADAR_MAP}
-OBS_MAP = {OBS_MAP}
 SPAWN_FRAME = 0
 PADS_NR = 0
 PADS_MAX = 0
@@ -127,6 +124,34 @@ def random(s):
     s ^= s << 8
     return s
 
+def otype(m, t):
+    if (m&{OB_MASK}) == t:
+        return 1
+    return 0
+
+def ob(cx, cy, t):
+    return otype(oget(cx, cy), t)
+
+def obxy(x, y, t):
+    return ob(x2c(x), y2c(y), t)
+
+def oget(cx, cy):
+    return OBJS[cy*{W}+cx]
+
+def ogetxy(x, y):
+    return oget(x2c(x), y2c(y))
+
+def oset(cx, cy, v):
+    ov = oget(cx, cy)
+    OBJS[cy*{W}+cx] = v
+    return ov
+
+def oclr(cx, cy):
+    return oset(cx, cy, 0)
+
+def oclrxy(x, y):
+    return oset(x2c(x), y2c(y), 0)
+
 def mset(m, cx, cy, v):
     mask = 1<<cx
     r = (m[cy]&mask) != 0
@@ -136,14 +161,8 @@ def mset(m, cx, cy, v):
         m[cy] &= ~mask
     return r
 
-def mclr(m, cx, cy):
-    return mset(m, cx, cy, 0)
-
 def msetxy(m, cx, cy, v):
     return mset(m, cx>>{TWS}, cy>>{THS}, v)
-
-def mclrxy(m, cx, cy):
-    return mset(m, cx>>{TWS}, cy>>{THS}, 0)
 
 def inside(cx, cy):
     if (cx < 0) | (cx >= {W}):
@@ -157,9 +176,6 @@ def insidexy(x, y):
 
 def mget(m, cx, cy):
     return (m[cy]&(1<<cx)) != 0
-
-def mgetxy(m, x, y):
-    return mget(m, x>>{TWS}, y>>{THS})
 
 def x2c(x):
     return x >> {TWS}
@@ -188,37 +204,36 @@ def c2x(c):
 def c2y(c):
     return c*{TH}+({TH}>>1)
 
-def mblockxy(x, y):
-    return mblock(x2c(x), y2c(y))
-
-def mblock(x, y):
+def oblock(x, y):
     if inside(x, y) == 0:
         return 1
-    return mget(LEVEL, x, y) | mget(OBS_MAP, x, y)
+    return bit(oget(x, y),{OB_OBSTACLE})
 
-def lookup_obs(cx, cy, it):
-    i = 0
-    while i < OBS_NR*{OBS_SIZE}:
-        if c2int(cx, cy) == (OBS[i]&0xff):
-            if OBS[i+1] == it:
-                return OBS + i
-            return 0
-        i += {OBS_SIZE}
+def oblockxy(x, y):
+    return oblock(x2c(x), y2c(y))
+
+def lookup_obs(cx, cy, t):
+    if ob(cx, cy, t):
+        o = oget(cx, cy)
+        return OBS + ((o&0xff)*{OBS_SIZE})
     return 0
 
 def lookup_door(cx, cy):
-    if mget(OBS_MAP, cx, cy) == 0:
-        return 0
-    return lookup_obs(cx, cy,  {ITEM_DOOR})
+    return lookup_obs(cx, cy, {OB_DOOR})
 
 def lookup_reactor(cx, cy):
-    if mget(OBS_MAP, cx, cy) == 0:
-        return 0
-    return lookup_obs(cx, cy,  {ITEM_REACTOR})
+    return lookup_obs(cx, cy,  {OB_REACTOR})
+
+def obs_add(cx, cy, it):
+    OBS[OBS_NR*{OBS_SIZE}] = c2int(cx, cy)
+    OBS[OBS_NR*{OBS_SIZE}+1] = it
+    oset(cx, cy, (it&0xff00)|OBS_NR)
+    OBS_NR += 1
 
 def loadlev():
+    bzero(OBJS, {W*H})
+
     current_zoom = {1 << ZOOM_BITS}
-    R_NR = 0
     SHAKE_MODE = 0
     ENDING_MODE = 0
     EXPLODE_MODE = 0
@@ -227,6 +242,15 @@ def loadlev():
     RADAR_MODE = 0
     HERO_DEAD = 0
     HERO_DIR = 3
+
+    y = 0
+    while y < {H}:
+        x = 0
+        while x < {W}:
+            if mget(LEVEL, x, y):
+                oset(x, y, {OB_WALL})
+            x += 1
+        y += 1
 
     cb = LEVEL + {H}
 
@@ -253,10 +277,6 @@ def loadlev():
     DIV = cb[3]
     # items
     cb += 4
-    bzero(PADS_MAP, {H})
-    bzero(SPAWN_MAP, {H})
-    bzero(LASERS_MAP, {H})
-    bzero(OBS_MAP, {H})
     bzero(SPAWNS, {SPAWNS_MAX})
     PADS_NR = 0
     SPAWNS_NR = 0
@@ -266,39 +286,33 @@ def loadlev():
     TELEPORT_FRAME = FRAMES
 
     while 1:
-        if not_bit(cb[0], {ITEM_MASK}):
+        if not_bit(cb[0], {OB_MASK}):
             break
         cx = int2cx(cb[0])
         cy = int2cy(cb[0])
-        it = cb[0]&{ITEM_MASK}
-        if it == {ITEM_PAD}:
-            mset(PADS_MAP, cx, cy, 1)
+        it = cb[0]&{OB_MASK}
+        if it == {OB_PAD}:
+            oset(cx, cy, it)
             PADS_NR += 1
-        elif (it == {ITEM_SPAWN}) | (it == {ITEM_SPAWN_BOSS}):
+        elif (it == {OB_SPAWN}):
             fl = 0
-            if it == {ITEM_SPAWN_BOSS}:
+            if bit(cb[0], {OB_BOSS}):
                 fl = {SPAWN_BOSS}
             SPAWNS[SPAWNS_NR] = c2int(cx, cy) | fl
-            mset(SPAWN_MAP, cx, cy, 1)
+            oset(cx, cy, {OB_SPAWN})
             SPAWNS_NR += 1
-        elif it == {ITEM_ALIEN}:
+        elif it == {OB_ALIEN}:
             new_alien(c2x(cx), c2y(cy))
-        elif it == {ITEM_ALIEN_BOSS}:
-            if new_alien(c2x(cx), c2y(cy)):
+            if bit(cb[0], {OB_BOSS}):
                 ALIENS[(ALIENS_NR-1)*{ALIEN_SIZE}+2] |= {ALIEN_BOSS}
-        elif it == {ITEM_LASER}:
-            mset(LASERS_MAP, cx, cy, 1)
+        elif it == {OB_REACTOR}:
+            obs_add(cx, cy, cb[0])
+            PADS_NR += 1
+        elif it == {OB_TRAP}:
+            oset(cx, cy, c2int(int2cx(cb[1]), int2cy(cb[1]))|{OB_TRAP})
+            cb += 1
         else:
-            mset(OBS_MAP, cx, cy, 1)
-            fl = 0
-            if (it == {ITEM_DOOR_SECRET}):
-                fl = {DOOR_SECRET}
-                it = {ITEM_DOOR}
-            elif (it == {ITEM_REACTOR}):
-                R_NR += 1
-            OBS[OBS_NR*{OBS_SIZE}] = c2int(cx, cy)|fl
-            OBS[OBS_NR*{OBS_SIZE}+1] = it
-            OBS_NR += 1
+            obs_add(cx, cy, cb[0])
         cb += 1
 
     PADS_MAX = PADS_NR
@@ -307,10 +321,7 @@ def draw_rect(ptr, x, y, w, h, col):
     if (ptr >= {RECT_MEM+RECT_SIZE*RECT_NUM}):
         return ptr
     ptr[0] = 1
-    ptr[1] = x
-    ptr[2] = y
-    ptr[3] = w
-    ptr[4] = h
+    set_rect(ptr, x, y, w, h)
     ptr[5] = col
     return ptr + {RECT_SIZE}
 
@@ -319,10 +330,7 @@ def draw_circle(ptr, cx, cy, r, col):
     if (ptr >= {RECT_MEM+RECT_SIZE*RECT_NUM}):
         return ptr
     ptr[0] = 1
-    ptr[1] = cx - r
-    ptr[2] = cy - r
-    ptr[3] = 2*r
-    ptr[4] = 2*r
+    set_rect(ptr, cx - r, cy - r, 2*r, 2*r)
     ptr[5] = col
     return ptr + {RECT_SIZE}
 
@@ -367,19 +375,19 @@ def upd_obs():
         if bit(obs[0], {OBS_DEAD}):
             e = bit_gethi(obs[0], {OBS_MASK}) + 1
             m = 4
-            if obs[1] == {ITEM_REACTOR}:
+            if otype(obs[1], {OB_REACTOR}):
                 m = 0x1f
             if e > m:
-                if mclr(OBS_MAP, int2cx(obs[0]), int2cy(obs[0])):
+                if oclr(int2cx(obs[0]), int2cy(obs[0])):
                     EXPLODE_MODE += 1
-                    if obs[1] == {ITEM_REACTOR}:
-                        R_NR -= 1
-                        if R_NR == 0:
+                    if otype(obs[1], {OB_REACTOR}):
+                        PADS_NR -= 1
+                        if PADS_NR == 0:
                             ENDING_MODE = 1
                             return
             else:
                 obs[0] = bit_sethi(obs[0], {OBS_MASK}, e)
-        elif obs[1] == {ITEM_REACTOR}:
+        elif otype(obs[1], {OB_REACTOR}):
             e = max(0, bit_gethi(obs[0], {OBS_MASK}) - rate_trigger(2))
 #            debug_val(e)
             SHAKE_MODE += (e > 0xf)
@@ -419,8 +427,8 @@ def upd_laser():
         obs = OBS + i*{OBS_SIZE}
         obs[0] &= ~{OBS_HIT}
 
-        if obs[1] == {ITEM_DOOR}:
-            if (LASER_X == -1) & not_bit(obs[0], {OBS_DEAD}):
+        if otype(obs[1], {OB_DOOR}):
+            if ((LASER_X == -1) | (bit(obs[1], {OB_BOSS}))) & not_bit(obs[0], {OBS_DEAD}):
                 obs[0] = bit_sethi(obs[0], {OBS_MASK}, 0)
         i += 1
 
@@ -450,7 +458,7 @@ def upd_laser():
 
     a = 0
 
-    while mblockxy(ex, ey) == 0:
+    while oblockxy(ex, ey) == 0:
         ex += dx
         ey += dy
         a = scan_alien(ex, ey, 0)
@@ -496,7 +504,7 @@ def light_ray(x, y, tx, ty, r):
         return 0;
 
     while (abs(tx - x) <= r) & (abs(ty - y) <= r):
-        if mblock(x, y):
+        if oblock(x, y):
             return 0
         x += dx
         y += dy
@@ -535,7 +543,7 @@ def alien_light_cell(a):
         if light_ray(px, py, px + dx*i, py + dy*i, 1) == 0:
             return 0
         px += dx; py += dy
-        if mblock(px, py):
+        if oblock(px, py):
             return 0
         if light_ray(px, py, tx, ty, {VIEW_R}-i):
             return 1
@@ -711,11 +719,7 @@ def atexitxy(x, y):
     return atexit(x2c(x), y2c(y))
 
 def laser_hor(cx, cy):
-    if  mget(LASERS_MAP, cx + 1, cy) | mget(LASERS_MAP, cx - 1, cy):
-        return 1
-    if  mget(LASERS_MAP, cx, cy-1) | mget(LASERS_MAP, cx, cy+1):
-        return 0
-    return mget(LEVEL, cx + 1, cy) | mget(LEVEL, cx - 1, cy)
+    return bit(oget(cx, cy), {OB_H})
 
 def draw_mrect(ptr, cx, cy, xoff, yoff):
     x = 0
@@ -725,20 +729,23 @@ def draw_mrect(ptr, cx, cy, xoff, yoff):
 
 #    if inside(cx, cy) == 0:
 #        return ptr
+    obj = 0
+    ot = 0
+
+    if inside(cx, cy):
+        obj = oget(cx, cy)
+        ot = obj&{OB_MASK}
     if inside(cx, cy) == 0:
         ptr[5] = FG
-    elif mget(LEVEL, cx, cy):
+    elif ot == {OB_WALL}:
         ptr[5] = FG
     elif atexit(cx, cy):
         if exit_activated():
             ptr[5] = rate_color({EXITCOL_RATE}, {EXITCOL3}, {EXITCOL4})
         else:
             ptr[5] = rate_color({EXITCOL_RATE}, {EXITCOL1}, {EXITCOL2})
-        x += 2
-        y += 2
-        w -= 4
-        h -= 4
-    elif mget(PADS_MAP, cx, cy):
+        x += 2; y += 2; w -= 4; h -= 4
+    elif ot == {OB_PAD}:
         ptr[5] = rate_color({PADCOL_RATE}, {PADCOL1}, {PADCOL2})
         w = {TW//4}; h = {TH//4}
         amp = 8
@@ -746,33 +753,38 @@ def draw_mrect(ptr, cx, cy, xoff, yoff):
         mask = 15
         x = {TH//4} + amp - abs(amp - (FRAMES & mask))
         y = {TH//4} + amp - abs(amp - ((FRAMES + offs) & mask))
-    elif mget(SPAWN_MAP, cx, cy):
+    elif ot == {OB_SPAWN}:
         ptr[5] = rate_color({SPAWNCOL_RATE}, {SPAWNCOL1}, {SPAWNCOL2})
-        x += 2
-        y += 2
-        w -= 4
-        h -= 4
-    elif mget(LASERS_MAP, cx, cy):
+        x = 2; y = 2; w = {TW-4}; h = {TH-4}
+    elif (ot == {OB_TRAP}) & not_bit(obj, {OB_SECRET}):
+        if oget(int2cx(obj), int2cy(obj)):
+            ptr[5] = rate_color({BTN_RATE}, {BTNCOL1}, BG)
+        else:
+            ptr[5] = {BTNCOL2}
+        x = 12; y = 12; w = 8; h = 8
+    elif ot == {OB_LASER}:
         if check_laser_active(cx, cy):
             if laser_hor(cx, cy):
-                x = 0; y = 15; y ^= FRAMES&1; w = {TW}; h = 1
+                x = 0; y  = 15 ^ (FRAMES&1); w = {TW}; h = 1
             else:
-                x = 15; x ^= FRAMES&1; y = 0; w = 1; h = {TH}
+                x = 15 ^ (FRAMES&1); y = 0; w = 1; h = {TH}
             ptr[5] = rate_color(1, {rgb(255, 0, 0)}, {rgb(0, 255, 0)})
         else:
             return ptr
-    elif lookup_door(cx, cy) != 0:
+    elif ot == {OB_DOOR}:
         door = lookup_door(cx, cy)
         if bit(door[0], {OBS_DEAD}):
             ptr[5] = 0xff00
         elif bit(door[0], {OBS_HIT}):
             ptr[5] = 0xffff
-        elif bit(door[0], {DOOR_SECRET}):
+        elif bit(door[1], {OB_SECRET}):
             ptr[5] = FG
+        elif bit(door[1], {OB_BOSS}):
+            ptr[5] = { DOORCOL_BOSS }
         else:
             ptr[5] = { DOORCOL }
-        if not_bit(door[0], {DOOR_SECRET}):
-            if mget(LEVEL, cx + 1, cy) | mget(LEVEL, cx - 1, cy):
+        if not_bit(door[1], {OB_SECRET}):
+            if bit(obj, {OB_H}):
                 x = 1; y = {TH//2-8}; w = {TW-2}; h = 16
             else:
                 x = {TW//2-8}; y = 1; w = 16; h = {TH-2}
@@ -783,11 +795,11 @@ def draw_mrect(ptr, cx, cy, xoff, yoff):
             w += 7 - (rnd() & 0xf)
             h += 7 - (rnd() & 0xf)
         elif bit(door[0], {OBS_HIT}):
-            w ^= rnd()&1
-            h ^= rnd()&1
             x ^= rnd()&1
             y ^= rnd()&1
-    elif mget(OBS_MAP, cx, cy) & (lookup_obs(cx, cy, {ITEM_REACTOR}) != 0):
+            w ^= rnd()&1
+            h ^= rnd()&1
+    elif ot == {OB_REACTOR}:
         r = lookup_reactor(cx, cy)
 
         w = 16
@@ -809,7 +821,6 @@ def draw_mrect(ptr, cx, cy, xoff, yoff):
             y += 0xf - (rnd() & 0x1f)
             w += 0xf - (rnd() & 0x1f)
             h += 0xf - (rnd() & 0x1f)
-
     else:
         return ptr
 
@@ -831,7 +842,7 @@ def vwall_scan(sx, sy, ey):
     r = 0
     while sy <= ey:
         if inside(sx, sy) == 1:
-            if mget(LEVEL, sx, sy) == 0:
+            if ob(sx, sy, {OB_WALL}) == 0:
                 break
         sy += 1
         r += 1
@@ -841,7 +852,7 @@ def hwall_scan(sx, sy, ex):
     r = 0
     while sx <= ex:
         if inside(sx, sy) == 1:
-            if mget(LEVEL, sx, sy) == 0:
+            if ob(sx, sy, {OB_WALL}) == 0:
                 break
         sx += 1
         r += 1
@@ -942,7 +953,8 @@ def kbd_proc():
             INP_Y = 1
 
 def map_coll(x, y, rx, ry):
-    return mblockxy(x+rx, y-ry) | mblockxy(x+rx, y+ry) | mblockxy(x-rx, y-ry) | mblockxy(x-rx, y+ry)
+    return (oblockxy(x+rx, y-ry) | oblockxy(x+rx, y+ry) | oblockxy(x-rx, y-ry) |
+        oblockxy(x-rx, y+ry))
 
 def draw_radar(ptr, pos):
     y = 0
@@ -957,7 +969,7 @@ def draw_radar(ptr, pos):
                 far = ((abs(cx-x)>{VIEW_R})|(abs(cy-y)>{VIEW_R}))
                 if mget(RADAR_MAP, x, y):
                     ptr = draw_circle(ptr, c2x(x), c2y(y), 4, rgb(b,0,0))
-                elif mget(PADS_MAP, x, y) & far:
+                elif ob(x, y, {OB_PAD}) & far:
                     ptr = draw_circle(ptr, c2x(x), c2y(y), 4, rgb(b,b,0))
                 elif atexit(x, y) & far:
                     ptr = draw_circle(ptr, c2x(x), c2y(y), 4, rgb(0,b,b))
@@ -1047,7 +1059,7 @@ def alien_can_move(a, dir):
     xc = x2c(a[0]) + DIRS[dir*2]
     yc = y2c(a[1]) + DIRS[dir*2+1]
 
-    if mblock(xc, yc):
+    if oblock(xc, yc):
         return 0
 
     aa = scan_alien(c2x(xc), c2y(yc), a)
@@ -1145,7 +1157,6 @@ def upd_alien(a):
                 x = nx
                 y = ny
 
-
     a[2] &= ~0xf3
     a[2] |= dir | (ttl << 4)
     a[0] = x
@@ -1179,8 +1190,11 @@ def upd_aliens():
         return
 
 def check_laser_active(xc, yc):
-    if mget(LASERS_MAP, xc, yc) == 0:
+    o = oget(xc, yc)
+    if otype(o, {OB_LASER}) == 0:
         return 0
+    if bit(o, {OB_SECRET}):
+        return 1
     hor = (laser_hor(xc, yc)==1)
     if hor:
         d = yc&1
@@ -1192,9 +1206,10 @@ def check_laser_trap(x, y, w, h):
     xc = x2c(x)
     yc = y2c(y)
     if check_laser_active(xc, yc):
-       if ((laser_hor(xc, yc)==0) & (abs((x&{TWM})-{TW//2}) < w)):
+       hor = laser_hor(xc, yc)
+       if (hor==0) & (abs((x&{TWM})-{TW//2}) < w):
            return 1
-       elif ((laser_hor(xc, yc)==1) & (abs((y&{THM})-{TH//2}) < h)):
+       elif (hor==1) & (abs((y&{THM})-{TH//2}) < h):
            return 1
     return 0
 
@@ -1254,17 +1269,21 @@ def upd_hero():
     if check_laser_trap(PX, PY, 6, 9):
            HERO_DEAD = 1
            return
-
-    if mclrxy(PADS_MAP, PX, PY):
+    o = ogetxy(PX, PY)
+    if otype(o, {OB_PAD}):
+        oclrxy(PX, PY)
         PADS_NR -= 1
         POWER_DRAW = 0
         EXPLODE_MODE += 1
-    if exit_activated() & atexitxy(PX, PY):
+    elif exit_activated() & atexitxy(PX, PY):
         LEVEL_NR += 1
         NEXT_LEVEL = LEVELS + LEVELS_DIR[LEVEL_NR]
         SCROLL_MODE = -480
         return
-    if mgetxy(SPAWN_MAP, PX, PY) & (mgetxy(SPAWN_MAP, ox, oy) != 1) & (SPAWNS_NR > 1):
+    elif otype(o, {OB_TRAP}):
+        oclr(int2cx(o), int2cy(o))
+
+    if (o == {OB_SPAWN}) & (obxy(ox, oy, {OB_SPAWN}) != 1) & (SPAWNS_NR > 1):
         i = 0
         cx = x2c(PX)
         cy = y2c(PY)
@@ -1279,6 +1298,7 @@ def upd_hero():
                 PY = c2y(int2cy(spawn))
                 TELEPORT_FRAME = FRAMES
                 return
+
 EXPLODE_MODE = 0
 TITLE_MODE = 0
 
@@ -1314,7 +1334,6 @@ def update():
 
 ALIEN_COLS = [0,0,0,0,0]
 SCROLL_MODE = 0
-R_NR = 0
 
 def setup():
     TITLE_MODE = 1
@@ -1380,6 +1399,12 @@ def zoomx(start, end, factor, bits):
         start[{RECT_W}] = (start[{RECT_W}] * factor) >> bits
         start += {RECT_SIZE}
 
+def set_rect(ptr, x, y, w, h):
+    ptr[1] = x
+    ptr[2] = y
+    ptr[3] = w
+    ptr[4] = h
+
 def draw_stars(ptr):
     memcpy(ptr, STARS, {len(STARS)})
     i = 0
@@ -1387,18 +1412,11 @@ def draw_stars(ptr):
         v = abs(16 - (((FRAMES+i)&0x1f)))
         x = ptr[i+1]
         y = ptr[i+2]
-
-        ptr[i+1] = x
-        ptr[i+2] = y-(v>>1)
-        ptr[i+3] = 1
-        ptr[i+4] = v
+        set_rect(ptr+i, x, y-(v>>1), 1, v)
 
         i += {RECT_SIZE}
         ptr[i] = 1
-        ptr[i+1] = x-(v>>1)
-        ptr[i+2] = y
-        ptr[i+3] = v
-        ptr[i+4] = 1
+        set_rect(ptr+i, x-(v>>1), y, v, 1)
         i += {RECT_SIZE}
 
     return ptr + {len(STARS)}
