@@ -326,7 +326,10 @@ MAP = (
 ###############''',
 
 # 2
+# trap:{}#
+
 '''
+trap:{}#
 fg:0,0,0
 ###############
 #$           @#
@@ -336,11 +339,11 @@ fg:0,0,0
 # #############
 # ####   ######
 #      E      #
-# ####   #### #
+#{####   ####{#
 # ########### #
 #*?    /    ?*#
-# ########### #
-#$           $#
+#}###########}#
+#$     }     $#
 ###############
 ###############''',
 
@@ -738,7 +741,7 @@ def parsetrap(l):
     a = l[0:1]
     b = l[1:2]
     t = l[2:3]
-    return { 'src':a, 'dst':b, 'o':t, "list": [], "secret": False }
+    return { 'src':a, 'dst':b, 'o':t, 'where': [], 'list': [], "secret": False }
 
 def mget(m, cx, cy):
     if cx < 0 or cx >= W:
@@ -794,8 +797,7 @@ def map2bit(t):
             if i in traps["src"]:
                 t = traps["src"][i]
                 i = '.'
-                t["x"] = x
-                t["y"] = y
+                t["where"].append((x, y))
             elif i in traps["dst"]:
                 t = traps["dst"][i]
                 i = t['o']
@@ -843,10 +845,11 @@ def map2bit(t):
 
     for v in traps["list"]:
         fl = v["secret"] and OB_SECRET or 0
-        r.append(v["x"]|(v["y"]<<4)| OB_TRAP | fl)
-        for t in v["list"]:
-            r.append(t[0]|(t[1]<<4)| OB_TRAP)
-        r.append(0xff)
+        for w in v['where']:
+            r.append(w[0]|(w[1]<<4)| OB_TRAP | fl)
+            for t in v["list"]:
+                r.append(t[0]|(t[1]<<4)| OB_TRAP)
+            r.append(0xff)
 
     for i in items:
         fl = 0
