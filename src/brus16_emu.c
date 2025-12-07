@@ -21,23 +21,23 @@ struct EMU {
     uint8_t rect_colors[RECT_NUM * 3];
 } emu;
 
-const SDL_Scancode scancodes[KEY_NUM] = {
-    SDL_SCANCODE_UP,
-    SDL_SCANCODE_DOWN,
-    SDL_SCANCODE_LEFT,
-    SDL_SCANCODE_RIGHT,
-    SDL_SCANCODE_K,
-    SDL_SCANCODE_L,
-    SDL_SCANCODE_I,
-    SDL_SCANCODE_O,
-    SDL_SCANCODE_W,
-    SDL_SCANCODE_S,
-    SDL_SCANCODE_A,
-    SDL_SCANCODE_D,
-    SDL_SCANCODE_F,
-    SDL_SCANCODE_G,
-    SDL_SCANCODE_R,
-    SDL_SCANCODE_T
+const SDL_Scancode scancodes[KEY_NUM][2] = {
+    {SDL_SCANCODE_UP, SDL_SCANCODE_W}, 
+    {SDL_SCANCODE_DOWN, SDL_SCANCODE_S},
+    {SDL_SCANCODE_LEFT, SDL_SCANCODE_A},
+    {SDL_SCANCODE_RIGHT, SDL_SCANCODE_D},
+    {SDL_SCANCODE_Z, SDL_SCANCODE_1},
+    {SDL_SCANCODE_X, SDL_SCANCODE_2},
+    {SDL_SCANCODE_C, SDL_SCANCODE_3},
+    {SDL_SCANCODE_V, SDL_SCANCODE_4},
+    {SDL_SCANCODE_UP, SDL_SCANCODE_I},
+    {SDL_SCANCODE_DOWN, SDL_SCANCODE_K},
+    {SDL_SCANCODE_LEFT, SDL_SCANCODE_J},
+    {SDL_SCANCODE_RIGHT, SDL_SCANCODE_L},
+    {SDL_SCANCODE_Z, SDL_SCANCODE_7},
+    {SDL_SCANCODE_X, SDL_SCANCODE_8},
+    {SDL_SCANCODE_C, SDL_SCANCODE_9},
+    {SDL_SCANCODE_V, SDL_SCANCODE_0}
 };
 
 void from_rgb565(uint16_t color, uint8_t *r, uint8_t *g, uint8_t *b) {
@@ -135,7 +135,7 @@ SDL_AppResult SDL_AppIterate(void *appstate) {
     uint64_t frame_start = SDL_GetTicksNS();
     const bool *keys = SDL_GetKeyboardState(NULL);
     for (int i = 0; i < KEY_NUM; i++) {
-        emu.cpu.data[KEY_MEM + i] = keys[scancodes[i]];
+        emu.cpu.data[KEY_MEM + i] = keys[scancodes[i][0]] | keys[scancodes[i][1]];
     }
     for(int cycles = 0; !emu.cpu.wait; cycles++) {
         assert(cycles < CYCLES_PER_FRAME);
