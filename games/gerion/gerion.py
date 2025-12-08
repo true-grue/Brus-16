@@ -760,11 +760,11 @@ def draw_mrect(ptr, cx, cy, xoff, yoff):
         x = 2; y = 2; w = {TW-4}; h = {TH-4}
     elif (ot == {OB_TRAP}) & not_bit(obj, {OB_SECRET}):
         traps = LEVEL + (obj&0xff) + {LEVEL_HEADER}
+        x = 12; y = 12; w = 8; h = 8
         if oget(int2cx(traps[0]), int2cy(traps[0])):
-            ptr[5] = rate_color({BTN_RATE}, {BTNCOL1}, BG)
+            ptr[5] = rate_color({BTN_RATE}, {BTNCOL1}, {BTNCOL2})
         else:
             ptr[5] = {BTNCOL2}
-        x = 12; y = 12; w = 8; h = 8
     elif ot == {OB_LASER}:
         if check_laser_active(cx, cy):
             if laser_hor(cx, cy):
