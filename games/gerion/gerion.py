@@ -604,7 +604,7 @@ def draw_alien(ptr, a):
     ptr[4] = LEGS[(n+2)&0x7]
     ptr += {RECT_SIZE}
     ptr[4] = LEGS[(n+5)&0x7]
-    return ptr + {len(ALIEN)}
+    return ptr + {RECT_SIZE}
 
 def draw_hero(ptr, cx, cy):
     if HERO_DIR == 0:
