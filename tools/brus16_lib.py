@@ -1,3 +1,4 @@
+import os
 import sys
 from collections import namedtuple
 from .brus16_dsl import translate
@@ -28,9 +29,11 @@ def save_game(filename, source):
 
 
 def load_code(filename):
-    with open(filename) as f:
+    frame = sys._getframe(1)
+    path = os.path.dirname(os.path.abspath(frame.f_code.co_filename))
+    with open(os.path.join(path, filename), encoding='utf-8') as f:
         code = f'fr"""{f.read()}"""'
-    return eval(code, sys._getframe(1).f_globals)
+    return eval(code, frame.f_globals)
 
 
 def rgb(x, g=None, b=None):

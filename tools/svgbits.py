@@ -1,6 +1,7 @@
 # Author: Peter Sovietov
 def svg(width, height, body):
-    return (f'<svg version="1.1" width="{width}" height="{height}" '
+    return (f'<svg version="1.1" viewBox="0 0 {width} {height}" '
+            'width="{width}" height="{height}" '
             f'xmlns="http://www.w3.org/2000/svg">{body}</svg>')
 
 

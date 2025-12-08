@@ -21,20 +21,22 @@ emu:
 gen:
 	python tools/gen_cfg.py src
 	python tools/gen_isa.py .
-	pandoc isa.md --template docs/template.html --metadata title="Brus-16 ISA" -o docs/isa.html
+	pandoc isa.md --standalone --metadata title="Brus-16 ISA" -o docs/isa.html
 
-GAMES = --preload-file logo.bin \
-		--preload-file racing.bin \
-		--preload-file flippy.bin \
-		--preload-file pong.bin \
-		--preload-file ping.bin \
-		--preload-file tower.bin \
-		--preload-file alterego.bin \
-		--preload-file gerion.bin \
-		--preload-file robot.bin \
-		--preload-file zoom.bin
+games:
+	python games/logo.py
+	python games/racing.py
+	python games/flippy.py
+	python games/pong.py
+	python games/ping.py
+	python games/tower.py
+	python games/gerion/gerion_make.py
+	python games/robot.py
+	python games/zoom.py
+
+GAMES_BIN := $(patsubst %,--preload-file %,$(wildcard *.bin))
 
 web:
-	$(EMCC) $(CFLAGS) -DZOOM=1 $(SRC) $(GAMES) -s USE_SDL=3 -s MODULARIZE=1 -o brus16.html --shell-file src/template.html
+	$(EMCC) $(CFLAGS) -DZOOM=1 $(SRC) $(GAMES_BIN) -s USE_SDL=3 -s MODULARIZE=1 -o brus16.html --shell-file src/brus16_emu.html
 
-.PHONY: sdl web
+.PHONY: emu gen games web

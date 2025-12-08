@@ -196,7 +196,7 @@ def optimize(asm):
                 stack[-1:] = []
             case [*_, ('ADD', offs), (('LOAD' | 'STORE') as op, 0)]:
                 stack[-2:] = [(op, offs)]
-            case [*_, ('RET', _) as ret, ('JMP' | 'RET', _)]:
+            case [*_, ('RET', _) as ret, (op, *_)] if op != 'LABEL':
                 stack[-2:] = [ret]
             case [*_, ('PUSH', x), (op,)] if op in binops:
                 stack[-2:] = [(op, x)]
