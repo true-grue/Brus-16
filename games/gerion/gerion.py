@@ -1,6 +1,7 @@
 def start():
     main()
 
+ZOOM_MODE = 1
 #def debug_val(x):
 #   d = (x >> 12) & 15
 #   poke(-1, d + 48 + (d > 9) * 7)
@@ -915,11 +916,13 @@ INP_X = 0
 INP_A = 0
 INP_B = 0
 INP_C = 0
+INP_D = 0
 
 def kbd_clear():
     INP_A = 0
     INP_B = 0
     INP_C = 0
+    INP_D = 0
 
 def kbd_proc():
     i = 0
@@ -940,6 +943,8 @@ def kbd_proc():
                 INP_B = c
             elif i == {KEY_C}:
                 INP_C = c
+            elif i == {KEY_D}:
+                INP_D = c
             INP_STATE[i] = c
         i += 1
 
@@ -1232,6 +1237,10 @@ def upd_hero():
         else:
             RADAR_MODE -= 8
 
+    if INP_D & INP_C:
+        ZOOM_MODE ^= 1
+        kbd_clear()
+
     if INP_C & (INP_A | INP_B):
         if INP_B:
             LEVEL_NR -= 1
@@ -1521,7 +1530,9 @@ def draw():
     if (RADAR_MODE > 0):
         ptr = draw_radar(ptr, 480 - RADAR_MODE)
 
-    {ZOOM_MODE_ENABLED}
+    if ZOOM_MODE:
+        zoom_mode()
+
     dx = 0
     dy = 0
     if SHAKE_MODE > 0:
