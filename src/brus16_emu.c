@@ -63,12 +63,14 @@ void load_game(char *filename) {
 void save_frame(char *filename) {
     FILE* fp = fopen(filename, "wb");
     assert(fp);
-    fprintf(fp, "<svg xmlns=\"http://www.w3.org/2000/svg\">");
+    fprintf(fp, "<svg xmlns=\"http://www.w3.org/2000/svg\">\n");
+    fprintf(fp, "<rect x=\"0\" y=\"0\" width=\"%d\" height=\"%d\" fill=\"#000000\" />\n",
+            SCREEN_W * ZOOM, SCREEN_H * ZOOM);
     char hex_rgb[8];
     for (int i = 0; i < RECT_NUM; i++) {
         uint8_t *rgb = &emu.rect_colors[i * 3];
         sprintf(hex_rgb, "#%02x%02x%02x", rgb[0], rgb[1], rgb[2]);
-        fprintf(fp, "<rect x=\"%f\" y=\"%f\" width=\"%f\" height=\"%f\" fill=\"%s\" />\n",
+        fprintf(fp, "<rect x=\"%1.f\" y=\"%1.f\" width=\"%1.f\" height=\"%1.f\" fill=\"%s\" />\n",
                 emu.rects[i].x, emu.rects[i].y, emu.rects[i].w, emu.rects[i].h, hex_rgb);
     }
     fprintf(fp, "</svg>");
