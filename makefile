@@ -21,7 +21,7 @@ emu:
 gen:
 	python tools/gen_cfg.py src
 	python tools/gen_isa.py .
-	pandoc isa.md --standalone --metadata title="Brus-16 ISA" -o docs/isa.html
+	pandoc isa.md --standalone --toc --metadata title="Brus-16 ISA" -o docs/isa.html
 
 games:
 	python games/logo.py
