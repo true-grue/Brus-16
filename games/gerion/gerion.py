@@ -1070,6 +1070,10 @@ def alien_can_move(a, dir):
     if oblock(xc, yc):
         return 0
 
+    o = oget(xc, yc)
+    if otype(o, {OB_LASER}) & bit(o, {OB_SECRET}):
+        return 0
+
     aa = scan_alien(c2x(xc), c2y(yc), a)
     if aa:
         return 0
