@@ -31,6 +31,14 @@
 #define KEY_B2 13
 #define KEY_C2 14
 #define KEY_D2 15
+#define VOICE_NUM 16
+#define VOICE_SIZE 4
+#define VOICE_MEM 7728
+#define VOICE_ABS 0
+#define VOICE_AMP 1
+#define VOICE_DECAY 2
+#define VOICE_STEP 3
+#define SYSTEM_MEM 7728
 #define F_POS 15
 #define F_SIZE 1
 #define IMM_POS 0

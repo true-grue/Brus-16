@@ -35,6 +35,16 @@ KEY_B2 = 13
 KEY_C2 = 14
 KEY_D2 = 15
 
+VOICE_NUM = 16
+VOICE_SIZE = 4
+VOICE_MEM = KEY_MEM - VOICE_NUM * VOICE_SIZE
+VOICE_ABS = 0
+VOICE_AMP = 1
+VOICE_DECAY = 2
+VOICE_STEP = 3
+
+SYSTEM_MEM = VOICE_MEM
+
 FORMATS = [
     [('F', 1), ('OP0', 5), ('I', 1), ('SIMM', 9)],
     [('F', 1), ('OP1', 2), ('IMM', 13)]

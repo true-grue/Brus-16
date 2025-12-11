@@ -6,20 +6,25 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include "brus16_cpu.h"
+#include "brus16_sfx.h"
 
 #ifndef ZOOM
 #define ZOOM 2
 #endif
 #define FPS 60
-#define FRAME_DELAY (SDL_NS_PER_SECOND / FPS)
 #define CYCLES_PER_FRAME 400000
+#define SAMPLES_PER_FRAME (44100 / FPS)
 
 struct EMU {
     struct CPU cpu;
+    struct SFX sfx;
     SDL_Window *window;
     SDL_Renderer *renderer;
+    SDL_AudioStream *stream;
     SDL_FRect rects[RECT_NUM];
     uint8_t rect_colors[RECT_NUM * 3];
+    uint64_t last_ticks;
+    uint64_t ticks_acc;
 };
 
 const SDL_Scancode scancodes[KEY_NUM][2] = {
@@ -83,16 +88,22 @@ void debug_put(int c) {
 }
 
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv) {
+    assert(argc == 2);
     *appstate = malloc(sizeof(struct EMU));
     assert(*appstate);
     struct EMU *emu = *appstate;
     setvbuf(stdout, NULL, _IONBF, 0);
-    assert(SDL_Init(SDL_INIT_VIDEO));
+    assert(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO));
     assert(SDL_CreateWindowAndRenderer("Brus-16", SCREEN_W * ZOOM, SCREEN_H * ZOOM, 0, &emu->window, &emu->renderer));
     SDL_SetRenderVSync(emu->renderer, 1);
-    assert(argc == 2);
+    SDL_AudioSpec spec = {SDL_AUDIO_S16, 1, SAMPLES_PER_FRAME * FPS};
+    emu->stream = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &spec, NULL, NULL);
+    assert(emu->stream);
+    emu->last_ticks = SDL_GetTicksNS();
+    emu->ticks_acc = SDL_NS_PER_SECOND;
+    SDL_ResumeAudioStreamDevice(emu->stream);
     load_game(emu, argv[1]);
-    emu->cpu.fp = KEY_MEM;
+    emu->cpu.fp = SYSTEM_MEM;
     return SDL_APP_CONTINUE;
 }
 
@@ -123,10 +134,7 @@ void update_rects(struct EMU *emu) {
             x += cursor_x;
             y += cursor_y;
         }
-        emu->rects[i].x = x * ZOOM;
-        emu->rects[i].y = y * ZOOM;
-        emu->rects[i].w = w * ZOOM;
-        emu->rects[i].h = h * ZOOM;
+        emu->rects[i] = (SDL_FRect) {x * ZOOM, y * ZOOM, w * ZOOM, h * ZOOM};
         uint16_t color = emu->cpu.data[rect_addr + RECT_COLOR];
         uint8_t *rgb = &emu->rect_colors[i * 3];
         from_rgb565(color, &rgb[0], &rgb[1], &rgb[2]);
@@ -136,16 +144,28 @@ void update_rects(struct EMU *emu) {
 
 SDL_AppResult SDL_AppIterate(void *appstate) {
     struct EMU *emu = appstate;
-    uint64_t frame_start = SDL_GetTicksNS();
+    int16_t samples[SAMPLES_PER_FRAME];
     const bool *keys = SDL_GetKeyboardState(NULL);
     for (int i = 0; i < KEY_NUM; i++) {
         emu->cpu.data[KEY_MEM + i] = keys[scancodes[i][0]] | keys[scancodes[i][1]];
     }
-    for(int cycles = 0; !emu->cpu.wait; cycles++) {
-        assert(cycles < CYCLES_PER_FRAME);
-        step(&emu->cpu);
+    uint64_t ticks = SDL_GetTicksNS();
+    uint64_t delta = ticks - emu->last_ticks;
+    emu->last_ticks = ticks;
+    emu->ticks_acc += delta * FPS;
+    while (emu->ticks_acc >= SDL_NS_PER_SECOND) {
+        emu->ticks_acc -= SDL_NS_PER_SECOND;
+        for(int cycles = 0; !emu->cpu.wait; cycles++) {
+            assert(cycles < CYCLES_PER_FRAME);
+            step(&emu->cpu);
+        }
+        emu->cpu.wait = 0;
+        sfx_update(&emu->cpu.data[VOICE_MEM], &emu->sfx);
+        for (int i = 0; i < SAMPLES_PER_FRAME; i++) {
+            samples[i] = sfx_process(&emu->sfx);
+        }
+        SDL_PutAudioStreamData(emu->stream, samples, sizeof(samples));
     }
-    emu->cpu.wait = 0;
     update_rects(emu);
     SDL_SetRenderDrawColor(emu->renderer, 0, 0, 0, 255);
     SDL_RenderClear(emu->renderer);
@@ -155,15 +175,11 @@ SDL_AppResult SDL_AppIterate(void *appstate) {
         SDL_RenderFillRect(emu->renderer, &emu->rects[i]);
     }
     SDL_RenderPresent(emu->renderer);
-    uint64_t frame_time = SDL_GetTicksNS() - frame_start;
-    if (FRAME_DELAY > frame_time) {
-        SDL_DelayPrecise(FRAME_DELAY - frame_time);
-    }
     return SDL_APP_CONTINUE;
 }
 
 void SDL_AppQuit(void *appstate, SDL_AppResult result) {
-    free((struct EMU *) appstate);
+    free(appstate);
     (void) result;
 }
 
