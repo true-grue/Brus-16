@@ -1360,7 +1360,7 @@ def setup():
     LEVEL = LEVELS + LEVELS_DIR[LEVEL_NR]
     NEXT_LEVEL = LEVEL
     i = 0
-    while i < {len(ALIEN)}:
+    while i < {len(ALIEN)//RECT_SIZE}:
         ALIEN_COLS[i] = ALIEN[i*{RECT_SIZE}+5]
         i += 1
 
