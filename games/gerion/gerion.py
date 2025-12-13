@@ -1559,7 +1559,7 @@ def draw():
 
 def sound():
     if (SND_DEAD > 0) & (is_dead_now == 0):
-        sfx_start(sfx_dead, 0, 0)
+        sfx_start(sfx_dead, 1, 0)
         is_dead_now = 1
     elif (SND_DEAD <= 0) & is_dead_now:
         is_dead_now = 0
