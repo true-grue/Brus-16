@@ -1559,7 +1559,7 @@ def draw():
 
 def sound():
     if (SND_DEAD > 0) & (is_dead_now == 0):
-        sfx_start(sfx_dead, 1, 0)
+        sfx_start(sfx_dead, 3, 0)
         is_dead_now = 1
     elif (SND_DEAD <= 0) & is_dead_now:
         is_dead_now = 0
@@ -1581,7 +1581,7 @@ def sound():
         sfx_stop(sfx_laser)
         is_laser_on = 0
 
-    sfx_mix(sfx_chans, 3)
+    sfx_mix(sfx_chans, 4)
   
 def sfx_start(sfx, ch, is_loop):
     sfx[{SFX_POS}] = 0
@@ -1631,7 +1631,7 @@ is_radar_on = 0
 is_laser_on = 0
 is_pad_taken = 0
 
-sfx_chans = [0, 0, 0]
+sfx_chans = [0, 0, 0, 0]
 sfx_radar = {[0, 0, 0, len(SFX_RADAR)] + SFX_RADAR}
 sfx_laser = {[0, 0, 0, len(SFX_LASER)] + SFX_LASER}
 sfx_pad = {[0, 0, 0, len(SFX_PAD)] + SFX_PAD}
