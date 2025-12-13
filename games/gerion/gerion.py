@@ -319,6 +319,7 @@ def loadlev():
         cb += 1
 
     PADS_MAX = PADS_NR
+    prev_pads_nr = PADS_MAX
 
 def draw_rect(ptr, x, y, w, h, col):
     if (ptr >= {RECT_MEM+RECT_SIZE*RECT_NUM}):
@@ -1553,7 +1554,7 @@ def draw():
     ptr = draw_status(ptr)
 
 def sound():
-    if PADS_NR != prev_pads_nr:
+    if prev_pads_nr != PADS_NR:
         sfx_start(sfx_pad, 2, 0)
         prev_pads_nr = PADS_NR
 
@@ -1614,7 +1615,7 @@ def sfx_mix(chans, chans_num):
             sfx_play(sfx)
         i += 1
 
-prev_pads_nr = 0
+prev_pads_nr = -1
 is_radar_on = 0
 is_laser_on = 0
 is_pad_taken = 0
