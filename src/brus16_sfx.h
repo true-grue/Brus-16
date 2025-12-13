@@ -13,7 +13,7 @@ struct VOICE {
 };
 
 struct SFX {
-    struct VOICE voices[VOICE_NUM];
+    struct VOICE voices[VOICES_NUM];
     int decay_counter;
 };
 

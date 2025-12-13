@@ -110,7 +110,7 @@ static const int16_t sine_table[TABLE_SIZE] = {
 void sfx_update(uint16_t *voice_addr, struct SFX *sfx) {
     uint16_t abs_amp = 0;
     uint16_t abs_step = 0;
-    for (int i = 0; i < VOICE_NUM; i++) {
+    for (int i = 0; i < VOICES_NUM; i++) {
         struct VOICE *v = &sfx->voices[i];  
         uint16_t amp = voice_addr[VOICE_AMP];
         uint16_t step = voice_addr[VOICE_STEP];
@@ -138,7 +138,7 @@ static int16_t limit(int32_t x, int32_t x_min, int32_t x_max) {
 int16_t sfx_process(struct SFX *sfx) {
     int32_t acc = 0;
     int is_decay = (sfx->decay_counter & (DECAY_SCALE - 1)) == 0;
-    for (int i = 0; i < VOICE_NUM; i++) {
+    for (int i = 0; i < VOICES_NUM; i++) {
         struct VOICE *v = &sfx->voices[i];
         v->amp += ((int32_t) v->target_amp - v->amp) >> DECAY_BITS;
         uint16_t pos = (v->phase >> TABLE_BITS) & (TABLE_SIZE - 1);

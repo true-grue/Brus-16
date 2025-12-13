@@ -877,4 +877,13 @@ for m in MAP:
     LEVELS_DIR.append(len(LEVELS))
     LEVELS_NR += 1
 
+SFX_POS = 0
+SFX_COUNT = 1
+SFX_LOOP = 2
+SFX_SIZE = 3
+SFX_DATA = 4
+
+SFX_RADAR = [33792, 1, 1783, 3277, 32333, 0, 1014, 1024, 32333, 0, 1027, 1024, 32586, 0, 1022, 1024, 32586, 1, 32834, 0, 60]
+SFX_LASER = [33040, 1, 743, 3277, 30650, 1, 32850, 0, 1]
+
 save_game('gerion.bin', load_code('gerion.py'))

@@ -1360,7 +1360,7 @@ def setup():
     LEVEL = LEVELS + LEVELS_DIR[LEVEL_NR]
     NEXT_LEVEL = LEVEL
     i = 0
-    while i < {len(ALIEN)}:
+    while i < {len(ALIEN) // RECT_SIZE}:
         ALIEN_COLS[i] = ALIEN[i*{RECT_SIZE}+5]
         i += 1
 
@@ -1552,11 +1552,77 @@ def draw():
 
     ptr = draw_status(ptr)
 
+def sound():
+    if (RADAR_MODE > 0) & (is_radar_on == 0):
+        sfx_start(sfx_radar, 0, 0)
+        is_radar_on = 1
+    elif (RADAR_MODE <= 0) & is_radar_on:
+        is_radar_on = 0
+
+    if (LASER_X >= 0) & (is_laser_on == 0):
+        sfx_start(sfx_laser, 1, 1)
+        is_laser_on = 1
+    elif (LASER_X < 0) & is_laser_on:
+        sfx_stop(sfx_laser)
+        is_laser_on = 0
+
+    sfx_mix(sfx_chans, 2)
+  
+def sfx_start(sfx, ch, is_loop):
+    sfx[{SFX_POS}] = 0
+    sfx[{SFX_COUNT}] = 0
+    sfx[{SFX_LOOP}] = is_loop
+    sfx_chans[ch] = sfx
+
+def sfx_stop(sfx):
+    sfx[{SFX_LOOP}] = 0
+
+def sfx_play(sfx):
+    if sfx[{SFX_COUNT}] > 0:
+        sfx[{SFX_COUNT}] -= 1
+        return
+    pos = sfx[{SFX_POS}]
+    if pos >= sfx[{SFX_SIZE}]:
+        if sfx[{SFX_LOOP}] == 0:
+            return
+        pos = 0
+    data = sfx + {SFX_DATA}
+    do_params = 1
+    while do_params:
+        p = data[pos]
+        pos += 1
+        idx = p & 63
+        end = idx + ((p >> 6) & 63)
+        if p >> 15:
+            do_params = 0
+        while idx < end:
+            poke({VOICES_MEM} + idx, data[pos])
+            pos += 1
+            idx += 1
+    sfx[{SFX_COUNT}] = data[pos]
+    sfx[{SFX_POS}] = pos + 1
+
+def sfx_mix(chans, chans_num):
+    i = 0
+    while i < chans_num:
+        sfx = chans[i]
+        if sfx:
+            sfx_play(sfx)
+        i += 1
+
+is_radar_on = 0
+is_laser_on = 0
+
+sfx_chans = [0, 0]
+sfx_radar = {[0, 0, 0, len(SFX_RADAR)] + SFX_RADAR}
+sfx_laser = {[0, 0, 0, len(SFX_LASER)] + SFX_LASER}
+
 def main():
     setup()
     loadlev()
     while 1:
         update()
         draw()
+        sound()
         wait()
         FRAMES += 1

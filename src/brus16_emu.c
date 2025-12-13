@@ -160,7 +160,7 @@ SDL_AppResult SDL_AppIterate(void *appstate) {
             step(&emu->cpu);
         }
         emu->cpu.wait = 0;
-        sfx_update(&emu->cpu.data[VOICE_MEM], &emu->sfx);
+        sfx_update(&emu->cpu.data[VOICES_MEM], &emu->sfx);
         for (int i = 0; i < SAMPLES_PER_FRAME; i++) {
             samples[i] = sfx_process(&emu->sfx);
         }
