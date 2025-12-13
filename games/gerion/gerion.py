@@ -1615,7 +1615,7 @@ def sfx_mix(chans, chans_num):
             sfx_play(sfx)
         i += 1
 
-prev_pads_nr = -1
+prev_pads_nr = 0
 is_radar_on = 0
 is_laser_on = 0
 is_pad_taken = 0
