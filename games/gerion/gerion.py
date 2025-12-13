@@ -404,6 +404,7 @@ def obs_laser(obs, hit, health):
     if (e >= health) & not_bit(obs[0], {OBS_DEAD}):
         obs[0] = bit_sethi(obs[0], {OBS_MASK}, 0)
         obs[0] |= {OBS_DEAD}
+        SND_DEAD = 1
     elif not_bit(obs[0], {OBS_DEAD}):
         obs[0] = bit_sethi(obs[0], {OBS_MASK}, e)
 
@@ -418,6 +419,7 @@ def alien_hit_laser(a):
         a[2] = bit_sethi(a[2], {ALIEN_MASK}, e)
     elif not_bit(a[2], {ALIEN_DEAD}):
         a[2] = {ALIEN_DEAD | (ALIEN_HEALTH<<8)}
+        SND_DEAD = 2
 
 def upd_laser():
     a = ALIENS
@@ -1321,9 +1323,11 @@ def upd_hero():
 
 EXPLODE_MODE = 0
 TITLE_MODE = 0
+SND_DEAD = 0
 
 def update():
     kbd_proc()
+    SND_DEAD = 0
     EXPLODE_MODE = 0
     SHAKE_MODE = 0
     if SCROLL_MODE > 0:
