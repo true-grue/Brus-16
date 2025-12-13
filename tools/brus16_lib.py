@@ -1,5 +1,6 @@
 import os
 import sys
+import math
 from collections import namedtuple
 from .brus16_dsl import translate
 from .brus16_asm import assemble, save
@@ -55,3 +56,22 @@ def make_rects():
 
 
 rect = make_rects()
+
+
+def get_vol(val):
+    return min(round(val * 32768), 65535)
+
+
+def get_decay(sec):
+    steps = (sec * SR) / DECAY_SCALE
+    k = math.exp(math.log(0.01) / steps)
+    return round(k * 32768)
+
+
+def get_freq(freq):
+    step = round((TABLE_SIZE * freq * (1 / SR)) * (1 << TABLE_BITS))
+    return min(step, 65535)
+
+
+def get_ratio(x):
+    return min(round(x * (1 << RATIO_BITS)), 65535)

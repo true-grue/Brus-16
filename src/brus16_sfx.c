@@ -1,13 +1,6 @@
 // Author: Peter Sovietov
 #include "brus16_sfx.h"
 
-#define TABLE_SIZE 1024
-#define TABLE_BITS 6
-#define AMP_BITS 15
-#define RATIO_BITS 10
-#define DECAY_BITS 6
-#define DECAY_SCALE 64
-
 static const int16_t sine_table[TABLE_SIZE] = {
     0, 201, 402, 603, 804, 1005, 1206, 1407, 1608, 1809, 2009, 2210, 2410, 2611,
     2811, 3012, 3212, 3412, 3612, 3811, 4011, 4210, 4410, 4609, 4808, 5007, 5205,
@@ -107,14 +100,14 @@ static const int16_t sine_table[TABLE_SIZE] = {
     -402, -201
 };
 
-void sfx_update(uint16_t *voice_addr, struct SFX *sfx) {
+void sfx_update(uint16_t *osc_addr, struct SFX *sfx) {
     uint16_t abs_amp = 0;
     uint16_t abs_step = 0;
-    for (int i = 0; i < VOICES_NUM; i++) {
-        struct VOICE *v = &sfx->voices[i];  
-        uint16_t amp = voice_addr[VOICE_AMP];
-        uint16_t step = voice_addr[VOICE_STEP];
-        if (voice_addr[VOICE_ABS]) {
+    for (int i = 0; i < OSC_NUM; i++) {
+        struct OSC *v = &sfx->oscs[i];  
+        uint16_t amp = osc_addr[OSC_AMP];
+        uint16_t step = osc_addr[OSC_STEP];
+        if (osc_addr[OSC_ABS]) {
             abs_amp = amp;
             abs_step = step;
         } else {
@@ -125,8 +118,8 @@ void sfx_update(uint16_t *voice_addr, struct SFX *sfx) {
             v->target_amp = amp;
         }
         v->step = step;
-        v->decay = voice_addr[VOICE_DECAY];
-        voice_addr += VOICE_SIZE;
+        v->decay = osc_addr[OSC_DECAY];
+        osc_addr += OSC_SIZE;
     }
 }
 
@@ -138,8 +131,8 @@ static int16_t limit(int32_t x, int32_t x_min, int32_t x_max) {
 int16_t sfx_process(struct SFX *sfx) {
     int32_t acc = 0;
     int is_decay = (sfx->decay_counter & (DECAY_SCALE - 1)) == 0;
-    for (int i = 0; i < VOICES_NUM; i++) {
-        struct VOICE *v = &sfx->voices[i];
+    for (int i = 0; i < OSC_NUM; i++) {
+        struct OSC *v = &sfx->oscs[i];
         v->amp += ((int32_t) v->target_amp - v->amp) >> DECAY_BITS;
         uint16_t pos = (v->phase >> TABLE_BITS) & (TABLE_SIZE - 1);
         acc += (sine_table[pos] * v->amp) >> AMP_BITS;

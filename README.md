@@ -13,6 +13,7 @@ Brus-16 consists of:
 
 * **16-bit stack-based CPU**: Harvard architecture (8K words for code, 8K for data), two hardware stacks (values and return addresses), fixed instruction size. Designed to simplify compiler development.
 * **Graphics processor**: Renders 64 filled rectangles per frame without a framebuffer. 640x480x16bpp, 60 fps.
+* **Sound processor**: Additive synthesizer with 16 oscillators.
 * **Input controller**: Supports 16 buttons.
 
 The ISA is described [here](https://true-grue.github.io/Brus-16/isa.html).
@@ -55,6 +56,7 @@ A Verilog hardware implementation by Kirill Pavlov is available [here](https://g
 
 * **16-битный стековый процессор**: гарвардская архитектура (8К слов для кода, 8К слов для данных), два аппаратных стека (для значений и адресов возврата), фиксированная длина команд. Архитектура процессора спроектирована для удобства написания простых компиляторов. 
 * **Графический процессор**: обрабатывает 64 закрашенных прямоугольника на кадр без использования видеобуфера. Характеристики графики: 640x480x16bpp, 60 fps.
+* **Звуковой процессор**: Аддитивный синтезатор с 16 осцилляторами.
 * **Контроллер ввода**: поддерживает 16 кнопок.
 
 Система команд oписана [здесь](https://true-grue.github.io/Brus-16/isa.html).

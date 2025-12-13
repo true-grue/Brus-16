@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include "brus16_cfg.h"
 
-struct VOICE {
+struct OSC {
     uint16_t amp;
     uint16_t target_amp;
     uint16_t decay;
@@ -13,11 +13,11 @@ struct VOICE {
 };
 
 struct SFX {
-    struct VOICE voices[VOICES_NUM];
+    struct OSC oscs[OSC_NUM];
     int decay_counter;
 };
 
-void sfx_update(uint16_t *voice_addr, struct SFX *sfx);
+void sfx_update(uint16_t *osc_addr, struct SFX *sfx);
 int16_t sfx_process(struct SFX *sfx);
 
 #endif
