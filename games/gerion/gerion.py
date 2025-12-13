@@ -1611,7 +1611,7 @@ def sfx_play(sfx):
         if p >> 15:
             do_params = 0
         while idx < end:
-            poke({VOICES_MEM} + idx, data[pos])
+            poke({OSC_MEM} + idx, data[pos])
             pos += 1
             idx += 1
     sfx[{SFX_COUNT}] = data[pos]
