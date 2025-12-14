@@ -226,6 +226,8 @@ def invertx(t, l):
 
 HEROL = invertx(HERO, len(HERO))
 
+HERO_FACES = HERO + HEROU + HEROL + HEROD
+
 TW = 32
 TH = 32
 
