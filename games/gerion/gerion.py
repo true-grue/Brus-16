@@ -1552,6 +1552,11 @@ def sound():
         sfx_stop(sfx_laser)
         is_laser_on = 0
 
+    if exit_activated() & (SCROLL_MODE == -480): # next level activated
+        pass
+    if HERO_DEAD == 1: # players death
+        pass
+
     sfx_mix(sfx_chans, 4)
   
 def sfx_start(sfx, ch, is_loop):
