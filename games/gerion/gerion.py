@@ -902,13 +902,15 @@ def draw_map(ptr, x, y):
 
 INP_STATE = {KEY_STATE}
 
-INP_Y = 0
-INP_X = 0
+INP_BTNS = [] # do not move!!!
 INP_A = 0
 INP_B = 0
 INP_C = 0
 INP_D = 0
 
+
+INP_Y = 0
+INP_X = 0
 def kbd_clear():
     INP_A = 0
     INP_B = 0
@@ -928,14 +930,8 @@ def kbd_proc():
                 INP_X = -1*c
             elif i == {KEY_RIGHT}:
                 INP_X = 1*c
-            elif i == {KEY_A}:
-                INP_A = c
-            elif i == {KEY_B}:
-                INP_B = c
-            elif i == {KEY_C}:
-                INP_C = c
-            elif i == {KEY_D}:
-                INP_D = c
+            elif (i >= {KEY_A}) & (i <= {KEY_D}):
+                INP_BTNS[i - {KEY_A}] = c
             INP_STATE[i] = c
         i += 1
 
