@@ -417,6 +417,12 @@ def obs_laser(obs, hit, health):
     elif not_bit(obs[0], {OBS_DEAD}):
         obs[0] = bit_sethi(obs[0], {OBS_MASK}, e)
 
+def get_dir_dx(i):
+    return DIRS[i*2]
+
+def get_dir_dy(i):
+    return DIRS[i*2+1]
+
 def alien_hit_laser(a):
     e = bit_gethi(a[2], {ALIEN_MASK})
     a[2] |= {ALIEN_HIT}
@@ -461,8 +467,8 @@ def upd_laser():
 
     x = PX + HERO_LDIRS[HERO_DIR*2]
     y = PY + HERO_LDIRS[HERO_DIR*2+1]
-    dx = DIRS[HERO_DIR*2]*({TW//2})
-    dy = DIRS[HERO_DIR*2+1]*({TH//2})
+    dx = get_dir_dx(HERO_DIR)*{TW//2}
+    dy = get_dir_dy(HERO_DIR)*{TH//2}
 
     ex = x
     ey = y
@@ -724,6 +730,9 @@ def atexitxy(x, y):
 def laser_hor(cx, cy):
     return bit(oget(cx, cy), {OB_H})
 
+DECORS = [CORPSE]
+DECORS_SZ = {DECORS_SZ}
+
 def draw_mrect(ptr, cx, cy, xoff, yoff):
     x = 0
     y = 0
@@ -820,8 +829,9 @@ def draw_mrect(ptr, cx, cy, xoff, yoff):
             y += rndfs()
             w += rndfs()
             h += rndfs()
-    elif ot == {OB_CORPSE}:
-        return mrect_sprite(ptr, CORPSE, {len(CORPSE)}, cx, cy, xoff, yoff)
+    elif (ot&0x0f00) >= {OB_DECOR}:
+        ot = ((ot&0x0f00) - {OB_DECOR}) >> 8
+        return mrect_sprite(ptr, DECORS[ot], DECORS_SZ[ot], cx, cy, xoff, yoff)
     else:
         return ptr
 
@@ -1058,8 +1068,8 @@ def scan_alien(x, y, aa):
     return 0
 
 def alien_can_move(a, dir):
-    xc = x2c(a[0]) + DIRS[dir*2]
-    yc = y2c(a[1]) + DIRS[dir*2+1]
+    xc = x2c(a[0]) + get_dir_dx(dir)
+    yc = y2c(a[1]) + get_dir_dy(dir)
 
     if oblock(xc, yc):
         return 0
@@ -1147,8 +1157,8 @@ def upd_alien(a):
 
     if (t != 4):
         aa = scan_alien(x, y, a)
-        nx = x + DIRS[dir*2]
-        ny = y + DIRS[dir*2+1]
+        nx = x + get_dir_dx(dir)
+        ny = y + get_dir_dy(dir)
         if ((aa == 0) | (aa > a)):
             if (check_laser_active(x2c(nx), x2c(ny)) == 0) | bit(a[2], {ALIEN_HIT}):
                 x = nx
@@ -1465,15 +1475,10 @@ def draw_ending(ptr):
 def draw_title(ptr):
     ptr = draw_stars(ptr)
     memcpy(ptr, TITLE, {len(TITLE)})
-    ptr[1] += 147
-    ptr[2] += 79
     zoomx(ptr, ptr + {len(TITLE)}, min((TITLE_MODE), 128), 7)
     ptr += {len(TITLE)}
     memcpy(ptr, ASTEROID, {len(ASTEROID)})
-    ptr[1] += 306
-    ptr[2] += 283
-    ptr += {len(ASTEROID)}
-    return ptr
+    return ptr + {len(ASTEROID)}
 
 def zoom_mode():
     target_z = {2 << ZOOM_BITS}

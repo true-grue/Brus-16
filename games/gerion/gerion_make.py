@@ -74,7 +74,7 @@ DOORCOL = rgb(41,132,159)
 DOORCOL_BOSS = rgb(0xBF3330)
 
 TITLE = [
-    1, 0, 0, 15, 100, rgb(0x70a4b2),
+    1, 147, 79, 15, 100, rgb(0x70a4b2),
     0, 15, 0, 14, 5, rgb(0x70a4b2),
     0, 29, 0, 15, 20, rgb(0x70a4b2),
     0, 60, 0, 44, 100, rgb(0x70a4b2),
@@ -100,7 +100,7 @@ TITLE = [
 ]
 
 ASTEROID = [
-    1, 0, 0, 63, 16, rgb(0x6c5eb5),
+    1, 306, 283, 63, 16, rgb(0x6c5eb5),
     0, 0, -5, 42, 10, rgb(0x70a4b2),
     0, 22, -5, 10, 10, rgb(0x6c5eb5),
     0, -16, 5, 16, 10, rgb(0x70a4b2),
@@ -177,6 +177,8 @@ CORPSE = [
     0, 4, 28, 4, 2, rgb(169, 0, 0),
     0, -3, 29, 17, 1, rgb(150, 0, 0),
 ]
+
+DECORS_SZ = [len(CORPSE)]
 
 HERO = [
     1, 0, 0, 8, 10, c1,
@@ -274,6 +276,8 @@ OB_REACTOR   = 0x0400|OB_OBSTACLE
 OB_LASER     = 0x0500
 OB_SPAWN     = 0x0600
 OB_TRAP      = 0x0700
+
+OB_DECOR     = 0x0800 # do not change!
 OB_CORPSE    = 0x0800
 OB_MASK      = 0x1f00
 
