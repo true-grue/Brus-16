@@ -759,13 +759,14 @@ def draw_mrect(ptr, cx, cy, xoff, yoff):
         ptr[5] = if_val(oget(int2cx(traps[0]), int2cy(traps[0])),
             rate_color({BTN_RATE}, {BTNCOL1}, {BTNCOL2}), {BTNCOL2})
     elif ot == {OB_LASER}:
-        if check_laser_active(cx, cy):
+        if check_laser_active(cx, cy) | 1:
             if laser_hor(cx, cy):
                 x = 0; y  = 15 ^ (FRAMES&1); w = {TW}; h = 1
             else:
                 x = 15 ^ (FRAMES&1); y = 0; w = 1; h = {TH}
             ptr[5] = rate_color(1, {rgb(255, 0, 0)}, {rgb(0, 255, 0)})
-        return ptr
+        else:
+            return ptr
     elif ot == {OB_DOOR}:
         door = lookup_door(cx, cy)
         if bit(door[0], {OBS_DEAD}):
