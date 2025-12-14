@@ -22,7 +22,7 @@ def pass1(ir):
                 labels[name] = len(new_ir)
             case ('DATA', name, *vals):
                 labels[name] = len(data)
-                data += vals
+                data += [labels.get(v, v) for v in vals]
             case _:
                 new_ir.append(cmd)
     return labels, new_ir, data

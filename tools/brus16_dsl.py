@@ -78,18 +78,18 @@ def trans_store(env, name, expr, lineno):
             raise NameError(f"'{name}' at line {lineno}")
 
 
-def trans_expr(env, node):
+def trans_expr(env, node, is_data=False):
     match node:
         case ast.Constant(int(val)):
-            return push(val)
+            return val if is_data else push(val)
         case ast.Name(name):
-            return trans_load(env, name, node.lineno)
+            return name if is_data else trans_load(env, name, node.lineno)
         case ast.Subscript(x, y):
             x = trans_expr(env, x)
             y = trans_expr(env, y)
             return [*x, *y, ('ADD',), *LOAD]
         case ast.UnaryOp(ast.USub(), ast.Constant(int(val))):
-            return push(-val)
+            return -val if is_data else push(-val)
         case ast.UnaryOp(op, x):
             return [*trans_expr(env, x), UNOPS[type(op)]]
         case ast.BinOp(x, op, y) | ast.Compare(x, [op], [y]):
@@ -211,10 +211,11 @@ def translate(src):
         match node:
             case ast.Assign([ast.Name(name)], ast.List(arr)):
                 env[name] = 'arr'
-                asm.append(('DATA', name, *(ast.literal_eval(x) for x in arr)))
+                asm.append(('DATA', name,
+                            *(trans_expr(env, x, True) for x in arr)))
             case ast.Assign([ast.Name(name)], val):
                 env[name] = 'var'
-                asm.append(('DATA', name, ast.literal_eval(val)))
+                asm.append(('DATA', name, trans_expr(env, val, True)))
             case ast.FunctionDef(name, args, body):
                 env[name] = ('func', len(args.args))
                 funcs.append((name, args.args, body))
