@@ -19,6 +19,8 @@ FILL = 0
 DIV = 0
 OBJS = {OBJS}
 TITLE = {TITLE}
+CORPSE = {CORPSE}
+BUTTON = {BUTTON}
 ASTEROID = {ASTEROID}
 STARS= {STARS}
 SHAKE_MODE = 0
@@ -674,17 +676,18 @@ def item_rect(dst, x, y, w, h, clip):
 
     return 1
 
-#def mrect_sprite(dst, ptr, l, x, y, xoff, yoff):
-#    mrect_clip(rect_clip, xoff, yoff)
-#    eptr = ptr + l
-#    while ptr < eptr:
-#        if item_rect(dst, ptr[1], ptr[2], ptr[3], ptr[4], rect_clip) == 1:
-#            dst[5] = ptr[5]
-#            dst[0] = 1
-#            dst[1] += x<<{TW}
-#            dst[2] += y<<{TH}
-#            dst += {RECT_SIZE}
-#        ptr += {RECT_SIZE}
+def mrect_sprite(dst, ptr, l, x, y, xoff, yoff):
+    mrect_clip(rect_clip, xoff, yoff)
+    eptr = ptr + l
+    while ptr < eptr:
+        if item_rect(dst, ptr[1], ptr[2], ptr[3], ptr[4], rect_clip):
+            dst[0] = 1
+            dst[1] += x<<{TWS}
+            dst[2] += y<<{THS}
+            dst[5] = ptr[5]
+            dst += {RECT_SIZE}
+        ptr += {RECT_SIZE}
+    return dst
 
 def mrect_clip(ptr, xoff, yoff):
     xmod = xoff >> 8
@@ -755,9 +758,9 @@ def draw_mrect(ptr, cx, cy, xoff, yoff):
         x = 2; y = 2; w = {TW-4}; h = {TH-4}
     elif (ot == {OB_TRAP}) & not_bit(obj, {OB_SECRET}):
         traps = LEVEL + (obj&0xff) + {LEVEL_HEADER}
-        x = 12; y = 12; w = 8; h = 8
-        ptr[5] = if_val(oget(int2cx(traps[0]), int2cy(traps[0])),
-            rate_color({BTN_RATE}, {BTNCOL1}, {BTNCOL2}), {BTNCOL2})
+        BUTTON[{RECT_SIZE+5}] = if_val(oget(int2cx(traps[0]), int2cy(traps[0])),
+            rate_color({BTN_RATE}, {BTNCOL1}, {BTNCOL2}), {BTNCOL3})
+        return mrect_sprite(ptr, BUTTON, {len(BUTTON)}, cx, cy, xoff, yoff)
     elif ot == {OB_LASER}:
         if check_laser_active(cx, cy) | 1:
             if laser_hor(cx, cy):
@@ -817,6 +820,8 @@ def draw_mrect(ptr, cx, cy, xoff, yoff):
             y += rndfs()
             w += rndfs()
             h += rndfs()
+    elif ot == {OB_CORPSE}:
+        return mrect_sprite(ptr, CORPSE, {len(CORPSE)}, cx, cy, xoff, yoff)
     else:
         return ptr
 

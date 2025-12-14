@@ -59,9 +59,16 @@ SPAWNCOL1 = rgb(200, 0, 22)
 SPAWNCOL2 = rgb(240, 255, 255)
 SPAWNCOL_RATE = 1
 
-BTNCOL1 = rgb(0xBFAA30)
-BTNCOL2 = rgb(0xDAD871)
+
+BTNCOL1 = rgb(0x00a550)
+BTNCOL2 = rgb(0x1aae62)
+BTNCOL3 = rgb(0x00ff00)
 BTN_RATE = 4
+
+BUTTON = [
+    1, 8, 8, 16, 16, rgb(0x33, 0x33, 0x33),
+    0, 12, 12, 8, 8, BTNCOL1,
+]
 
 DOORCOL = rgb(41,132,159)
 DOORCOL_BOSS = rgb(0xBF3330)
@@ -164,6 +171,13 @@ c2 = rgb(192, 192, 192) # legs
 c3 = rgb(162,173,208)#rgb(157,177,204) #(169, 169, 169) # pack
 c4 = rgb(24, 24, 24)
 
+CORPSE = [
+    0, 3, 23, 6, 6, rgb(255, 255, 255),
+    0, 4, 24, 5, 4, rgb(0, 190, 222),
+    0, 4, 28, 4, 2, rgb(169, 0, 0),
+    0, -3, 29, 17, 1, rgb(150, 0, 0),
+]
+
 HERO = [
     1, 0, 0, 8, 10, c1,
     0, -3, 1, 3, 8, c3,
@@ -260,6 +274,7 @@ OB_REACTOR   = 0x0400|OB_OBSTACLE
 OB_LASER     = 0x0500
 OB_SPAWN     = 0x0600
 OB_TRAP      = 0x0700
+OB_CORPSE    = 0x0800
 OB_MASK      = 0x1f00
 
 ALIEN_DEAD =  0x2000
@@ -286,6 +301,7 @@ def debug(text):
         code.append(f'poke(-1, {ord(c)})')
     return ';'.join(code)
 
+# ~ - corpse
 # # - wall
 # @ - hero
 # E - exit
@@ -311,8 +327,9 @@ def debug(text):
 MAP = (
 # 1
 '''
+btn:{}%
 ###############
-#@   %   %   *#
+#@ ~ %   %   *#
 ####### #######
 ####### #######
 ####### #######
@@ -835,6 +852,8 @@ def map2bit(t):
             elif i == '^':
                 items.append((x, y, OB_LASER | OB_SECRET))
                 las |= 0x8000
+            elif i == '~':
+                items.append((x, y, OB_CORPSE))
             x += 1
         r.append(c>>1)
         lasers.append(las>>1)
