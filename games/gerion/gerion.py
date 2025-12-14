@@ -1106,16 +1106,10 @@ def upd_alien(a):
         a[2] &= ~{ALIEN_SIGHT}
 
     if aligned & bit(a[2], {ALIEN_SIGHT}):
-        if (x>>{TWS}) == (PX>>{TWS}):
-            if PY > y:
-                dir = 3
-            else:
-                dir = 1
+        if x2c(x) == x2c(PX):
+            dir = if_val(PY > y, 3, 1)
         else:
-            if PX > x:
-                dir = 0
-            else:
-                dir = 2
+            dir = if_val(PX > x, 0, 2)
         ttl = 7
 
     t = 0
@@ -1248,9 +1242,9 @@ def upd_hero():
     ox = PX
     oy = PY
     if map_coll(PX+INP_X, PY, 4, 10) == 0:
-        PX = PX + INP_X
+        PX += INP_X
     if map_coll(PX, PY+INP_Y, 4, 10) == 0:
-        PY = PY + INP_Y
+        PY += INP_Y
     if (INP_X > 0) & ((HERO_DIR == 2) | (INP_Y == 0)):
         HERO_DIR = 0
     elif (INP_X < 0) & ((HERO_DIR == 0) | (INP_Y == 0)):
