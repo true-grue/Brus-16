@@ -1574,9 +1574,11 @@ def sound():
     elif (RADAR_MODE <= 0) & is_radar_on:
         is_radar_on = 0
 
-    if (LASER_X >= 0) & (is_laser_on == 0):
-        sfx_start(sfx_laser, 1, 1)
-        is_laser_on = 1
+    if LASER_X >= 0:
+        if is_laser_on == 0:
+            sfx_start(sfx_laser, 1, 1)
+            is_laser_on = 1
+        sfx_laser[{SFX_DATA + 2}] = {446 + POWER_DRAW_MAX} - (POWER_DRAW >> 2)
     elif (LASER_X < 0) & is_laser_on:
         sfx_stop(sfx_laser)
         is_laser_on = 0
