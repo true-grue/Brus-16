@@ -771,7 +771,7 @@ def draw_mrect(ptr, cx, cy, xoff, yoff):
             rate_color({BTN_RATE}, {BTNCOL1}, {BTNCOL2}), {BTNCOL3})
         return mrect_sprite(ptr, BUTTON, {len(BUTTON)}, cx, cy, xoff, yoff)
     elif ot == {OB_LASER}:
-        if check_laser_active(cx, cy) | 1:
+        if check_laser_active(cx, cy):
             if laser_hor(cx, cy):
                 x = 0; y  = 15 ^ (FRAMES&1); w = {TW}; h = 1
             else:
