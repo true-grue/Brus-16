@@ -1545,7 +1545,10 @@ def sound():
         is_dead_now = 0
 
     if prev_pads_nr != PADS_NR:
-        sfx_start(sfx_pad, 2, 0)
+        if PADS_NR != 0:
+            sfx_start(sfx_pad, 2, 0)
+        else:
+            sfx_start(sfx_next, 2, 1)
         prev_pads_nr = PADS_NR
 
     if (RADAR_MODE > 0) & (is_radar_on == 0):
@@ -1564,7 +1567,7 @@ def sound():
         is_laser_on = 0
 
     if exit_activated() & (SCROLL_MODE == -480): # next level activated
-        sfx_start(sfx_next, 3, 0)
+        sfx_stop(sfx_next)
     if HERO_DEAD == 2: # players death
         pass
 
