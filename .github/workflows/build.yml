@@ -17,7 +17,6 @@ jobs:
           mkdir dist
           make emu LDFLAGS="$(pkg-config --static --libs sdl3)"
           mv brus16 dist/
-          rm src/*.o
           make emu OS=Windows_NT CC=x86_64-w64-mingw32-gcc SDL=SDL3-3.3.4/x86_64-w64-mingw32
           mv brus16.exe dist/
           cp SDL3-3.3.4/x86_64-w64-mingw32/bin/SDL3.dll dist/
