@@ -3,17 +3,17 @@ EMCC = emcc
 CFLAGS = -O2 -Wall -Wextra -Wpedantic
 LDFLAGS = -lSDL3
 SRC = src/brus16_emu.c src/brus16_cpu.c src/brus16_sfx.c
+TARGET = brus16
 
 ifeq ($(OS),Windows_NT)
-	TARGET = brus16.exe
-	SDL = SDL/x86_64-w64-mingw32
+	TARGET := $(TARGET).exe
+	SDL = SDL3-3.3.4/x86_64-w64-mingw32
+	CFLAGS += -I"$(SDL)/include"
 	LDFLAGS += -L"$(SDL)/lib"
 else
-	TARGET = brus16
-	SDL = SDL/include/SDL3
+    CFLAGS += $(shell pkg-config --cflags sdl3)
+    LDFLAGS += $(shell pkg-config --libs sdl3)
 endif
-
-CFLAGS += -I"$(SDL)/include"
 
 emu:
 	$(CC) $(CFLAGS) -DDEBUG $(SRC) -o $(TARGET) $(LDFLAGS)

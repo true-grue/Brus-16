@@ -1,6 +1,6 @@
 from brus16 import *
 
-save_game('sine.bin', f'''
+asm = save_game('sine.bin', f'''
 def main():
     freq = {get_freq(880)}
     poke({OSC_MEM + OSC_ABS}, 1)
