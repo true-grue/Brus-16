@@ -96,10 +96,10 @@ def trans_expr(env, node, is_data=False):
         case ast.UnaryOp(op, x):
             return [*trans_expr(env, x), UNOPS[type(op)]]
         case ast.BinOp(x, op, y) | ast.Compare(x, [op], [y]):
-            x = trans_expr(env, x)
-            y = trans_expr(env, y)
             if type(op) in COMMOPS and isinstance(x, ast.Constant):
                 x, y = y, x
+            x = trans_expr(env, x)
+            y = trans_expr(env, y)
             return [*x, *y, (BINOPS[type(op)],)]
         case ast.Call(ast.Name(name), args):
             assert env.get(name) == ('func', len(args)) or name in MACROS, \
