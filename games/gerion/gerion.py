@@ -1565,7 +1565,7 @@ def sound():
 
     if exit_activated() & (SCROLL_MODE == -480): # next level activated
         pass
-    if HERO_DEAD == 1: # players death
+    if HERO_DEAD == 2: # players death
         pass
 
     sfx_mix(sfx_chans, 4)
