@@ -1564,7 +1564,7 @@ def sound():
         is_laser_on = 0
 
     if exit_activated() & (SCROLL_MODE == -480): # next level activated
-        pass
+        sfx_start(sfx_next, 0, 0)
     if HERO_DEAD == 1: # players death
         pass
 
@@ -1623,6 +1623,7 @@ sfx_radar = {[0, 0, 0, len(SFX_RADAR)] + SFX_RADAR}
 sfx_laser = {[0, 0, 0, len(SFX_LASER)] + SFX_LASER}
 sfx_pad = {[0, 0, 0, len(SFX_PAD)] + SFX_PAD}
 sfx_dead = {[0, 0, 0, len(SFX_DEAD)] + SFX_DEAD}
+sfx_next = {[0, 0, 0, len(SFX_NEXT)] + SFX_NEXT}
 
 def main():
     setup()
