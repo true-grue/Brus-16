@@ -23,6 +23,9 @@ BINOPS = {
     ast.GtE: 'GE',
 }
 
+COMMOPS = {ast.Add, ast.Mult, ast.BitAnd, ast.BitOr, ast.BitXor,
+           ast.Eq, ast.NotEq}
+
 LOAD = [('LOAD', 0), ('PUSH_MR',)]
 
 MACROS = {
@@ -95,6 +98,8 @@ def trans_expr(env, node, is_data=False):
         case ast.BinOp(x, op, y) | ast.Compare(x, [op], [y]):
             x = trans_expr(env, x)
             y = trans_expr(env, y)
+            if type(op) in COMMOPS and isinstance(x, ast.Constant):
+                x, y = y, x
             return [*x, *y, (BINOPS[type(op)],)]
         case ast.Call(ast.Name(name), args):
             assert env.get(name) == ('func', len(args)) or name in MACROS, \
