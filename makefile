@@ -33,6 +33,7 @@ games:
 	python games/gerion/gerion_make.py
 	python games/robot.py
 	python games/zoom.py
+	python games/donkey.py
 
 GAMES_BIN := $(patsubst %,--preload-file %,$(wildcard *.bin))
 
