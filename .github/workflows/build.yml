@@ -1,43 +1,29 @@
-name: Build Brus-16
+name: Brus-16
 
 on: push
 
 jobs:
-  linux:
+  build-all:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@main
       - uses: libsdl-org/setup-sdl@main
-        with:
-          version: 3-head
-          install-linux-dependencies: true     
-      - run: make emu
-      - run: make games
-      - run: |
-          mkdir dist
-          mv brus16 dist/
-          mv *.bin dist/         
-      - uses: actions/upload-artifact@main
-        with:
-          name: brus16_linux
-          path: dist/
-
-  windows:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@main
+        with: { version: 3-head, install-linux-dependencies: true }
       - run: |
           sudo apt-get install -y mingw-w64
-          wget https://github.com/libsdl-org/SDL/releases/download/prerelease-3.3.4/SDL3-devel-3.3.4-mingw.tar.gz
-          tar -xzf SDL3-devel-3.3.4-mingw.tar.gz           
-      - run: make emu OS=Windows_NT CC=x86_64-w64-mingw32-gcc SDL=SDL3-3.3.4/x86_64-w64-mingw32
-      - run: make games
+          wget -q https://github.com/libsdl-org/SDL/releases/download/prerelease-3.3.4/SDL3-devel-3.3.4-mingw.tar.gz
+          tar -xzf SDL3-devel-3.3.4-mingw.tar.gz
       - run: |
           mkdir dist
+          make emu LDFLAGS="$(pkg-config --static --libs sdl3)"
+          mv brus16 dist/
+          rm src/*.o
+          make emu OS=Windows_NT CC=x86_64-w64-mingw32-gcc SDL=SDL3-3.3.4/x86_64-w64-mingw32
           mv brus16.exe dist/
           cp SDL3-3.3.4/x86_64-w64-mingw32/bin/SDL3.dll dist/
-          mv *.bin dist/          
+          make games
+          mv *.bin dist/
       - uses: actions/upload-artifact@main
         with:
-          name: brus16_windows
+          name: Brus-16
           path: dist/
