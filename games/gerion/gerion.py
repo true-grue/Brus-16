@@ -1435,6 +1435,7 @@ def draw_stars(ptr):
 def draw_ending(ptr):
     frame1 = 200
     if ENDING_MODE > frame1:
+        sfx_stop(sfx_next)
         draw_rect(ptr, 0, 0, 640, 480, 0xffff)
         if ENDING_MODE > frame1+64:
             v = 240 - min(ENDING_MODE - (frame1+64), 119)*2
@@ -1452,8 +1453,8 @@ def draw_ending(ptr):
         return ptr + {RECT_SIZE}
     ptr = draw_stars(ptr)
     memcpy(ptr, ASTEROID, {len(ASTEROID)})
-    ptr[1] += 306
-    ptr[2] += 183
+#    ptr[1] += 306
+#    ptr[2] += 183
     eptr = ptr + {len(ASTEROID)}
     a = (min(ENDING_MODE, 128)>>2)
     chance = (rnd()&0x1f) <= a
