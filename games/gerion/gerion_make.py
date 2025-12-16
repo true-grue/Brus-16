@@ -63,7 +63,7 @@ SPAWNCOL_RATE = 1
 BTNCOL1 = rgb(0x00a550)
 BTNCOL2 = rgb(0x1aae62)
 BTNCOL3 = rgb(0x00ff00)
-BTN_RATE = 4
+BTN_RATE = 2
 
 BUTTON = [
     1, 8, 8, 16, 16, rgb(0x33, 0x33, 0x33),
