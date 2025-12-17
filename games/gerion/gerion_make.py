@@ -60,14 +60,12 @@ SPAWNCOL2 = rgb(240, 255, 255)
 SPAWNCOL_RATE = 1
 
 
-BTNCOL1 = rgb(0x00a550)
-BTNCOL2 = rgb(0x1aae62)
-BTNCOL3 = rgb(0x00ff00)
-BTN_RATE = 2
+BTNCOLS1 = [ rgb(0x900000),  rgb(0x009000),  rgb(0x000090) ]
+BTNCOLS2 = [ rgb(0xFF0000),  rgb(0x00FF00),  rgb(0x2A1FFF) ]
 
 BUTTON = [
     1, 8, 8, 16, 16, rgb(0x33, 0x33, 0x33),
-    0, 12, 12, 8, 8, BTNCOL1,
+    0, 12, 12, 8, 8, 0,
 ]
 
 DOORCOL = rgb(41,132,159)
@@ -263,20 +261,24 @@ RADAR_MAP = [0]*H
 DOOR_H = 0x1
 LASER_H = 0x1
 
-OB_H      = 0x4000
 OB_SECRET = 0x2000
+OB_H      = 0x4000
 OB_BOSS   = 0x8000
 
+OB_RED    = 0x0000
+OB_GREEN  = 0x4000
+OB_BLUE   = 0x8000
+OB_COLOR  = 0xC000
+
 OB_OBSTACLE  = 0x1000
-OB_WALL      = OB_OBSTACLE
+OB_WALL      = 0x0000|OB_OBSTACLE
+OB_DOOR      = 0x0100|OB_OBSTACLE
+OB_REACTOR   = 0x0200|OB_OBSTACLE
 OB_PAD       = 0x0100
 OB_ALIEN     = 0x0200
-OB_DOOR      = 0x0300|OB_OBSTACLE
-OB_REACTOR   = 0x0400|OB_OBSTACLE
-OB_LASER     = 0x0500
-OB_SPAWN     = 0x0600
-OB_TRAP      = 0x0700
-
+OB_LASER     = 0x0300
+OB_SPAWN     = 0x0400
+OB_TRAP      = 0x0500
 OB_DECOR     = 0x0800 # do not change!
 OB_CORPSE    = 0x0800
 OB_MASK      = 0x1f00
@@ -870,9 +872,13 @@ def map2bit(t):
     r.append(fill)
     r.append(div)
 
+    color = 0
     for v in traps["list"]:
         fl = v["secret"] and OB_SECRET or 0
         for w in v['where']:
+            if fl == 0:
+                fl = (color % 3) << 14
+                color += 1
             r.append(w[0]|(w[1]<<4)| OB_TRAP | fl)
             for t in v["list"]:
                 r.append(t[0]|(t[1]<<4)| OB_TRAP)

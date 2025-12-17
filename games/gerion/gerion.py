@@ -21,6 +21,8 @@ OBJS = {OBJS}
 TITLE = {TITLE}
 CORPSE = {CORPSE}
 BUTTON = {BUTTON}
+BTNCOLS1 = {BTNCOLS1}
+BTNCOLS2 = {BTNCOLS2}
 ASTEROID = {ASTEROID}
 STARS= {STARS}
 SHAKE_MODE = 0
@@ -767,8 +769,9 @@ def draw_mrect(ptr, cx, cy, xoff, yoff):
         x = 2; y = 2; w = {TW-4}; h = {TH-4}
     elif (ot == {OB_TRAP}) & not_bit(obj, {OB_SECRET}):
         traps = LEVEL + (obj&0xff) + {LEVEL_HEADER}
+        color = obj>>14
         BUTTON[{RECT_SIZE+5}] = if_val(oget(int2cx(traps[0]), int2cy(traps[0])),
-            rate_color({BTN_RATE}, {BTNCOL1}, {BTNCOL2}), {BTNCOL3})
+            BTNCOLS1[color], BTNCOLS2[color])
         return mrect_sprite(ptr, BUTTON, {len(BUTTON)}, cx, cy, xoff, yoff)
     elif ot == {OB_LASER}:
         if check_laser_active(cx, cy):
