@@ -410,6 +410,8 @@ def upd_obs():
         i += 1
 
 def obs_laser(obs, hit, health):
+    if obs == 0:
+        return
     e = bit_gethi(obs[0], {OBS_MASK}) + hit
     obs[0] |= {OBS_HIT}
     if (e >= health) & not_bit(obs[0], {OBS_DEAD}):
@@ -485,13 +487,8 @@ def upd_laser():
             alien_hit_laser(a)
             break
 
-    if lookup_door(x2c(ex), y2c(ey)) != 0:
-        door = lookup_door(x2c(ex), y2c(ey))
-        obs_laser(door, 2, {DOOR_HEALTH})
-
-    elif lookup_reactor(x2c(ex), y2c(ey)) != 0:
-        r = lookup_reactor(x2c(ex), y2c(ey))
-        obs_laser(r, 1, {R_HEALTH})
+    obs_laser(lookup_door(x2c(ex), y2c(ey)), 2, {DOOR_HEALTH})
+    obs_laser(lookup_reactor(x2c(ex), y2c(ey)), 1, {R_HEALTH})
 
     ex = max(-1, ex)
     ey = max(-1, ey)
