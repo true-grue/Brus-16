@@ -153,6 +153,7 @@ SDL_AppResult SDL_AppIterate(void *appstate) {
     uint64_t delta = ticks - emu->last_ticks;
     emu->last_ticks = ticks;
     emu->ticks_acc += delta * FPS;
+    int show_frame = emu->ticks_acc >= SDL_NS_PER_SECOND;
     while (emu->ticks_acc >= SDL_NS_PER_SECOND) {
         emu->ticks_acc -= SDL_NS_PER_SECOND;
         for(int cycles = 0; !emu->cpu.wait; cycles++) {
@@ -166,15 +167,17 @@ SDL_AppResult SDL_AppIterate(void *appstate) {
         }
         SDL_PutAudioStreamData(emu->stream, samples, sizeof(samples));
     }
-    update_rects(emu);
-    SDL_SetRenderDrawColor(emu->renderer, 0, 0, 0, 255);
-    SDL_RenderClear(emu->renderer);
-    for (int i = 0; i < RECT_NUM; i++) {
-        uint8_t *rgb = &emu->rect_colors[i * 3];
-        SDL_SetRenderDrawColor(emu->renderer, rgb[0], rgb[1], rgb[2], 255);
-        SDL_RenderFillRect(emu->renderer, &emu->rects[i]);
+    if (show_frame) {
+        update_rects(emu);
+        SDL_SetRenderDrawColor(emu->renderer, 0, 0, 0, 255);
+        SDL_RenderClear(emu->renderer);
+        for (int i = 0; i < RECT_NUM; i++) {
+            uint8_t *rgb = &emu->rect_colors[i * 3];
+            SDL_SetRenderDrawColor(emu->renderer, rgb[0], rgb[1], rgb[2], 255);
+            SDL_RenderFillRect(emu->renderer, &emu->rects[i]);
+        }
+        SDL_RenderPresent(emu->renderer);
     }
-    SDL_RenderPresent(emu->renderer);
     return SDL_APP_CONTINUE;
 }
 
