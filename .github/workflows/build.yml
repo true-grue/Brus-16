@@ -1,28 +1,34 @@
 name: Brus-16
 
-on: push
+on:
+  push:
+    tags: ['*']
+
+permissions:
+  contents: write
 
 jobs:
-  build-all:
+  build-release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@main
+      - uses: actions/checkout@main     
       - uses: libsdl-org/setup-sdl@main
         with: { version: 3-head, install-linux-dependencies: true, cmake-arguments: -DSDL_SHARED=OFF -DSDL_STATIC=ON }
       - run: |
-          sudo apt-get install -y mingw-w64
+          sudo apt-get update && sudo apt-get install -y mingw-w64 zip
           wget -q https://github.com/libsdl-org/SDL/releases/download/prerelease-3.3.4/SDL3-devel-3.3.4-mingw.tar.gz
           tar -xzf SDL3-devel-3.3.4-mingw.tar.gz
-      - run: |
           mkdir dist
           make emu LDFLAGS="$(pkg-config --static --libs sdl3)"
           mv brus16 dist/
+          rm -f *.o
           make emu OS=Windows_NT CC=x86_64-w64-mingw32-gcc SDL=SDL3-3.3.4/x86_64-w64-mingw32
           mv brus16.exe dist/
           cp SDL3-3.3.4/x86_64-w64-mingw32/bin/SDL3.dll dist/
           make games
           mv *.bin dist/
-      - uses: actions/upload-artifact@main
+          cd dist && zip -r ../Brus-16-${{ github.ref_name }}.zip .
+
+      - uses: softprops/action-gh-release@v1
         with:
-          name: Brus-16
-          path: dist/
+          files: Brus-16-${{ github.ref_name }}.zip
