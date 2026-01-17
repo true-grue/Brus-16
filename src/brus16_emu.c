@@ -152,6 +152,9 @@ SDL_AppResult SDL_AppIterate(void *appstate) {
     uint64_t ticks = SDL_GetTicksNS();
     uint64_t delta = ticks - emu->last_ticks;
     emu->last_ticks = ticks;
+    if (delta > SDL_NS_PER_SECOND / 10) {
+        delta = SDL_NS_PER_SECOND / 10;
+    }
     emu->ticks_acc += delta * FPS;
     int show_frame = emu->ticks_acc >= SDL_NS_PER_SECOND;
     while (emu->ticks_acc >= SDL_NS_PER_SECOND) {
@@ -165,7 +168,9 @@ SDL_AppResult SDL_AppIterate(void *appstate) {
         for (int i = 0; i < SAMPLES_PER_FRAME; i++) {
             samples[i] = sfx_process(&emu->sfx);
         }
-        SDL_PutAudioStreamData(emu->stream, samples, sizeof(samples));
+        if (SDL_GetAudioStreamQueued(emu->stream) < (int) sizeof(samples) * 3) {
+            SDL_PutAudioStreamData(emu->stream, samples, sizeof(samples));
+        }
     }
     if (show_frame) {
         update_rects(emu);
