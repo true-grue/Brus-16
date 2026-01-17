@@ -1578,28 +1578,18 @@ def sound():
         was_title = 1
     else:
         if was_title:
-            sfx_reset(song, 1)
-            sfx_mute()
+            song[{SFX_POS}] = song[{SFX_SIZE}]
             was_title = 0
         sfx_mix(sfx_chans, 4)
-
-def sfx_reset(sfx, is_loop):
-    sfx[{SFX_POS}] = 0
-    sfx[{SFX_COUNT}] = 0
-    sfx[{SFX_LOOP}] = is_loop
 
 def sfx_stop(sfx):
     sfx[{SFX_LOOP}] = 0
   
 def sfx_start(sfx, ch, is_loop):
-    sfx_reset(sfx, is_loop)
+    sfx[{SFX_POS}] = 0
+    sfx[{SFX_COUNT}] = 0
+    sfx[{SFX_LOOP}] = is_loop
     sfx_chans[ch] = sfx
-
-def sfx_mute():
-    i = 0
-    while i < 64:
-        poke({OSC_MEM} + i, 0)
-        i += 1
 
 def sfx_play(sfx):
     if sfx[{SFX_COUNT}] > 0:
