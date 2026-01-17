@@ -1579,8 +1579,15 @@ def sound():
     else:
         if was_title:
             song[{SFX_POS}] = song[{SFX_SIZE}]
+            sfx_mute()
             was_title = 0
         sfx_mix(sfx_chans, 4)
+
+def sfx_mute():
+    i = 0
+    while i < 64:
+        poke({OSC_MEM} + i, 0)
+        i += 1
 
 def sfx_stop(sfx):
     sfx[{SFX_LOOP}] = 0
