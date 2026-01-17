@@ -1573,7 +1573,14 @@ def sound():
     if HERO_DEAD == 2: # players death
         sfx_start(sfx_death, 0, 0)
 
-    sfx_mix(sfx_chans, 4)
+    if TITLE_MODE:
+        play_song(song)
+        was_title = 1
+    else:
+        if was_title:
+            sfx_mute()
+            was_title = 0
+        sfx_mix(sfx_chans, 4)
   
 def sfx_start(sfx, ch, is_loop):
     sfx[{SFX_POS}] = 0
@@ -1583,6 +1590,12 @@ def sfx_start(sfx, ch, is_loop):
 
 def sfx_stop(sfx):
     sfx[{SFX_LOOP}] = 0
+
+def sfx_mute():
+    i = 0
+    while i < 64:
+        poke({OSC_MEM} + i, 0)
+        i += 1
 
 def sfx_play(sfx):
     if sfx[{SFX_COUNT}] > 0:
@@ -1617,11 +1630,46 @@ def sfx_mix(chans, chans_num):
             sfx_play(sfx)
         i += 1
 
+def play_song(sfx):
+    if sfx[{SFX_COUNT}] > 0:
+        sfx[{SFX_COUNT}] -= 1
+        return
+    data = sfx + {SFX_DATA}
+    pos = sfx[{SFX_POS}]
+    updating = 0
+    while pos < sfx[{SFX_SIZE}]:
+        x = data[pos]
+        if x & 32768:
+            if updating:
+                break
+            updating = 1
+        pos += 1
+        x &= 32767
+        v = x & 511
+        if x >> 9:
+            tab = song_rel_table
+            if v < 256:
+                tab = song_abs_table
+            osc_addr = {OSC_MEM} + {OSC_SIZE} * ((x >> 9) - 1)
+            tab_addr = tab + (v & 255) * 3
+            poke(osc_addr + 0, v < 256)
+            poke(osc_addr + 1, tab_addr[0])
+            poke(osc_addr + 2, tab_addr[1])
+            poke(osc_addr + 3, tab_addr[2])
+        else:
+            song_frame_count = v - 1
+    if updating:
+        sfx[{SFX_COUNT}] = song_frame_count
+    elif sfx[{SFX_LOOP}]:
+        pos = 0
+    sfx[{SFX_POS}] = pos
+
 is_dead_now = 0
 prev_pads_nr = 0
 is_radar_on = 0
 is_laser_on = 0
 is_pad_taken = 0
+was_title = 0
 
 sfx_chans = [0, 0, 0, 0]
 sfx_radar = {[0, 0, 0, len(SFX_RADAR)] + SFX_RADAR}
@@ -1630,6 +1678,11 @@ sfx_pad = {[0, 0, 0, len(SFX_PAD)] + SFX_PAD}
 sfx_dead = {[0, 0, 0, len(SFX_DEAD)] + SFX_DEAD}
 sfx_next = {[0, 0, 0, len(SFX_NEXT)] + SFX_NEXT}
 sfx_death = {[0, 0, 0, len(SFX_DEATH)] + SFX_DEATH}
+
+song_abs_table = {SONG_ABS}
+song_rel_table = {SONG_REL}
+song = {[0, 0, 1, len(SONG)] + SONG}
+song_frame_count = 0
 
 def main():
     setup()

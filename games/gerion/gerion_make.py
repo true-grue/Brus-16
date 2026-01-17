@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from brus16 import *
+from gerion_song import *
 ZOOM_MODE_ENABLED = "zoom_mode()"
 
 def mswap(a, b):
