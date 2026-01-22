@@ -33,16 +33,25 @@ window.onload = function() {
   const select = document.getElementById('game');
   let instance = null;
   function run() {
-    if (instance) {
-        instance._quit();
-    }
+    canvas.width = canvas.width;   
     Module({
       canvas: canvas,
       arguments: [select.value]
     }).then(inst => { instance = inst; });
   }
-  select.addEventListener('change', run);
-  run();
+  window.on_quit = function() {
+    instance = null;
+    run();
+  };
+  function on_change() {
+    if (instance) {
+      instance._quit(); 
+    } else {
+      run();
+    }
+  }
+  select.addEventListener('change', on_change);
+  on_change();
 };
 </script>
 {{{ SCRIPT }}}

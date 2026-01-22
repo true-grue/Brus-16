@@ -7,6 +7,9 @@
 #include <SDL3/SDL_main.h>
 #include "brus16_cpu.h"
 #include "brus16_sfx.h"
+#ifdef EMSCRIPTEN
+#include <emscripten.h>
+#endif
 
 #ifndef ZOOM
 #define ZOOM 2
@@ -100,7 +103,7 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv) {
     emu->stream = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &spec, NULL, NULL);
     assert(emu->stream);
     emu->last_ticks = SDL_GetTicksNS();
-    emu->ticks_acc = SDL_NS_PER_SECOND;
+    emu->ticks_acc = 0;
     SDL_ResumeAudioStreamDevice(emu->stream);
     load_game(emu, argv[1]);
     emu->cpu.fp = SYSTEM_MEM;
@@ -185,13 +188,11 @@ SDL_AppResult SDL_AppIterate(void *appstate) {
     return SDL_APP_CONTINUE;
 }
 
-void SDL_AppQuit(void *appstate, SDL_AppResult result) {
-    free(appstate);
-    (void) result;
-}
-
 #ifdef EMSCRIPTEN
-#include <emscripten.h>
+EM_JS(void, js_on_quit, (void), {
+    window.on_quit();
+})
+
 void EMSCRIPTEN_KEEPALIVE quit(void) {
     SDL_Event event;
     SDL_zero(event);
@@ -199,3 +200,11 @@ void EMSCRIPTEN_KEEPALIVE quit(void) {
     SDL_PushEvent(&event);
 }
 #endif
+
+void SDL_AppQuit(void *appstate, SDL_AppResult result) {
+    free(appstate);
+    (void) result;
+#ifdef EMSCRIPTEN
+    js_on_quit();
+#endif
+}
