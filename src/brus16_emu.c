@@ -17,13 +17,14 @@
 #define FPS 60
 #define CYCLES_PER_FRAME 400000
 #define SAMPLES_PER_FRAME (44100 / FPS)
+#define MAX_DELTA (SDL_NS_PER_SECOND / 10)
 
 struct EMU {
     struct CPU cpu;
     struct SFX sfx;
     SDL_Window *window;
     SDL_Renderer *renderer;
-    SDL_AudioStream *stream;
+    SDL_AudioStream *audio;
     SDL_FRect rects[RECT_NUM];
     uint8_t rect_colors[RECT_NUM * 3];
     uint64_t last_ticks;
@@ -100,11 +101,11 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv) {
     assert(SDL_CreateWindowAndRenderer("Brus-16", SCREEN_W * ZOOM, SCREEN_H * ZOOM, 0, &emu->window, &emu->renderer));
     SDL_SetRenderVSync(emu->renderer, 1);
     SDL_AudioSpec spec = {SDL_AUDIO_S16, 1, SAMPLES_PER_FRAME * FPS};
-    emu->stream = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &spec, NULL, NULL);
-    assert(emu->stream);
+    emu->audio = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &spec, NULL, NULL);
+    assert(emu->audio);
     emu->last_ticks = SDL_GetTicksNS();
     emu->ticks_acc = 0;
-    SDL_ResumeAudioStreamDevice(emu->stream);
+    SDL_ResumeAudioStreamDevice(emu->audio);
     load_game(emu, argv[1]);
     emu->cpu.fp = SYSTEM_MEM;
     return SDL_APP_CONTINUE;
@@ -155,9 +156,9 @@ SDL_AppResult SDL_AppIterate(void *appstate) {
     uint64_t ticks = SDL_GetTicksNS();
     uint64_t delta = ticks - emu->last_ticks;
     emu->last_ticks = ticks;
-    if (delta > SDL_NS_PER_SECOND / 10) {
+    if (delta > MAX_DELTA) {
         delta = SDL_NS_PER_SECOND / 60; 
-        SDL_ClearAudioStream(emu->stream);
+        SDL_ClearAudioStream(emu->audio);
     }
     emu->ticks_acc += delta * FPS;
     int show_frame = emu->ticks_acc >= SDL_NS_PER_SECOND;
@@ -172,7 +173,7 @@ SDL_AppResult SDL_AppIterate(void *appstate) {
         for (int i = 0; i < SAMPLES_PER_FRAME; i++) {
             samples[i] = sfx_process(&emu->sfx);
         }
-        SDL_PutAudioStreamData(emu->stream, samples, sizeof(samples));
+        SDL_PutAudioStreamData(emu->audio, samples, sizeof(samples));
     }
     if (show_frame) {
         update_rects(emu);
