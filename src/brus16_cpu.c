@@ -1,4 +1,5 @@
 // Author: Peter Sovietov
+#include <assert.h>
 #include "brus16_cpu.h"
 
 int16_t sext(uint16_t val, int bits) {
@@ -11,22 +12,26 @@ uint16_t get_field(uint16_t val, uint16_t pos, int size) {
 }
 
 void push(struct CPU *cpu, uint16_t x) {
+    assert(cpu->sp >= 0 && cpu->sp < STACK_SIZE);
     cpu->stack[cpu->sp] = x;
-    cpu->sp = (cpu->sp + 1) & (STACK_SIZE - 1);
+    cpu->sp++;
 }
 
 uint16_t pop(struct CPU *cpu) {
-    cpu->sp = (cpu->sp - 1) & (STACK_SIZE - 1);
+    assert(cpu->sp > 0 && cpu->sp <= STACK_SIZE);
+    cpu->sp--;
     return cpu->stack[cpu->sp];
 }
 
 void rpush(struct CPU *cpu, uint16_t x) {
+    assert(cpu->rp >= 0 && cpu->rp < RSTACK_SIZE);
     cpu->rstack[cpu->rp] = x;
-    cpu->rp = (cpu->rp + 1) & (RSTACK_SIZE - 1);
+    cpu->rp++;
 }
 
 uint16_t rpop(struct CPU *cpu) {
-    cpu->rp = (cpu->rp - 1) & (RSTACK_SIZE - 1);
+    assert(cpu->rp > 0 && cpu->rp <= RSTACK_SIZE);
+    cpu->rp--;
     return cpu->rstack[cpu->rp];
 }
 

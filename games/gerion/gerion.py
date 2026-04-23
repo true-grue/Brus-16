@@ -241,7 +241,7 @@ def lookup_reactor(cx, cy):
 def obs_add(cx, cy, it):
     OBS[OBS_NR*{OBS_SIZE}] = c2int(cx, cy)
     OBS[OBS_NR*{OBS_SIZE}+1] = it
-    oset(cx, cy, (it&0xff00)|OBS_NR)
+    _ = oset(cx, cy, (it&0xff00)|OBS_NR)
     OBS_NR += 1
 
 def make_alien_boss():
@@ -265,7 +265,7 @@ def loadlev():
         x = 0
         while x < {W}:
             if mget(LEVEL, x, y):
-                oset(x, y, {OB_WALL})
+                _ = oset(x, y, {OB_WALL})
             x += 1
         y += 1
 
@@ -310,21 +310,21 @@ def loadlev():
         cy = int2cy(cb[0])
         it = cb[0]&{OB_MASK}
         if it == {OB_PAD}:
-            oset(cx, cy, it)
+            _ = oset(cx, cy, it)
             PADS_NR += 1
         elif (it == {OB_SPAWN}):
             SPAWNS[SPAWNS_NR] = c2int(cx, cy) | if_val(bit(cb[0], {OB_BOSS}), {SPAWN_BOSS}, 0)
-            oset(cx, cy, {OB_SPAWN})
+            _ = oset(cx, cy, {OB_SPAWN})
             SPAWNS_NR += 1
         elif it == {OB_ALIEN}:
-            new_alien(c2x(cx), c2y(cy))
+            _ = new_alien(c2x(cx), c2y(cy))
             if bit(cb[0], {OB_BOSS}):
                 make_alien_boss()
         elif it == {OB_REACTOR}:
             obs_add(cx, cy, cb[0])
             PADS_NR += 1
         elif it == {OB_TRAP}:
-            oset(cx, cy, (cb[0]&0xff00)|(cb-cb_start+1))
+            _ = oset(cx, cy, (cb[0]&0xff00)|(cb-cb_start+1))
             while cb[0]&0xff00:
                 cb += 1
         else:
@@ -463,11 +463,11 @@ def upd_laser():
             max(0, POWER_DRAW - {POWER_CHARGE}),
             max(0, POWER_DRAW - {POWER_CHARGE_MOVE}))
         LASER_X = -1
-        return 0
+        return
     POWER_DRAW = min(POWER_DRAW + {LASER_COST}, {POWER_DRAW_MAX})
     if POWER_DRAW >= {POWER_DRAW_MAX}:
         LASER_X = -1
-        return 0
+        return
 
     x = PX + HERO_LDIRS[HERO_DIR*2]
     y = PY + HERO_LDIRS[HERO_DIR*2+1]
@@ -1175,7 +1175,7 @@ def upd_alien(a):
 
     if insidexy(x, y):
         if (RADAR_MODE == 480) & (alien_visible(a) == 0):
-            msetxy(RADAR_MAP, x, y, 1)
+            _ = msetxy(RADAR_MAP, x, y, 1)
     return
 
 def upd_aliens():
@@ -1278,7 +1278,7 @@ def upd_hero():
            return
     o = ogetxy(PX, PY)
     if otype(o, {OB_PAD}):
-        oclrxy(PX, PY)
+        _ = oclrxy(PX, PY)
         PADS_NR -= 1
         POWER_DRAW = 0
         EXPLODE_MODE += 1
@@ -1290,7 +1290,7 @@ def upd_hero():
     elif otype(o, {OB_TRAP}):
         traps = LEVEL + (o&0xff) + {LEVEL_HEADER}
         while traps[0]&0xff00:
-            oclr(int2cx(traps[0]), int2cy(traps[0]))
+            _ = oclr(int2cx(traps[0]), int2cy(traps[0]))
             traps += 1
 
     if (o == {OB_SPAWN}) & (obxy(ox, oy, {OB_SPAWN}) != 1) & (SPAWNS_NR > 1):
@@ -1436,7 +1436,7 @@ def draw_ending(ptr):
     frame1 = 200
     if ENDING_MODE > frame1:
         sfx_stop(sfx_next)
-        draw_rect(ptr, 0, 0, 640, 480, 0xffff)
+        _ = draw_rect(ptr, 0, 0, 640, 480, 0xffff)
         if ENDING_MODE > frame1+64:
             v = 240 - min(ENDING_MODE - (frame1+64), 119)*2
             ptr[2] = 240-v
